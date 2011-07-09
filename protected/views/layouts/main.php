@@ -28,11 +28,12 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+				array('label'=>Yii::t('zii','Home'), 'url'=>'/site'),
+                array('label'=>Yii::t('site','Register'), 'url'=>'/user/register', 'visible'=>Yii::app()->user->isGuest),
+                array('label'=>Yii::t('site','Login'), 'url'=>'/site/login', 'visible'=>Yii::app()->user->isGuest),
+				//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
+				//array('label'=>'Contact', 'url'=>array('/site/contact')),
+				array('label'=>Yii::t('site', 'Logout'), 'url'=>'/site/logout', 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?>
 	</div><!-- mainmenu -->
@@ -45,9 +46,7 @@
 	<?php echo $content; ?>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
+		<?php echo date('Y'); ?> &copy; Tilchi.com<br /><?php echo Yii::t('site', 'All Rights Reserved.'); ?>
 	</div><!-- footer -->
 
 </div><!-- page -->

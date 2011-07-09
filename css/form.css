@@ -34,35 +34,12 @@
  * @license http://www.yiiframework.com/license/
  */
 
-div.form
-{
-}
-
-div.form input,
-div.form textarea,
-div.form select
-{
-	margin: 0.2em 0 0.5em 0;
-}
-
 div.form fieldset
 {
 	border: 1px solid #DDD;
 	padding: 10px;
 	margin: 0 0 10px 0;
     -moz-border-radius:7px;
-}
-
-div.form label
-{
-	font-weight: bold;
-	font-size: 0.9em;
-	display: block;
-}
-
-div.form .row
-{
-	margin: 5px 0;
 }
 
 div.form .hint
@@ -89,17 +66,6 @@ div.form span.error
 	color: #C00;
 }
 
-div.form div.error input,
-div.form div.error textarea,
-div.form div.error select,
-div.form input.error,
-div.form textarea.error,
-div.form select.error
-{
-	background: #FEE;
-	border-color: #C00;
-}
-
 div.form div.success input,
 div.form div.success textarea,
 div.form div.success select,
@@ -124,7 +90,6 @@ div.form .errorSummary
 div.form .errorMessage
 {
 	color: red;
-	font-size: 0.9em;
 }
 
 div.form .errorSummary p
@@ -158,3 +123,149 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 	clear: left;
 	padding-left: 110px;
 }
+
+/* cursor */
+button,.button,#login-button{cursor:pointer}
+
+/* display */
+.button,#login label,#progress-bar .bar,#progress-bar span,#progress-bar i{display:inline-block}
+#register .row label,#register .row .errorBox{display:none}
+/* position */
+#login .row label,#register .row label,#register .row i,#register .arrow,#register .arrow-border,#register .row .errorBox{position:absolute}
+#register .arrow,#register .arrow-border{top:12px}
+#register .arrow.west{left:-12px}
+#register .arrow.east{right:-12px}
+#register .arrow-border.west{left:-13px}
+#register .arrow-border.east{right:-13px}
+/* float */
+#login-button,#progress-bar i{float:right}
+/* clear */
+/* width */
+#register .arrow,#register .arrow-border{width:0}
+#login{width:322px}
+#login input[type="text"]{width:250px}
+#login input[type="password"]{width:200px}
+#register{width:450px}
+#register input[type="text"],#register input[type="password"]{width:100%}
+select{width:415px}
+#user-register-form input[type="submit"]{width:415px}
+div.width25 input{width:172px}
+.button{width:auto}
+.submit i{width:9px}
+#login-button{width:49px}
+#progress-bar .bar{width:140px}
+#progress-bar .active{width:170px}
+#progress-bar i,#register .password i{width:11px}
+#register .email i{width:23px}
+#register .last-name i{width:25px}
+#register .name i{width:25px}
+#register .row label,#register .row .errorBox{max-width:200px}
+/* height */
+#register .arrow,#register .arrow-border{height:0}
+.submit i{height:6px}
+#login input[type="text"],#login input[type="password"]{height:16px}
+#login-button{height:28px}
+#progress-bar,#progress-bar .bar,#progress-bar i{height:40px}
+#register .email i,#register .password i,#register .name i,#register .last-name i{height:24px}
+/* line-height */
+button,.button{line-height:18px}
+#login input[type="text"],#login input[type="password"]{line-height:16px}
+/* margin */
+#login,#register{margin:0 auto}
+#login input[type="checkbox"],#login-button,#register .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button{margin:0}
+#login .row label{margin:8px 0px 6px 10px}
+#msgBox .buttons .cancel{margin-left:5px}
+#register .row label{margin-left:20px}
+.check{margin:0 4px}
+.checkbox{margin-top:8px}
+#register .row,#progress-bar{margin-bottom:10px}
+#register .email i,#register .name i,#register .last-name i{margin:8px 0 0 7px}
+#register .password i{margin:10px 0 0 13px}
+/* padding */
+.check,#login-button{padding:0}
+#login input[type="text"],#login input[type="password"]{padding:6px 5px 6px 65px}
+#register input[type="text"],#register input[type="password"]{padding:9px 9px 9px 33px}
+#register .row label,#register .row .errorBox{padding:10px}
+#register .row{padding-right:44px}
+button,select,.button{padding:3px 15px}
+button.inline,.button.inline{padding:0 10px}
+#progress-bar .bar span{padding:13px 0}
+#progress-bar .active span{padding:12px 0}
+/* font-size */
+button,.button,label,#login-button,#register .row .errorMessage{font-size:11px}
+#progress-bar .bar{font-size:12px}
+#progress-bar .active{font-size:14px}
+#register .row input[type="text"],#register .row input[type="password"]{font-size:18px}
+
+/* font-weight */
+button,.button,#login-button,#progress-bar .bar{font-weight:bold}
+
+/* color */
+button,button:hover,.button,.button:hover,button.inline:hover,.button.inline:hover{color:#fff}
+button.inline,.button.inline{color:#555}
+button.cancel,.button.cancel,#login-button:hover{color:#000}
+.required{color:#C1272D}
+#progress-bar .bar{color:#ccc}
+#login-button,#progress-bar .active{color:#276086}
+/* text-align */
+#progress-bar .bar,#register .row label,#register .row .errorBox{text-align:center}
+/* text-decoration */
+button,.button,a.button.inline{text-decoration:none}
+/* text-transform */
+#login .row label{text-transform:uppercase}
+/* text-shadow */
+.inset{text-shadow:#fff 0px 1px 0}
+/* vertical-align */
+.checkbox label,#progress-bar .bar{vertical-align:top}
+/* background */
+#register i{background:url(sprite-icons-more.png)}
+button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
+.submit{background:#48dc7c}
+.submit i{background-position:-91px -60px}
+button.inline,button.cancel,.button.inline,.button.cancel{background:#CFCFCF}
+#login input[type="text"]:focus,#login input[type="password"]:focus,#register .row input[type="text"]:focus,#register .row input[type="password"]:focus,#register .row label{background:#FAFFBD}
+#login-button{background:#C9E0ED}
+#progress-bar .bar{background:#eee}
+#progress-bar .active,#progress-bar .completed{background:#d8ebf8}
+div.form div.error input,div.form div.error textarea,div.form div.error select,div.form input.error,div.form textarea.error,div.form select.error,#register .row .errorBox{background:#FEE !important}
+div.form div.success input,div.form div.success textarea,div.form div.success select,div.form input.success,div.form textarea.success,div.form select.success{background:#d8ebf8}
+/* background-position */
+#progress-bar .bar i{background-position:-11px 0px}
+#progress-bar .active i{background-position:0px 0px}
+#progress-bar .completed i{background-position:-22px 0px}
+#register .email i{background-position:-11px -40px}
+#register .password i{background-position:0px -40px}
+#register .name i{background-position:-9px -64px}
+#register .last-name i{background-position:-10px -88px}
+/* outline */
+#login input[type="text"],#login input[type="password"],#register .row input[type="text"],#register .row input[type="password"]{outline:none}
+/* border */
+#login input[type="text"],#login input[type="password"],button,.button{border:0}
+#login input[type="password"]{border-right:1px solid #C9E0ED}
+#login .row,#register .row input[type="text"],#register .row input[type="password"],#register .row label{border:1px solid #C9E0ED}
+#login .row.last{border-top:none}
+#login-button{border:1px solid #FFF}
+#register .arrow-border{
+border-color: transparent #C9E0ED transparent transparent;
+border-style: solid;
+border-width: 6px
+}
+#register .arrow{
+border-color: transparent #FAFFBD transparent transparent;
+border-style: solid;
+border-width: 6px
+}
+#register .errorBox .arrow-border{border-color: transparent #C00 transparent transparent}
+#register .errorBox .arrow-border.east{border-color: transparent transparent transparent #C00}
+#register .errorBox .arrow.east{border-color: transparent transparent transparent #FEE}
+#register .row .errorBox{border:1px solid}
+div.form div.error input,div.form div.error textarea,div.form div.error select,div.form input.error,div.form textarea.error,div.form select.error,#register .row .errorBox{border-color:#C00}
+/* border-radius */
+button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px}
+#login .row,#register .row input[type="text"],#register .row input[type="password"]{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}
+#msgBox{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
+#login .row.first{border-bottom-left-radius:0;-moz-border-bottom-left-radius:0;-webkit-border-bottom-left-radius:0;border-bottom-right-radius:0;-moz-border-bottom-right-radius:0;-webkit-border-bottom-right-radius:0}
+#login .row.last{border-top-left-radius:0;-moz-border-top-left-radius:0;-webkit-border-top-left-radius:0;border-top-right-radius:0;-moz-border-top-right-radius:0;-webkit-border-top-right-radius:0}
+#login-button{border-bottom-right-radius:3px;-moz-border-bottom-right-radius:3px;-webkit-border-bottom-right-radius:3px}
+#progress-bar .bar.first{border-top-left-radius:5px;-moz-border-top-left-radius:5px;-webkit-border-top-left-radius:5px;border-bottom-left-radius:5px;-moz-border-bottom-left-radius:5px;-webkit-border-bottom-left-radius:5px}
+#progress-bar .bar.last{border-top-right-radius:5px;-moz-border-top-right-radius:5px;-webkit-border-top-right-radius:5px;border-bottom-right-radius:5px;-moz-border-bottom-right-radius:5px;-webkit-border-bottom-right-radius:5px}

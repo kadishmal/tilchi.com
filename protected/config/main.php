@@ -7,7 +7,10 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Tilchi.com',
+
+	'sourceLanguage' => 'en_us',
+	'language' => 'ru',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -19,15 +22,12 @@ return array(
 	),
 
 	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		/*
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
+			'password'=>'MyGiiGfuLgtr4e',
 		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
-		*/
 	),
 
 	// application components
@@ -36,30 +36,30 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-		// uncomment the following to enable URLs in path-format
-		/*
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+			'showScriptName'=>false,
 			'rules'=>array(
-				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<controller:\w+>'=>'<controller>',
+
+                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<controller:\w+>/<id:\d+>/<title>'=>'<controller>/view',
+                '<controller:\w+>/<id:\d+>'=>'<controller>/view',
+                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>'
 			),
 		),
-		*/
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
-			'emulatePrepare' => true,
+			//'connectionString' => 'mysql:host=opentranslations.org;dbname=opentran_dbtilchi',
+			//'username' => 'opentran_tilchi',
+			//'password' => 'G9xbCB3^hM',
+			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
 			'username' => 'root',
-			'password' => '',
+			'password' => 'rootOtPsWdGfuLgtr4e',
+			'emulatePrepare' => true,
 			'charset' => 'utf8',
+			'tablePrefix' => 'tbl_'
+			//'enableProfiling' => 'true'
 		),
-		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',
@@ -69,7 +69,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error, warning, trace, info',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -85,6 +85,6 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'=>'online@tilchi.com',
 	),
 );
