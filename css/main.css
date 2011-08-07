@@ -227,3 +227,62 @@ div.search-form
 {
 	background: #80CFFF;
 }
+/* cursor */
+#mainmenu *{cursor:pointer}
+/* display */
+#msgBox,#floodPanel,#spinner,#mainmenu ul ul{display:none}
+#mainmenu li *,#mainmenu a{display:inline-block}
+#mainmenu .submenu,#mainmenu .submenu li,#mainmenu .submenu a{display:block}
+/* position */
+#mainmenu .menuHover{position:relative}
+#msgBox,#floodPanel,#mainmenu .submenu{position:absolute}
+#floodPanel{top:0;left:0}
+/* z-index */
+#mainmenu .menuHover,#mainmenu .submenu,#msgBox{z-index:9999}
+/* width */
+#floodPanel{width:100%}
+#msgBox{width:467px}
+/* height */
+#floodPanel,#spinner{height:100%}
+#mainmenu span,#mainmenu li.parent a{height:16px}
+#mainmenu{height:27px}
+#spinner{height:31px}
+/* margin */
+#mainmenu ul{margin:0}
+/* padding */
+#mainmenu ul,#mainmenu .submenu{padding:0}
+#mainmenu ul{padding:0 0 0 20px}
+#mainmenu ul li a,#mainmenu span{padding:5px 8px}
+#msgBox .title{padding:5px 10px}
+#msgBox,#msgBox .msg,#msgBox .buttons{padding:10px}
+/* font-size */
+#mainmenu ul li a,#mainmenu span{font-size:12px}
+/* font-weight */
+#msgBox .title,#mainmenu *{font-weight:bold}
+/* color */
+#msgBox .title,#mainmenu *,#mainmenu .submenu li:hover a,#mainmenu .submenu li.active a{color:#ffffff}
+#mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu a{color:#4C99C5}
+/* text-align */
+#msgBox .buttons,.text-right{text-align:right}
+/* text-decoration */
+#mainmenu a,#mainmenu span{text-decoration:none}
+/* background */
+#mainmenu .submenu li:hover a{background:transparent}
+#spinner{background:url(spin-blue.gif) no-repeat center center}
+#mainmenu,#msgBox .title{background:#4C99C5 url(bg.gif) repeat-x left top}
+#mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu span:hover,#mainmenu .menuHover,#mainmenu .submenu,#msgBox .msg{background:#ffffff}
+#mainmenu .submenu li:hover,#mainmenu .submenu li.active a{background:#4C99C5}
+#msgBox{background:rgba(82,82,82,0.7);/* For IE 5.5 - 7*/filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#AF525252, endColorstr=#AF525252);/* For IE 8*/-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#AF525252, endColorstr=#AF525252)";}
+#msgBox .buttons{background:#F2F2F2}
+/* border */
+#mainmenu ul li a,#mainmenu ul li.active a,#mainmenu span,#mainmenu .submenu a:hover{border:1px solid transparent}
+#mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu{border:1px solid #4C99C5}
+#mainmenu .menuHover,#mainmenu li.parent a:hover{border-bottom:none}
+#mainmenu .submenu{border-top:none}
+#msgBox .msg{border-bottom:1px solid #CCCCCC}
+/* border-radius */
+#msgBox{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
+/* box-shadow */
+#mainmenu ul li a:hover,#mainmenu ul .menuHover{box-shadow:0 3px 10px #888;-moz-box-shadow:0 3px 10px #888;-webkit-box-shadow:0 3px 10px #888}
+#mainmenu .submenu{box-shadow:0 5px 10px #888;-moz-box-shadow:0 5px 10px #888;-webkit-box-shadow:0 5px 10px #888}
+#mainmenu .submenu a:hover{box-shadow:none}

@@ -30,5 +30,8 @@
 
 <div id="register">
     <h1 class="text-center"><?php echo Yii::t('site', 'Create your profile'); ?></h1>
+    <div id="progress-bar">
+        <div class="bar first active"><span><?php echo Yii::t('site', 'Register'); ?></span><i></i></div><div class="bar last"><span><?php echo Yii::t('user', 'My personal info'); ?></span></div>
+    </div>
     <?php $this->renderPartial('_register', array('model'=>$model)); ?>
 </div>

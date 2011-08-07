@@ -4,21 +4,42 @@
 // Any writable CConsoleApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Console Application',
+	'name'=>'Tilchi Console Application',
+	'sourceLanguage' => 'en_us',
+	'language' => 'ru',
+    // autoloading model and component classes
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+		'application.modules.content.*',
+		'application.modules.content.models.*',
+        'ext.yii-mail.YiiMailMessage',
+	),
 	// application components
 	'components'=>array(
+        'mail' => array(
+ 			'class' => 'ext.yii-mail.YiiMail',
+ 			'transportType' => 'smtp',
+            'transportOptions'=>array(
+                'host'=>'smtp.gmail.com',
+                'username'=>'forum@incorex.com',
+                'password'=>'J*1g!3C$z5',
+                'encryption'=>'ssl',
+                'port'=>465,
+            ),
+ 			'logging' => false,
+ 		),
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'username' => 'opentran_tilchi',
+			'password' => 'G9xbCB3^hM',
+			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
+//			'username' => 'root',
+//			'password' => 'rootOtPsWdGfuLgtr4e',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
 			'charset' => 'utf8',
+			'tablePrefix' => 'tbl_',
+			'enableProfiling' =>true,
+            'enableParamLogging'=>true
 		),
-		*/
 	),
 );

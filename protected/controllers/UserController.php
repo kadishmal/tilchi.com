@@ -77,7 +77,7 @@ class UserController extends Controller
                     // If success, redirect to the /user/info page to
                     // continue the registration process.
                     if($loginModel->validate() && $loginModel->login())
-                        $this->redirect('/site');
+                        $this->redirect('/user/info');
                 }
             }
         }
@@ -100,24 +100,18 @@ class UserController extends Controller
         {
             $model->attributes = $_POST['User'];
 
-            if($model->validate())
+            if($model->save())
             {
-                echo 'ok';
-                Yii::app()->end();
-//                if($model->save()){
-//                    $modelUserAddress = new UserAddress;
-//                    $modelUserAddress->parent_user_id = Yii::app()->user->id;
-//                    $modelUserAddress->child_user_id = $model->id;
-//
-//                    if ($modelUserAddress->save())
-//                        $this->redirect(array('index'));
-//                }
+                $this->redirect(array('/site'));
             }
-                print_r($model->getErrors());
-                Yii::app()->end();
         }
 
-        $this->render('addInfo', array('model'=>$model));
+        if (strlen($model->last_name) == 0){
+            $this->render('addInfo', array('model'=>$model));
+        }
+        else{
+            $this->render('index', array('model'=>$model));
+        }
 	}
 	/**
 	 * Displays a user profile

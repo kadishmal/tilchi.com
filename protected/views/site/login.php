@@ -14,6 +14,7 @@
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'login-form',
         'enableAjaxValidation'=>true,
+        'focus'=>array($model,'email'),
     )); ?>
         <?php echo $form->errorSummary($model); ?>
 
@@ -27,6 +28,10 @@
         <div class="checkbox">
             <?php echo $form->checkBox($model,'rememberMe'); ?>
             <?php echo $form->label($model,'rememberMe'); ?>
+        </div>
+
+        <div class="extra">
+            <?php echo CHtml::link(Yii::t('site', 'Not registered yet?'), '/user/register'); ?>
         </div>
 
     <?php $this->endWidget(); ?>

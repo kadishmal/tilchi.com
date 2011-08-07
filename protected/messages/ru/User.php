@@ -31,7 +31,7 @@ return array(
     // info-form
     'Last name'=>'Фамилия',
     'First name'=>'Имя',
-    'Enter your <b>real last name</b>. We will use this name on invoices for items you order, as well as upon delivery.'=>'Введите свою <b>фамилию</b>. Мы будем использовать ее на чеках для товаров, которые Вы будете заказывать, а также при доставке.',
+    'Enter your <b>real last name</b>.'=>'Введите свою <b>фамилию</b>.',
     'Enter your <b>real name</b>. Every time you login we will greet you with your lovely name!'=>'Введите свое <b>имя</b>. Каждый раз, когда Вы будете входить на наш сайт, мы будем приветстовать Вас этим замечательным именем!',
     'Phone number'=>'Городской телефон',
 );

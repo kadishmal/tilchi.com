@@ -153,8 +153,8 @@ div.width25 input{width:172px}
 .button{width:auto}
 .submit i{width:9px}
 #login-button{width:49px}
-#progress-bar .bar{width:140px}
-#progress-bar .active{width:170px}
+#progress-bar .bar{width:220px}
+#progress-bar .active{width:230px}
 #progress-bar i,#register .password i{width:11px}
 #register .email i{width:23px}
 #register .last-name i{width:25px}
@@ -187,18 +187,18 @@ button,.button{line-height:18px}
 #register input[type="text"],#register input[type="password"]{padding:9px 9px 9px 33px}
 #register .row label,#register .row .errorBox{padding:10px}
 #register .row{padding-right:44px}
-button,select,.button{padding:3px 15px}
+button,select,.button{padding:3px 10px}
 button.inline,.button.inline{padding:0 10px}
 #progress-bar .bar span{padding:13px 0}
 #progress-bar .active span{padding:12px 0}
 /* font-size */
-button,.button,label,#login-button,#register .row .errorMessage{font-size:11px}
+button,.button,label,#login-button,#register .row .errorMessage,#login .extra{font-size:11px}
 #progress-bar .bar{font-size:12px}
 #progress-bar .active{font-size:14px}
 #register .row input[type="text"],#register .row input[type="password"]{font-size:18px}
 
 /* font-weight */
-button,.button,#login-button,#progress-bar .bar{font-weight:bold}
+button,.button,#login-button,#progress-bar .bar,#blog button.bold,#blog .button.bold{font-weight:bold}
 
 /* color */
 button,button:hover,.button,.button:hover,button.inline:hover,.button.inline:hover{color:#fff}
@@ -209,6 +209,7 @@ button.cancel,.button.cancel,#login-button:hover{color:#000}
 #login-button,#progress-bar .active{color:#276086}
 /* text-align */
 #progress-bar .bar,#register .row label,#register .row .errorBox{text-align:center}
+#login .extra{text-align:right}
 /* text-decoration */
 button,.button,a.button.inline{text-decoration:none}
 /* text-transform */

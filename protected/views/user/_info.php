@@ -23,7 +23,7 @@
                 CHtml::tag('span', array('class'=>'arrow east'),'')
             ) .
             CHtml::label(
-                    Yii::t('user', 'Enter your <b>real last name</b>. We will use this name on invoices for items you order, as well as upon delivery.') .
+                    Yii::t('user', 'Enter your <b>real last name</b>.') .
                     CHtml::tag('span', array('class'=>'arrow-border west'), '') .
                     CHtml::tag('span', array('class'=>'arrow west'),'')
             , 'User_email', array('class'=>'required')) .
@@ -45,7 +45,7 @@
     ?></div>
 
     <div class="major-buttons text-right">
-        <?php echo CHtml::submitButton(Yii::t('site', 'Create my account!'), array('class'=>'button primary')); ?>
+        <?php echo CHtml::submitButton(Yii::t('site', 'Complete'), array('class'=>'button primary')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

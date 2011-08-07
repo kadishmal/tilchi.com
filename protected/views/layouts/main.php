@@ -1,3 +1,14 @@
+<?php
+    $cs = Yii::app()->getClientScript();
+	$baseUrl = Yii::app()->baseUrl;
+
+	$cs->registerCoreScript('jquery.ui');
+	$cs->registerScriptFile($baseUrl . '/js/main.js');
+
+    $cs->registerScript('activate-menu', "
+		activateMainMenu();
+	");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -15,6 +26,19 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <?php
+//    <script type="text/javascript">
+//      var _gaq = _gaq || [];
+//      _gaq.push(['_setAccount', 'UA-3787071-5']);
+//      _gaq.push(['_trackPageview']);
+//
+//      (function() {
+//        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+//        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+//        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+//      })();
+//    </script>
+    ?>
 </head>
 
 <body>
@@ -29,6 +53,12 @@
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>Yii::t('zii','Home'), 'url'=>'/site'),
+                array('label'=>Yii::t('blog', 'Blog'), 'url'=>'/blog/', 'items'=>array(
+					array('label'=>Yii::t('blog', 'New Post'), 'url'=>'/blog/new', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
+					array('label'=>Yii::t('blog', 'Comments'), 'url'=>'/blog/comments', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
+					array('label'=>Yii::t('blog', 'Posts'), 'url'=>'/blog/posts', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
+				)),
+                array('label'=>Yii::t('site','Forum'), 'url'=>'/forum'),
                 array('label'=>Yii::t('site','Register'), 'url'=>'/user/register', 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>Yii::t('site','Login'), 'url'=>'/site/login', 'visible'=>Yii::app()->user->isGuest),
 				//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
@@ -49,6 +79,9 @@
 		<?php echo date('Y'); ?> &copy; Tilchi.com<br /><?php echo Yii::t('site', 'All Rights Reserved.'); ?>
 	</div><!-- footer -->
 
+	<div id="spinner"></div>
+	<div id="floodPanel"></div>
+	<div id="msgBox"></div>
 </div><!-- page -->
 
 </body>

@@ -1,0 +1,48 @@
+<?php
+return array(
+	'@' => 'в',
+    'Blog' => 'Блог',
+    'New Post' => 'Новая запись',
+    'Add New Post' => 'Новая запись',
+    'Edit Post' => 'Изменить запись',
+    'Comments' => 'Комментарии',
+    'Title' => 'Заголовок',
+    'Status' => 'Статус',
+    'Author' => 'Автор',
+    'Date'=>'Дата',
+    'Preview' => 'Просмотреть',
+    'Preview Changes' => 'Просмотреть изменения',
+    'Publish' => 'Опубликовать',
+    'Post Tags' => 'Метки',
+    'Separate tags by commas.' => 'Разделяйте метки запятыми.',
+    'immediately' => 'немедленно',
+    'Edit' => 'Изменить',
+    'OK' => 'ОК',
+    'Save' => 'Сохранить',
+    'Cancel' => 'Отменить',
+    'Draft' => 'Черновик',
+    'Published' => 'Опубликованный',
+    'Trashed' => 'В корзине',
+    'Archived' => 'Заархивинованный',
+    'Published on' => 'Опубликован',
+    'Scheduled for' => 'Запланирован на',
+    'Tagged as' => 'Метки',
+    'Tags' => 'Метки',
+    'COMMENTS' => 'КОММЕНТАРИЙ',
+    // View mode
+    'Edit this post' => 'Изменить эту запись',
+    // Comments mode
+    'Pending moderation...'=>'Ожидает подтверждения...',
+    'Your comment is pending moderation. At this moment it is visible only to you and administrators.'=>'Ваш комментарий ожидает подтвеждение модератора. Пока Ваш комментарий будет виден только Вам и администраторам.',
+    'There is a new comment on the <b>blog_title</b> post.'=>'Новый комментарий был опубликован в блоге <b>blog_title</b>.',
+    'See the comment' =>'Пройти к комментарию',
+    // Relative date
+    'last year|{n} years ago' => '{n} год назад|{n} года назад|{n} лет назад|{n} года назад',
+    'last month|{n} months ago' => '{n} месяц назад|{n} месяца назад|{n} месяцев назад|{n} месяца назад',
+    'last week|{n} weeks ago' => '{n} неделю назад|{n} недели назад|{n} недель назад|{n} недели назад',
+    'yesterday|{n} days ago' => '{n} день назад|{n} дня назад|{n} дней назад|{n} дня назад',
+    'an hour ago|{n} hours ago' => '{n} час назад|{n} часа назад|{n} часов назад|{n} часа назад',
+    'one minute ago|{n} minutes ago' => '{n} минуту назад|{n} минуты назад|{n} минут назад|{n} минуты назад',
+    'one second ago|{n} seconds ago' => '{n} секунду назад|{n} секунды назад|{n} секунд назад|{n} секунды назад'
+);
+?>

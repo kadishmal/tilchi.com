@@ -19,9 +19,13 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+        'ext.yii-mail.YiiMailMessage',
 	),
 
 	'modules'=>array(
+        'content'=>array(
+
+	    ),
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'MyGiiGfuLgtr4e',
@@ -32,6 +36,18 @@ return array(
 
 	// application components
 	'components'=>array(
+        'mail' => array(
+ 			'class' => 'ext.yii-mail.YiiMail',
+ 			'transportType' => 'smtp',
+            'transportOptions'=>array(
+                'host'=>'smtp.gmail.com',
+                'username'=>'forum@incorex.com',
+                'password'=>'J*1g!3C$z5',
+                'encryption'=>'ssl',
+                'port'=>465,
+            ),
+ 			'logging' => false,
+ 		),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -40,6 +56,22 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
+                // Blog URLs
+                array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>/<param>'),
+                array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>', 'defaultParams'=>array('param'=>'all')),
+                array('content/blog/<action>', 'pattern'=>'blog/<action:\w+>/<id:\d+>'),
+                array('content/blog/<action>', 'pattern'=>'blog/<action:\w+>'),
+                array('content/blog/view', 'pattern'=>'blog/<title>'),
+                array('content/blog/index', 'pattern'=>'blog'),
+                // Forum URLs
+                array('content/forum/<action>', 'pattern'=>'forum/<action:\w+>/<type:(question|idea|issue)>'),
+                array('content/forum/<action>', 'pattern'=>'forum/<action:\w+>/<id:\d+>'),
+                array('content/forum/<action>', 'pattern'=>'forum/<action:\w+>'),
+                array('content/forum/view', 'pattern'=>'forum/<slug>'),
+                array('content/forum/index', 'pattern'=>'forum'),
+                // Vote URLs
+                array('content/vote/<action>', 'pattern'=>'vote/<action:\w+>'),
+                // Site URLs
                 '<controller:\w+>'=>'<controller>',
 
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
@@ -49,16 +81,16 @@ return array(
 			),
 		),
 		'db'=>array(
-			//'connectionString' => 'mysql:host=opentranslations.org;dbname=opentran_dbtilchi',
-			//'username' => 'opentran_tilchi',
-			//'password' => 'G9xbCB3^hM',
+//			'username' => 'opentran_tilchi',
+//			'password' => 'G9xbCB3^hM',
 			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
 			'username' => 'root',
 			'password' => 'rootOtPsWdGfuLgtr4e',
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
-			'tablePrefix' => 'tbl_'
-			//'enableProfiling' => 'true'
+			'tablePrefix' => 'tbl_',
+			'enableProfiling' =>true,
+            'enableParamLogging'=>true
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
