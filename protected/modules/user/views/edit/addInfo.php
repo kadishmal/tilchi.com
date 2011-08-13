@@ -32,7 +32,7 @@
 ?>
 
 <div id="register">
-    <h1 class="text-center"><?php echo Yii::t('site', 'Create your profile'); ?></h1>
+    <h1 class="text-center"><?php echo Yii::t('user', 'Tell us about yourself'); ?></h1>
     <div id="progress-bar">
         <div class="bar first completed"><span><?php echo Yii::t('site', 'Register'); ?></span><i></i></div><div class="bar last active"><span><?php echo Yii::t('user', 'My personal info'); ?></span></div>
     </div>

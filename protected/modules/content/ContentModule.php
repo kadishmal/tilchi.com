@@ -16,6 +16,7 @@ class ContentModule extends CWebModule
 		$this->setImport(array(
 			'content.models.*',
 			'content.components.*',
+			'user.models.*',
 		));
 
 		$cs = Yii::app()->getClientScript();

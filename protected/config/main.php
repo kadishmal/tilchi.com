@@ -26,6 +26,9 @@ return array(
         'content'=>array(
 
 	    ),
+        'user'=>array(
+
+	    ),
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'MyGiiGfuLgtr4e',
@@ -51,11 +54,15 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			'loginUrl' => array('/user/signin'),
 		),
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
+				array('user/profile', 'pattern'=>'user'),
+				array('user/signin/logout', 'pattern'=>'user/logout'),
+                array('user/<controller>', 'pattern'=>'user/<controller:\w+>'),
                 // Blog URLs
                 array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>/<param>'),
                 array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>', 'defaultParams'=>array('param'=>'all')),
@@ -72,12 +79,13 @@ return array(
                 // Vote URLs
                 array('content/vote/<action>', 'pattern'=>'vote/<action:\w+>'),
                 // Site URLs
-                '<controller:\w+>'=>'<controller>',
+                array('<controller>/', 'pattern'=>'<controller:\w+>'),
+                array('<controller>/<action>', 'pattern'=>'<controller:\w+>/<action:\w+>'),
 
-                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
                 '<controller:\w+>/<id:\d+>/<title>'=>'<controller>/view',
                 '<controller:\w+>/<id:\d+>'=>'<controller>/view',
-                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>'
+				// necessary for /content/comment/delete/22
+				array('<module>/<controller>/<action>', 'pattern'=>'<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'),
 			),
 		),
 		'db'=>array(

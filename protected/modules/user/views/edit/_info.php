@@ -3,7 +3,11 @@
 	'id'=>'info-form',
     'enableAjaxValidation'=>true,
     'enableClientValidation'=>true,
-    'focus'=>array($model,'last_name'),
+    'focus'=>($model->last_name == null ? array($model,'last_name') :
+			($model->first_name == null ? array($model,'first_name') :
+				array($model,'gender')
+			)
+	),
     'clientOptions'=>array('validateOnSubmit'=>true, 'afterValidateAttribute'=>'js:function(form, attribute, data, hasError){
         if(hasError){
             $("#" + attribute.id).siblings(".errorBox").show();
@@ -23,10 +27,10 @@
                 CHtml::tag('span', array('class'=>'arrow east'),'')
             ) .
             CHtml::label(
-                    Yii::t('user', 'Enter your <b>real last name</b>.') .
+                    Yii::t('UserModule.user', 'Enter your <b>real last name</b>.') .
                     CHtml::tag('span', array('class'=>'arrow-border west'), '') .
                     CHtml::tag('span', array('class'=>'arrow west'),'')
-            , 'User_email', array('class'=>'required')) .
+            , 'User_last_name', array('class'=>'required')) .
             $form->textField($model, 'last_name');
     ?></div>
 
@@ -37,15 +41,30 @@
                 CHtml::tag('span', array('class'=>'arrow east'),'')
             ) .
             CHtml::label(
-                    Yii::t('user', 'Enter your <b>real name</b>. Every time you login we will greet you with your lovely name!') .
+                    Yii::t('UserModule.user', 'Enter your <b>real name</b>. Every time you login we will greet you with your lovely name!') .
                     CHtml::tag('span', array('class'=>'arrow-border west'), '') .
                     CHtml::tag('span', array('class'=>'arrow west'),'')
-            , 'User_password', array('class'=>'required')) .
+            , 'User_first_name', array('class'=>'required')) .
             $form->textField($model, 'first_name');
     ?></div>
 
+    <div class="gender"><?php
+//        echo CHtml::tag('span', array('class'=>'errorBox'),
+//                $form->error($model,'gender') .
+//                CHtml::tag('span', array('class'=>'arrow-border east'), '') .
+//                CHtml::tag('span', array('class'=>'arrow east'),'')
+//            ) .
+
+			echo CHtml::tag('span', array('class'=>'male'), '<i></i>') .
+				CHtml::tag('span', array('class'=>'female'), '<i></i>');
+
+			echo CHtml::tag('div', array('class'=>'options'),
+					$form->radioButtonList($model, 'gender', array(User::GENDER_MALE=>Yii::t('UserModule.user', 'Male'), User::GENDER_FEMALE=>Yii::t('UserModule.user', 'Female')), array('separator'=>' '))
+			);
+    ?></div>
+
     <div class="major-buttons text-right">
-        <?php echo CHtml::submitButton(Yii::t('site', 'Complete'), array('class'=>'button primary')); ?>
+        <?php echo CHtml::submitButton(Yii::t('UserModule.user', 'Save'), array('class'=>'button primary')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

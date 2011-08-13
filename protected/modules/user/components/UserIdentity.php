@@ -36,14 +36,17 @@ class UserIdentity extends CUserIdentity
 		$user = User::model()->findByAttributes(array('email'=>$this->email));
 
         if($user === null)
+        {
             $this->errorCode = self::ERROR_EMAIL_INVALID;
+        }
         else{
 	        $parts	= explode(':', $user->password);
 			$crypt	= $parts[0];
 			$salt	= @$parts[1];
 			$testcrypt = User::getCryptedPassword($this->password, $salt);
 
-			if ($crypt == $testcrypt) {
+			if ($crypt == $testcrypt)
+            {
 				$this->_id = $user->id;
 	    		//$this->setState('name', $user->first_name);
 	            $this->errorCode=self::ERROR_NONE;

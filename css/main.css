@@ -277,7 +277,7 @@ div.search-form
 /* border */
 #mainmenu ul li a,#mainmenu ul li.active a,#mainmenu span,#mainmenu .submenu a:hover{border:1px solid transparent}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu{border:1px solid #4C99C5}
-#mainmenu .menuHover,#mainmenu li.parent a:hover{border-bottom:none}
+#mainmenu .menuHover{border-bottom:none}
 #mainmenu .submenu{border-top:none}
 #msgBox .msg{border-bottom:1px solid #CCCCCC}
 /* border-radius */

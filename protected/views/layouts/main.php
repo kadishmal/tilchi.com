@@ -60,10 +60,11 @@
 				)),
                 array('label'=>Yii::t('site','Forum'), 'url'=>'/forum'),
                 array('label'=>Yii::t('site','Register'), 'url'=>'/user/register', 'visible'=>Yii::app()->user->isGuest),
-                array('label'=>Yii::t('site','Login'), 'url'=>'/site/login', 'visible'=>Yii::app()->user->isGuest),
-				//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				//array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>Yii::t('site', 'Logout'), 'url'=>'/site/logout', 'visible'=>!Yii::app()->user->isGuest)
+                array('label'=>Yii::t('site','Login'), 'url'=>'/user/signin', 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'right')),
+				array('label'=>Yii::t('site', 'Account'), 'visible'=>!Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'right parent'), 'items'=>array(
+					array('label'=>Yii::app()->user->name, 'url'=>'/user', 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>Yii::t('site', 'Logout'), 'url'=>'/user/logout', 'visible'=>!Yii::app()->user->isGuest)
+				))
 			),
 		)); ?>
 	</div><!-- mainmenu -->

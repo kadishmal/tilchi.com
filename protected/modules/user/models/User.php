@@ -14,6 +14,9 @@
  */
 class User extends CActiveRecord
 {
+    const GENDER_MALE = 0;
+    const GENDER_FEMALE = 1;
+
 	public $password_repeat;
 	public $passwordNew;
 	public $passwordNew_repeat;
@@ -43,16 +46,17 @@ class User extends CActiveRecord
 		// will receive user inputs.
 		return array(
             // Register email
-            array('email', 'required', 'on'=>'register-email', 'message'=>Yii::t('user', 'For successful registration, it is necessary to fill in an <b>email address</b>.')),
-            array('password', 'required', 'on'=>'register-email', 'message'=>Yii::t('user', 'To protect your account, enter a <b>strong password</b>.')),
+            array('email', 'required', 'on'=>'register-email', 'message'=>Yii::t('UserModule.user', 'For successful registration, it is necessary to fill in an <b>email address</b>.')),
+            array('password', 'required', 'on'=>'register-email', 'message'=>Yii::t('UserModule.register', 'To protect your account, enter a <b>strong password</b>.')),
 			array('email', 'length', 'max'=>100),
 			array('email', 'filter', 'filter'=>'strtolower'),
-			array('email', 'email', 'message'=>Yii::t('user', 'Please enter a valid email address (ex. <b>myname@example.com</b>).')),
-			array('email', 'unique', 'on'=>'register-email', 'message'=>Yii::t('user', 'A user with this email address <b>already exists</b>. If this is you, proceed to a <a href="/site/login">login</a> page. Otherwise, enter your own email address.')),
-            // Register name
-            array('first_name, last_name', 'required', 'on'=>'register-name'),
+			array('email', 'email', 'message'=>Yii::t('UserModule.user', 'Please enter a valid email address (ex. <b>myname@example.com</b>).')),
+			array('email', 'unique', 'on'=>'register-email', 'message'=>Yii::t('UserModule.register', 'A user with this email address <b>already exists</b>. If this is you, proceed to a <a href="/user/login">login</a> page. Otherwise, enter your own email address.')),
+            // Register info
+            array('first_name, last_name, gender', 'required', 'on'=>'register-info'),
 			array('first_name, last_name', 'type', 'type'=>'string'),
 			array('first_name, last_name', 'length', 'max'=>45),
+            array('gender', 'in', 'range'=>array(self::GENDER_MALE, self::GENDER_FEMALE)),
             // Login
 			array('email, password', 'required', 'on'=>'login'),
 //			array('passwordNew, passwordNew_repeat', 'required', 'on'=>'changePassword, changeUserPassword'),
@@ -83,15 +87,15 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'email' => Yii::t('user', 'Email'),
-			'password' => Yii::t('user', 'Password'),
+			'email' => Yii::t('UserModule.user', 'Email'),
+			'password' => Yii::t('UserModule.user', 'Password'),
 			'password_repeat' => 'Старый пароль',
 			'passwordNew' => 'Новый пароль',
 			'passwordNew_repeat' => 'Подтвердите пароль',
-			'username' => Yii::t('user', 'Username'),
-			'first_name' => Yii::t('user', 'First name'),
-			'last_name' => Yii::t('user', 'Last name'),
-			'join_date'=>Yii::t('user', 'Join date'),
+			'username' => Yii::t('UserModule.user', 'Username'),
+			'first_name' => Yii::t('UserModule.user', 'First name'),
+			'last_name' => Yii::t('UserModule.user', 'Last name'),
+			'join_date'=>Yii::t('UserModule.user', 'Join date'),
 		);
 	}
 	/**
@@ -382,4 +386,21 @@ class User extends CActiveRecord
 				break;
 		}
 	}
+    public function hasFullInfo()
+    {
+        $scenario = $this->scenario;
+        $this->scenario = 'register-info';
+        $hasFullInfo = false;
+
+        if ($this->validate())
+        {
+            $hasFullInfo = true;
+        }
+        else{
+            $hasFullInfo = 'edit/profile';
+        }
+
+        $this->scenario = $scenario;
+        return $hasFullInfo;
+    }
 }

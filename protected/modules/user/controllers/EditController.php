@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class EditController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -26,12 +26,8 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-            array('allow', // allow guest users to register
-				'actions'=>array('register'),
-				'users'=>array('?'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('info', 'index', 'edit'),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('index', 'profile'),
 				'users'=>array('@'),
 			),
             array('deny', // do now allow logged in users to register
@@ -48,109 +44,44 @@ class UserController extends Controller
 		);
 	}
 	/**
-	 * Displays the registration page and register a new user.
-     * It registers only email and password, then redirects to /user/info
-     * to ask user to add personal information.
-	 */
-	public function actionRegister()
-	{
-        $model = new User('register-email');
-
-        // Enable ajax-based validation
-        $this->performAjaxValidation($model, 'registration-form');
-
-        if(isset($_POST['User']))
-        {
-            $model->attributes = $_POST['User'];
-
-            if($model->validate())
-            {
-                $tempPass = $model->password;
-                $model->join_date = time();
-                $model->cryptPassword();
-
-                if ($model->save(false)){
-                    $loginModel = new LoginForm;
-                    $loginModel->email = $model->email;
-                    $loginModel->password = $tempPass;
-                    // validate user credentials and try to login.
-                    // If success, redirect to the /user/info page to
-                    // continue the registration process.
-                    if($loginModel->validate() && $loginModel->login())
-                        $this->redirect('/user/info');
-                }
-            }
-        }
-
-        $this->render('register', array('model'=>$model));
-	}
-    /**
-	 * Displays the second phase of the registration process which prompts
-     * users to enter their personal information.
-	 */
-	public function actionInfo()
-	{
-        $model = $this->loadModel(Yii::app()->user->id);
-        $model->scenario = 'register-name';
-
-        // Enable ajax-based validation
-        $this->performAjaxValidation($model, 'info-form');
-
-        if(isset($_POST['User']))
-        {
-            $model->attributes = $_POST['User'];
-
-            if($model->save())
-            {
-                $this->redirect(array('/site'));
-            }
-        }
-
-        if (strlen($model->last_name) == 0){
-            $this->render('addInfo', array('model'=>$model));
-        }
-        else{
-            $this->render('index', array('model'=>$model));
-        }
-	}
-	/**
 	 * Displays a user profile
 	 */
 	public function actionIndex()
 	{
-		$this->render('index', array(
-			'model'=>$this->loadModel(Yii::app()->user->id),
-		));
+		$this->actionProfile();
 	}
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionEdit($c)
+	public function actionProfile()
 	{
-		$model=$this->loadModel(Yii::app()->user->id);
-
-		if ($c == 'pwd'){
-			$model->scenario = 'changePassword';
-		}
-		else{
-			$model->scenario = 'edit';
-		}
-
+		$model = $this->loadModel(Yii::app()->user->id);
+		$model->scenario = 'register-info';
+//		if ($c == 'pwd'){
+//			$model->scenario = 'changePassword';
+//		}
+//		else{
+//			$model->scenario = 'edit';
+//		}
+//
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model, 'info-form');
 
 		if(isset($_POST['User']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes = $_POST['User'];
+
 			if($model->save())
-				$this->redirect(array('index'));
+            {
+				$this->redirect(array('/user/profile'));
+            }
 		}
 
-		$this->render($model->scenario,array(
-			'model'=>$model,
-		));
+		$model->validate();
+
+		$this->render('profile', array('model'=>$model));
 	}
 
 	/**

@@ -71,6 +71,37 @@ class ForumController extends Controller
             'dataProvider'=>$rows
         ));
 	}
+	public function actionSupport()
+	{
+		$question = Post::TYPE_QUESTION;
+        $issue = Post::TYPE_ISSUE;
+
+        $sql = 'SELECT  p.title, p.publish_date, p.slug, p.type,
+                        p.response_type, u.first_name, u.last_name,
+                        COUNT(c.id) as commentsCount,
+                        COUNT(v.id) as votesCount
+                FROM tbl_users u, tbl_posts p
+                LEFT OUTER JOIN tbl_comments c ON p.id = c.post_id
+                LEFT OUTER JOIN tbl_votes v ON p.id = v.post_id
+                WHERE   p.type = :type
+                        AND p.user_id = u.id
+                GROUP BY p.id
+                ORDER BY p.type, p.response_type, p.publish_date DESC
+                LIMIT 3
+        ';
+
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->bindParam(':type', $question, PDO::PARAM_INT);
+        $rows = $command->queryAll();
+
+        $command->bindParam(':type', $issue, PDO::PARAM_INT);
+        $rows = array_merge($rows, $command->queryAll());
+
+        $this->render('support', array(
+            'dataProvider'=>$rows
+        ));
+	}
     /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

@@ -4,7 +4,7 @@ return array(
     'Blog' => 'Блог',
     'New Post' => 'Новая запись',
     'Add New Post' => 'Новая запись',
-    'Edit Post' => 'Изменить запись',
+    'Edit Post' => 'Редактировать запись',
     'Comments' => 'Комментарии',
     'Title' => 'Заголовок',
     'Status' => 'Статус',
@@ -30,7 +30,7 @@ return array(
     'Tags' => 'Метки',
     'COMMENTS' => 'КОММЕНТАРИЙ',
     // View mode
-    'Edit this post' => 'Изменить эту запись',
+    'Edit this post' => 'Редактировать эту запись',
     // Comments mode
     'Pending moderation...'=>'Ожидает подтверждения...',
     'Your comment is pending moderation. At this moment it is visible only to you and administrators.'=>'Ваш комментарий ожидает подтвеждение модератора. Пока Ваш комментарий будет виден только Вам и администраторам.',

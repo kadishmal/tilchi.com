@@ -39,8 +39,8 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			'email'=>'Email',
-			'password'=>Yii::t('user','Password'),
-			'rememberMe'=>Yii::t('site','Remember me'),
+			'password'=>Yii::t('UserModule.user', 'Password'),
+			'rememberMe'=>Yii::t('UserModule.login', 'Remember me'),
 		);
 	}
 	/**
@@ -54,7 +54,9 @@ class LoginForm extends CFormModel
 			$this->_identity = new UserIdentity($this->email,$this->password);
 
 			if(!$this->_identity->authenticate())
-				$this->addError('password', Yii::t('site', 'Make sure you have correctly entered your email address and password.'));
+            {
+				$this->addError('password', Yii::t('UserModule.login', 'Make sure you have correctly entered your email address and password.'));
+            }
 		}
 	}
 
@@ -66,7 +68,7 @@ class LoginForm extends CFormModel
 	{
 		if($this->_identity===null)
 		{
-			$this->_identity=new UserIdentity($this->email,$this->password);
+			$this->_identity=new UserIdentity($this->email, $this->password);
 			$this->_identity->authenticate();
 		}
 
