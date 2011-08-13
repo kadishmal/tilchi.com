@@ -26,9 +26,12 @@ class RegisterController extends Controller
 	public function accessRules()
 	{
 		return array(
-            array('allow', // allow any user to login
+            array('allow',
+				// Allow any user to execute register action even the
+				// registered user as the registration process consists of
+				// several steps.
 				'actions'=>array('index'),
-				'users'=>array('?'),
+				'users'=>array('*'),
 			),
 			array('deny',  // deny all users all other actions
 				'users'=>array('*'),
@@ -76,11 +79,16 @@ class RegisterController extends Controller
                 }
             }
 
-            $this->render('register', array('model'=>$model));
+			if (Yii::app()->user->isGuest){
+				$this->render('register', array('model'=>$model));
+			}
         }
         else{
             $model = $this->loadModel(Yii::app()->user->id);
             $model->scenario = 'register-info';
+
+            // Enable ajax-based validation
+            $this->performAjaxValidation($model, 'info-form');
 
             if(isset($_POST['User']))
             {
@@ -88,8 +96,7 @@ class RegisterController extends Controller
 
                 if($model->save())
                 {
-                    // /index refers to /index of this model, i.e. /user/index
-                    $this->redirect('index');
+                    $this->redirect('/user');
                 }
             }
 
@@ -98,10 +105,23 @@ class RegisterController extends Controller
                 $this->render('addInfo', array('model'=>$model));
             }
             else{
-                // /index refers to /index of this model, i.e. /user/index
-                $this->redirect('index');
+                $this->redirect('/user');
             }
         }
+	}
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModel($id)
+	{
+		$model = User::model()->findByPk((int)$id);
+
+        if($model === null)
+			throw new CHttpException(404, 'The requested page does not exist.');
+
+		return $model;
 	}
 	/**
 	 * Performs the AJAX validation.

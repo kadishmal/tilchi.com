@@ -42,6 +42,7 @@
 		'focus'=>array($model,'email'),
 		'clientOptions'=>array('validateOnSubmit'=>true, 'afterValidateAttribute'=>'js:function(form, attribute, data, hasError){
 			if(hasError){
+				$(".errorBox").hide();
 				$("#" + attribute.id).siblings(".errorBox").show();
 			}
 			else{
@@ -73,7 +74,7 @@
 					CHtml::tag('span', array('class'=>'arrow east'),'')
 				) .
 				CHtml::label(
-						Yii::t('UserModule.register', 'To have a strong <b>password</b>, it should consist of <b>6 or more</b> characters that you can remember. You can later use it to access your account at our web site.') .
+						Yii::t('UserModule.register', 'To have a strong <b>password</b>, it should consist of <b>6 or more</b> characters that you can remember. You can later use it to access your account at Tilchi.com web site.') .
 						CHtml::tag('span', array('class'=>'arrow-border west'), '') .
 						CHtml::tag('span', array('class'=>'arrow west'),'')
 				, 'User_password', array('class'=>'required')) .

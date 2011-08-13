@@ -46,23 +46,26 @@ class User extends CActiveRecord
 		// will receive user inputs.
 		return array(
             // Register email
-            array('email', 'required', 'on'=>'register-email', 'message'=>Yii::t('UserModule.user', 'For successful registration, it is necessary to fill in an <b>email address</b>.')),
+            array('email', 'required', 'on'=>'register-email', 'message'=>Yii::t('UserModule.register', 'For successful registration, it is necessary to fill in an <b>email address</b>.')),
             array('password', 'required', 'on'=>'register-email', 'message'=>Yii::t('UserModule.register', 'To protect your account, enter a <b>strong password</b>.')),
 			array('email', 'length', 'max'=>100),
 			array('email', 'filter', 'filter'=>'strtolower'),
-			array('email', 'email', 'message'=>Yii::t('UserModule.user', 'Please enter a valid email address (ex. <b>myname@example.com</b>).')),
-			array('email', 'unique', 'on'=>'register-email', 'message'=>Yii::t('UserModule.register', 'A user with this email address <b>already exists</b>. If this is you, proceed to a <a href="/user/login">login</a> page. Otherwise, enter your own email address.')),
+			array('email', 'email', 'message'=>Yii::t('UserModule.register', 'Please enter a valid email address (ex. <b>myname@example.com</b>).')),
+			array('email', 'unique', 'on'=>'register-email', 'message'=>Yii::t('UserModule.register', 'A user with this email address <b>already exists</b>. If this is you, proceed to a <a href="signin_url">signin</a> page. Otherwise, enter your own email address.', array('signin_url'=>'/user/signin'))),
             // Register info
-            array('first_name, last_name, gender', 'required', 'on'=>'register-info'),
+            array('first_name, last_name', 'required', 'on'=>'register-info'),
+			array('gender', 'required', 'on'=>'register-info', 'message'=>Yii::t('UserModule.register','Please choose your gender.')),
 			array('first_name, last_name', 'type', 'type'=>'string'),
 			array('first_name, last_name', 'length', 'max'=>45),
             array('gender', 'in', 'range'=>array(self::GENDER_MALE, self::GENDER_FEMALE)),
             // Login
 			array('email, password', 'required', 'on'=>'login'),
-//			array('passwordNew, passwordNew_repeat', 'required', 'on'=>'changePassword, changeUserPassword'),
-//			array('password_repeat', 'required', 'on'=>'changePassword'),
-//			array('password', 'compare', 'on'=>'changePassword', 'message'=>'Ваш старый пароль был введен неверно.'),
-//			array('passwordNew_repeat', 'compare', 'compareAttribute'=>'passwordNew', 'on'=>'changePassword, changeUserPassword', 'message'=>'Вам нужно ввести один и тот же пароль дважды для того, чтобы подтвердить его.'),
+			// Change password
+			array('password_repeat', 'required', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Enter your <b>old password</b>.')),
+			array('passwordNew', 'required', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Enter a <b>new password</b>.')),
+			array('passwordNew_repeat', 'required', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Repeat your <b>new password</b>.')),
+			array('password', 'compare', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Your old password is incorrect.')),
+			array('passwordNew_repeat', 'compare', 'compareAttribute'=>'passwordNew', 'on'=>'changePassword', 'message'=>'The confirmation password does not match with your new password. You need to enter your new password twice.'),
 			//array('username', 'length', 'max'=>150),
 			array('password, password_repeat, passwordNew, passwordNew_repeat', 'length', 'max'=>100, 'min'=>6),
 		);
@@ -95,59 +98,10 @@ class User extends CActiveRecord
 			'username' => Yii::t('UserModule.user', 'Username'),
 			'first_name' => Yii::t('UserModule.user', 'First name'),
 			'last_name' => Yii::t('UserModule.user', 'Last name'),
+			'gender' => Yii::t('UserModule.user', 'Gender'),
 			'join_date'=>Yii::t('UserModule.user', 'Join date'),
 		);
 	}
-	/**
-	 * @return actions to perform before saving ie: hash password
-     */
-    public function beforeValidate()
-    {
-    	if (parent::beforeValidate()){
-	    	if ($this->scenario == 'changePassword'){
-	    		$parts	= explode(':', $this->password);
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-				$testcrypt = User::getCryptedPassword($this->password_repeat, $salt);
-
-				$this->password_repeat = $testcrypt.':'.$salt;
-	    	}
-	    	return true;
-		}
-
-		return false;
-    }
-	/**
-	 *
-     */
-    public function afterValidate()
-    {
-    	parent::afterValidate();
-
-    	if (!$this->hasErrors()){
-    		if ($this->scenario == 'changePassword'){
-	    		$parts	= explode(':', $this->password);
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-				$testcrypt = User::getCryptedPassword($this->passwordNew, $salt);
-
-				$this->passwordNew_repeat = $testcrypt.':'.$salt;
-
-				if ($this->password == $this->passwordNew_repeat){
-					$this->addError($this->passwordNew, 'Чтобы сменить свой пароль, необходимо ввести новый пароль отличный от старого.');
-				}
-	    	}
-    	}
-
-    	if ($this->hasErrors()){
-    		// There is a validation error
-			if ($this->scenario == 'changePassword' || $this->scenario == 'changeUserPassword'){
-	    		$this->password_repeat = '';
-	    		$this->passwordNew = '';
-	    		$this->passwordNew_repeat = '';
-	    	}
-		}
-    }
 	/**
 	 * @return actions to perform before saving ie: hash password
      */

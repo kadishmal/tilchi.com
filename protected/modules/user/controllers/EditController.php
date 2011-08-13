@@ -27,11 +27,7 @@ class EditController extends Controller
 	{
 		return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'profile'),
-				'users'=>array('@'),
-			),
-            array('deny', // do now allow logged in users to register
-				'actions'=>array('register'),
+				'actions'=>array('index', 'profile', 'password'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -83,7 +79,45 @@ class EditController extends Controller
 
 		$this->render('profile', array('model'=>$model));
 	}
+	public function actionPassword()
+	{
+		$model = $this->loadModel(Yii::app()->user->id);
+		$model->scenario = 'changePassword';
 
+		if(isset($_POST['User']))
+		{
+			$model->attributes = $_POST['User'];
+
+			$parts	= explode(':', $model->password);
+			$crypt	= $parts[0];
+			$salt	= @$parts[1];
+
+			$testcrypt = User::getCryptedPassword($model->password_repeat, $salt);
+			$model->password_repeat = $testcrypt.':'.$salt;
+
+			if ($model->validate())
+			{
+				$testcrypt = User::getCryptedPassword($model->passwordNew, $salt);
+
+				if ($model->password == $testcrypt)
+				{
+					$model->addError($model->passwordNew, Yii::t('UserModule.user', 'To change your password, your new password should be different from the old one.'));
+				}
+				else{
+					$model->password = $testcrypt;
+
+					if($model->save(false))
+					{
+						$this->redirect(array('/user/profile'));
+					}
+				}
+			}
+		}
+
+		$model->password_repeat = $model->passwordNew = $model->passwordNew_repeat = '';
+
+		$this->render('password', array('model'=>$model));
+	}
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

@@ -3,13 +3,16 @@
 	'id'=>'info-form',
     'enableAjaxValidation'=>true,
     'enableClientValidation'=>true,
-    'focus'=>($model->last_name == null ? array($model,'last_name') :
-			($model->first_name == null ? array($model,'first_name') :
-				array($model,'gender')
+    'focus'=>($model->hasErrors('last_name') ? array($model, 'last_name') :
+		($model->hasErrors('first_name') ? array($model,'first_name') :
+			($model->hasErrors('gender') ? array($model,'gender') :
+				array($model,'last_name')
 			)
+		)
 	),
     'clientOptions'=>array('validateOnSubmit'=>true, 'afterValidateAttribute'=>'js:function(form, attribute, data, hasError){
         if(hasError){
+			$(".errorBox").hide();
             $("#" + attribute.id).siblings(".errorBox").show();
         }
         else{
@@ -64,7 +67,8 @@
     ?></div>
 
     <div class="major-buttons text-right">
-        <?php echo CHtml::submitButton(Yii::t('UserModule.user', 'Save'), array('class'=>'button primary')); ?>
+        <?php echo CHtml::link(Yii::t('UserModule.user', 'Cancel'), '/user/profile', array('class'=>'link-button mRight10', 'tabindex'=>'-1')) .
+				CHtml::submitButton(Yii::t('UserModule.user', 'Save'), array('class'=>'button primary')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

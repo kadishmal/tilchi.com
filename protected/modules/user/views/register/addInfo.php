@@ -31,10 +31,10 @@
 	//Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/site.js');
 ?>
 
-<div id="register">
-    <h1 class="text-center"><?php echo Yii::t('user', 'Tell us about yourself'); ?></h1>
+<div id="profile">
+    <h1 class="text-center"><?php echo Yii::t('UserModule.user', 'Tell us about yourself'); ?></h1>
     <div id="progress-bar">
-        <div class="bar first completed"><span><?php echo Yii::t('site', 'Register'); ?></span><i></i></div><div class="bar last active"><span><?php echo Yii::t('user', 'My personal info'); ?></span></div>
+        <div class="bar first completed"><span><?php echo Yii::t('UserModule.register', 'Register'); ?></span><i></i></div><div class="bar last active"><span><?php echo Yii::t('UserModule.user', 'My profile'); ?></span></div>
     </div>
-    <?php $this->renderPartial('_info', array('model'=>$model)); ?>
+    <?php $this->renderPartial('/edit/_info', array('model'=>$model)); ?>
 </div>
