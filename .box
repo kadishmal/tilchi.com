@@ -3,4 +3,10 @@ shared_writable_dirs:
     - /protected/runtime
 
 php_extensions:
+    - pdo
+    - pdo_mysql
     - apc
+    - mcrypt
+    - gd
+    - ctype
+    - memcache
