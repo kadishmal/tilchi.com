@@ -1,5 +1,12 @@
 <?php
-
+// These constants are defined based for Pagodabox.
+// To set your db connection credentials, replace $_SERVER['db_host'] and the
+// rest with appropriate data.
+define("DB_HOST", $_SERVER['db_host']);
+define("DB_SOCK", $_SERVER['db_sock']);
+define("DB_NAME", $_SERVER['db_name']);
+define("DB_USER", $_SERVER['db_user']);
+define("DB_PASS", $_SERVER['db_pass']);
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -89,19 +96,14 @@ return array(
 			),
 		),
 		'db'=>array(
-			'username' => 'erline',
-			'password' => '87oNzXHT',
-			'connectionString' => 'mysql:host=localhost:/tmp/mysql/tambra.sock;dbname=tambra',
-//			'username' => 'opentran_tilchi',
-//			'password' => 'G9xbCB3^hM',
-//			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
-//			'username' => 'root',
-//			'password' => 'rootOtPsWdGfuLgtr4e',
+			'username' => DB_USER,
+			'password' => DB_PASS,
+			'connectionString' => 'mysql:host=' . DB_HOST . ';socket=' . DB_SOCK . ';dbname=' . DB_NAME,
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
-			'enableProfiling' =>true,
-            'enableParamLogging'=>true
+			'enableProfiling' =>false,
+            'enableParamLogging'=>false
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
