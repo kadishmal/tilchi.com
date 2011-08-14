@@ -1,0 +1,5 @@
+shared_writable_dirs:
+    - /assets
+
+php_extensions:
+  - apc
