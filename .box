@@ -1,6 +1,6 @@
 shared_writable_dirs:
     - /assets
-	- /protected/runtime
+    - /protected/runtime
 
 php_extensions:
-  - apc
+    - apc
