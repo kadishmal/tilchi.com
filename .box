@@ -10,3 +10,4 @@ php_extensions:
     - gd
     - ctype
     - memcache
+    - mbstring
