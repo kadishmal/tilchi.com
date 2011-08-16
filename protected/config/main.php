@@ -98,7 +98,7 @@ return array(
 		'db'=>array(
 			'username' => DB_USER,
 			'password' => DB_PASS,
-			'connectionString' => 'mysql:host=' . DB_HOST . ';socket=' . DB_SOCK . ';dbname=' . DB_NAME,
+			'connectionString' => 'mysql:unix_socket=' . DB_SOCK . ';dbname=' . DB_NAME,
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
