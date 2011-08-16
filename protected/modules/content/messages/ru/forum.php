@@ -18,7 +18,7 @@ return array(
     'New issue'=>'Новая ошибка',
     'Report an issue'=>'Сообщите об ошибке',
     'What issue did you find?'=>'Какую ошибку Вы нашли?',
-    'Tell us more details about the issue you\'ve encountered on our site Tilchi.com'=>'Расскажите поподробнее об ошибке, с которой Вы сталкнулись на нашем сайте Tilchi.com',
+    'Tell us more details about the issue you\'ve encountered on Tilchi.com'=>'Расскажите поподробнее об ошибке, с которой Вы сталкнулись на сайте Tilchi.com',
     'Discussions'=>'Обсуждения',
     'Join discussions'=>'Присоединитесь к обсуждениям',
     'Didn\'t find what you were looking for?'=>'Не нашли то, что искали?',
@@ -48,6 +48,7 @@ return array(
     'n==1#Answered|n==2#Completed|n==3#Fixed'=>'n==1#С ответом|n==2#Реализована|n=3#Исправлена',
     'To change the status, choose one from the list below.'=>'Чтобы изменить статус, выберите один из нижеследующий статусов.',
     'Category'=>'Категория',
-    'To change the category, choose one from the list below.'=>'Чтобы изменить категорию, выберите один из нижеследующий категорий.'
+    'To change the category, choose one from the list below.'=>'Чтобы изменить категорию, выберите один из нижеследующий категорий.',
+	// Edit
 );
 ?>

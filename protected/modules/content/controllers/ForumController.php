@@ -24,7 +24,7 @@ class ForumController extends Controller
 				'users'=>array('*'),
 			),
             array('allow',  // allow all users to perform view actions
-				'actions'=>array('new'),
+				'actions'=>array('new', 'edit'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform administrative actions
@@ -231,13 +231,35 @@ class ForumController extends Controller
             }
         }
 
-        if ($type == 'idea')
-            $this->render('newIdea');
-        else if ($type == 'issue')
-            $this->render('newIssue');
-        else
-            $this->render('newQuestion');
+		switch($type){
+			case 'idea': $this->render('newIdea', array('model'=>$model)); break;
+			case 'issue': $this->render('newIssue', array('model'=>$model)); break;
+			default: $this->render('newQuestion', array('model'=>$model));
+		}
     }
+	public function actionEdit($id)
+	{
+		$model = $this->loadModelById($id);
+
+        $ucType = ucfirst(Post::getTypeTitle($model->type));
+
+        if(isset($_POST[$ucType]))
+		{
+            $model->attributes = $_POST[$ucType];
+			$model->scenario = 'forum';
+
+			if($model->save())
+			{
+				$this->redirect('/forum/' . $model->slug);
+			}
+        }
+
+		switch($model->type){
+			case Post::TYPE_IDEA: $this->render('editIdea', array('model'=>$model)); break;
+			case Post::TYPE_ISSUE: $this->render('editIssue', array('model'=>$model)); break;
+			default: $this->render('editQuestion', array('model'=>$model));
+		}
+	}
     public function actionQuestions()
     {
         $dataProvider = new CActiveDataProvider('Post', array(

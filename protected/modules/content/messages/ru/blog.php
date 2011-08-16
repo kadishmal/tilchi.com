@@ -16,7 +16,7 @@ return array(
     'Post Tags' => 'Метки',
     'Separate tags by commas.' => 'Разделяйте метки запятыми.',
     'immediately' => 'немедленно',
-    'Edit' => 'Изменить',
+    'Edit' => 'Редактировать',
     'OK' => 'ОК',
     'Save' => 'Сохранить',
     'Cancel' => 'Отменить',

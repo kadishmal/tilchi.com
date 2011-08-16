@@ -96,14 +96,21 @@ return array(
 			),
 		),
 		'db'=>array(
-			'username' => DB_USER,
-			'password' => DB_PASS,
-			'connectionString' => 'mysql:unix_socket=' . DB_SOCK . ';dbname=' . DB_NAME,
+//			'username' => DB_USER,
+//			'password' => DB_PASS,
+//			'connectionString' => 'mysql:unix_socket=' . DB_SOCK . ';dbname=' . DB_NAME,
+
+//			'username' => 'opentran_tilchi',
+//			'password' => 'G9xbCB3^hM',
+			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
+			'username' => 'root',
+			'password' => 'rootOtPsWdGfuLgtr4e',
+
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
-			'enableProfiling' =>false,
-            'enableParamLogging'=>false
+			'enableProfiling' =>true,
+            'enableParamLogging'=>true
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors

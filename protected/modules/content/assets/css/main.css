@@ -1,20 +1,25 @@
 /* cursor */
-button,.button,.link-button,#forum .vote-up,#forum .msg i{cursor:pointer}
+button,.button,.link-button,#forum .vote-up,#forum .msg i,#post-actions{cursor:pointer}
 /* display */
 .button,button,#blog i,#at,#blog .post .meta a,#blog .post .commentsCount,#blog .post .tags,#blog .comment .meta span,#blog .comment .meta:hover .actions,#blog .filters a,#blog #comments-list .empty,#forum .options .option,#forum .options h3,#forum i,.vote-panel span,.vote-up.voted:hover .no,#forum .author,#forum .comment .comment-body,#forum .item .icon,#forum .item .info,#forum .forum-body,#forum .forum-sidebar,#forum .type .question,#forum .type .idea,#forum .type .issue{display:inline-block}
 #blog #timestampdiv,#blog #statusdiv,#blog .draft,#blog .comment .meta .actions,#blog #comment-form,#search-container,.vote-up.voted:hover .yes,.vote-up .no,#forum .options{display:none}
 #blog .post h2 a,#blog .post .meta,#blog #post-controls #post-edit-link,#forum-new-form label,#forum .post .meta,#forum .list .item .answer,#forum .frame.status a{display:block}
+/* position */
+#post-actions{position:relative}
+#post-actions{top:16px;right:-40px}
+/* overflow */
+#forum .frame .body{overflow:hidden}
 /* float */
 #post-body{float:left}
-#post-sidebar,#blog .comment .msg,#blog .comment .actions,#forum .list .item .status{float:right}
+#post-sidebar,#blog .comment .msg,#blog .comment .actions,#forum .list .item .status,#post-actions{float:right}
 /* clear */
 #post-body{clear:left}
 #post-sidebar{clear:right}
 /* width */
 #blog .post .tags{width:780px}
 #forum .forum-body{width:661px}
-#post-body,#forum #question{width:586px}
-#forum #question .textField{width:572px}
+#post-body,#forum #question,#forum #idea,#forum #issue{width:586px}
+#forum #question .textField,#forum #idea .textField,#forum #issue .textField{width:572px}
 #blog #post-body input,#forum .textField{width:550px}
 #forum .comment .comment-body{width:502px}
 #forum .item .info{width:435px}
@@ -34,16 +39,17 @@ button,.button,.link-button,#forum .vote-up,#forum .msg i{cursor:pointer}
 #blog .post .commentsCount{width:120px}
 #forum .question i,#forum .idea i,#forum .issue i,#forum .item .icon{width:32px}
 #forum .type a{width:40px}
-#forum .vote-up i{width:20px}
+#forum .vote-up i,#post-actions .edit{width:20px}
 #forum .avatar{width:80px}
 #forum .author{width:86px}
+#post-actions{width:40px}
 /* height */
 #forum .list .item .answer i{height:10px}
 #forum .item .date i,#forum .item .count i{height:11px}
 #blog .publish-date i{height:13px}
 #blog .comment .msg i,#forum .msg i{height:14px}
 #Post_jj,#Post_aa,#Post_hh,#Post_mn{height:16px}
-#Post_mm,#blog #statusdiv select,#forum .vote-up i{height:20px}
+#Post_mm,#blog #statusdiv select,#forum .vote-up i,#post-actions .edit{height:20px}
 #blog h1 i{height:30px}
 #blog .comment .author i{height:24px}
 #forum .question i,#forum .idea i,#forum .issue i,#forum .type a{height:32px}
@@ -100,6 +106,7 @@ button,.button,.link-button,#forum .vote-up,#forum .msg i{cursor:pointer}
 #blog #edit-post #Post_title{padding:3px 4px}
 .postbox h6{padding:5px 7px}
 #blog #Post_content{padding:6px 4px}
+#post-actions{padding:5px}
 #blog .row{padding:6px 0}
 #blog #post-controls,#blog .post .meta.last,#forum .textField,#forum .vote-up{padding:5px}
 #blog .postbox .row,#forum .type a{padding:6px}
@@ -118,7 +125,7 @@ button,.button,.link-button,#forum .vote-up,#forum .msg i{cursor:pointer}
 #forum .comment{padding:15px 0}
 /* font-size */
 #forum .list .item .answer{font-size:10px}
-#blog .row,#blog .post .meta,#forum .post .meta,#blog #post-controls,#blog .post .meta a,#blog .comment .msg,#blog .comment .actions,#blog .filters,#forum .post .meta,#forum .post .meta a,#forum .author,#forum .comment .date,#blog button,#blog .button,#forum button,#forum .button{font-size:11px}
+#blog .row,#blog .post .meta,#forum .post .meta,#blog #post-controls,#blog .post .meta a,#blog .comment .msg,#blog .comment .actions,#blog .filters,#forum .post .meta,#forum .post .meta a,#forum .author,#forum .comment .date,#blog button,#blog .button,#forum button,#forum .button,.link-button{font-size:11px}
 #Post_mm,#Post_jj,#Post_aa,#Post_hh,#Post_mn,#blog #statusdiv select,#forum .item .meta,#forum .list .item .status{font-size:12px}
 #forum .button.big,#forum .frame .links{font-size:14px}
 #forum h3,#forum-new-form .h3{font-size:16px}
@@ -195,6 +202,7 @@ button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
 #forum .item .date i{background-position:-13px 0px}
 #forum .item .count i{background-position:-20px -268px}
 #forum .list .item .answer i{background-position:-15px -92px}
+#post-actions .edit{background-position:0px -328px}
 /* outline */
 #blog #post-body input{outline:none}
 /* border */
@@ -224,10 +232,12 @@ button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
 button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px}
 #forum .frame{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
 .postbox,#blog #post-body input,#blog #post-body .mceLayout,#forum .frame .body{border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px}
+#post-actions{border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
 #Post_mm,#Post_jj,#Post_aa,#Post_hh,#Post_mn,#blog #statusdiv select,#forum .list .item .status{border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px}
 #blog .comment .meta,#blog .comment .meta .avatar,#forum .vote-up,#forum .list .item .answer{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}
 #forum .type .body a.question{border-top-left-radius:2px;-moz-border-top-left-radius:2px;-webkit-border-top-left-radius:2px;border-bottom-left-radius:2px;-moz-border-bottom-left-radius:2px;-webkit-border-bottom-left-radius:2px}
 #forum .type .body a.issue{border-top-right-radius:2px;-moz-border-top-right-radius:2px;-webkit-border-top-right-radius:2px;border-bottom-right-radius:2px;-moz-border-bottom-right-radius:2px;-webkit-border-bottom-right-radius:2px}
 .reply-button.active,#forum .button.big,#forum .frame.status .body{border-radius:0}
-/* border-shadow */
+/* box-shadow */
 #forum .type .body a.active{box-shadow:inset 0 1px 5px #CCC;-moz-box-shadow:inset 0 1px 5px #CCC;-webkit-box-shadow:inset 0 1px 5px #CCC}
+#post-actions{box-shadow:0px 2px 8px #b5b5b5;-moz-box-shadow:0px 2px 8px #b5b5b5;-webkit-box-shadow:0px 2px 8px #b5b5b5}

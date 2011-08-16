@@ -273,4 +273,13 @@ function enableVoting()
             }
         });
     });
+
+	$('#post-actions').mouseenter(function(){
+		var div = $(this);
+		div.animate({right:'+=' + (div.width() - 30)},350);
+	}).
+	mouseleave(function(){
+		var div = $(this);
+		div.animate({right:'-=' + (div.width() - 30)},350);
+	});
 }
