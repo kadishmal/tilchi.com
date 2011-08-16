@@ -102,7 +102,8 @@ class Post extends CActiveRecord
 			'id' => 'ID',
 			'user_id' => 'User',
 			'publish_date' => 'Publish Date',
-			'content' => 'Content',
+			'title' => Yii::t('ContentModule.forum', 'Title'),
+			'content' => Yii::t('ContentModule.forum', 'Content'),
 			'title' => Yii::t('blog', 'Title'),
 			'status' => 'Status',
 		);

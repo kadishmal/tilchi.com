@@ -229,6 +229,29 @@ class ForumController extends Controller
                     $this->redirect('/forum/' . $model->slug);
                 }
             }
+			else{
+				if ($model->hasErrors('title')){
+					switch ($type){
+						case 'idea': $title = Yii::t('ContentModule.forum', 'What\'s your idea?'); break;
+						case 'issue': $title = Yii::t('ContentModule.forum', 'What issue did you find?'); break;
+						default: $title = Yii::t('ContentModule.forum', 'What\'s your question?'); break;
+					}
+
+					$model->clearErrors('title');
+					$model->addError('title', $title);
+				}
+
+				if ($model->hasErrors('content')){
+					switch ($type){
+						case 'idea': $title = Yii::t('ContentModule.forum', 'Tell us more details about your idea'); break;
+						case 'issue': $title = Yii::t('ContentModule.forum', 'Tell us more details about the issue you\'ve encountered on Tilchi.com'); break;
+						default: $title = Yii::t('ContentModule.forum', 'Describe your question, or the problem you\'re experiencing, in detail'); break;
+					}
+
+					$model->clearErrors('content');
+					$model->addError('content', $title);
+				}
+			}
         }
 
 		switch($type){

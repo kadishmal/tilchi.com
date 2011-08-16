@@ -1,5 +1,5 @@
 <div id="forum">
-    <div id="<?php echo $type; ?>">
+    <div id="<?php echo $type; ?>" class="form">
         <?php
 			$titleId = $uctype . '_title';
 			$titleName = $uctype . '[title]';
@@ -9,6 +9,8 @@
             $form = $this->beginWidget('CActiveForm', array(
                 'id'=>'forum-new-form'
             ));
+
+			echo $form->errorSummary($model);
 
             echo CHtml::label($title, $titleId, array('class'=>'h2')) .
                  CHtml::textField($titleName, $model->title, array('class'=>'textField')) .
