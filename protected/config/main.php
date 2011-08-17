@@ -91,16 +91,9 @@ return array(
 			),
 		),
 		'db'=>array(
-//			'username' => DB_USER,
-//			'password' => DB_PASS,
-//			'connectionString' => 'mysql:unix_socket=' . DB_SOCK . ';dbname=' . DB_NAME,
-
-//			'username' => 'opentran_tilchi',
-//			'password' => 'G9xbCB3^hM',
-			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
-			'username' => 'root',
-			'password' => 'rootOtPsWdGfuLgtr4e',
-
+			'username' => DB_USER,
+			'password' => DB_PASS,
+			'connectionString' => 'mysql:unix_socket=' . DB_SOCK . ';dbname=' . DB_NAME,
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
