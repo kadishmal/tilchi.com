@@ -81,18 +81,42 @@ class BlogController extends Controller
                 $model->user_id = Yii::app()->user->id;
                 $model->type = Post::TYPE_BLOG;
 
-                $model->slug = $this->module->sanitize_title_with_dashes($model->title);
+                $model->slug = ContentModule::sanitize_title_with_dashes($model->title);
+				$tags = $model->tagsAsArray();
+				$i = 0;
+				// If there is no dash, means the slug consists of one word, which may
+				// potentially be a controller action. For this reason we will
+				// not allow one-word slugs.
+				if (strpos($model->slug, '-') === false)
+				{
+					if (count($tags) > 0)
+					{
+						$model->slug .= '-' . $tags[$i++];
+					}
+					else{
+						$model->slug .= '-' . rand(1, 999);
+					}
+				}
 
-                while (!$model->validate('slug')){
-                    $model->slug = $model->slug . '-2';
-                }
+				while (!$model->validate('slug'))
+				{
+					if (count($tags) > $i)
+					{
+						$model->slug .= '-' . $tags[$i++];
+					}
+					else{
+						$model->slug .= '-' . rand(1, 999);
+					}
+				}
 
-                if($model->save(false)){
+                if($model->save(false))
+				{
                     if ($model->status == Post::STATUS_PUBLISHED)
                     {
                         $this->redirect('/blog/' . $model->slug);
                     }
-                    else if ($model->status == Post::STATUS_DRAFT) {
+                    else if ($model->status == Post::STATUS_DRAFT)
+					{
                         $this->redirect('/blog/edit/' . $model->id);
                     }
                 }
@@ -107,14 +131,23 @@ class BlogController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($title)
+	public function actionView($slug)
 	{
 		$model = Post::model()->with('author')->findByAttributes(
-			array('slug'=>$title, 'status'=>Post::STATUS_PUBLISHED)
+			array('slug'=>$slug, 'status'=>Post::STATUS_PUBLISHED)
 		);
 
-		if ($model === null){
-			throw new CHttpException(404, 'The requested page does not exist.');
+		if ($model === null)
+		{
+			$action = 'action' . $slug;
+
+			if (method_exists($this, $action))
+			{
+				call_user_func(array($this, $action));
+			}
+			else{
+				throw new CHttpException(404, 'The requested page does not exist.');
+			}
 		}
 
 		$this->render('view', array(

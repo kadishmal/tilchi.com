@@ -218,20 +218,18 @@ class Post extends CActiveRecord
             }
         }
 	}
-	public function validateUrl($attribute, $params)
+	public function getStatusList()
 	{
-		//$this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
-		return true;
-	}
-	public function getStatusList(){
 		return array(
 			self::STATUS_DRAFT => Yii::t('ContentModule.blog', 'Draft'),
 			self::STATUS_PUBLISHED => Yii::t('ContentModule.blog', 'Published'),
 			self::STATUS_TRASHED => Yii::t('ContentModule.blog', 'Trashed')
 		);
 	}
-	public function getStatusTitle(){
-		switch($this->status){
+	public function getStatusTitle()
+	{
+		switch($this->status)
+		{
 			case self::STATUS_PUBLISHED:
                 return Yii::t('ContentModule.blog', 'Published'); break;
 			case self::STATUS_TRASHED:
@@ -240,8 +238,10 @@ class Post extends CActiveRecord
                 return Yii::t('ContentModule.blog', 'Draft');
         }
 	}
-    public function getTypeCode($type){
-		switch($type){
+    public function getTypeCode($type)
+	{
+		switch($type)
+		{
 			case 'question': return self::TYPE_QUESTION;
                 break;
 			case 'idea': return self::TYPE_IDEA;
@@ -261,15 +261,19 @@ class Post extends CActiveRecord
     }
 	public static function getTypeTitle($type)
     {
-		switch($type){
+		switch($type)
+		{
+            case self::TYPE_BLOG: return 'blog';
 			case self::TYPE_QUESTION: return 'question';
 			case self::TYPE_IDEA: return 'idea';
-            case self::TYPE_ISSUE: return 'issue';
-            case self::TYPE_BLOG: return 'blog';
+            // this will assume TYPE_ISSUE
+			default: return 'issue';
         }
 	}
-	public static function getResponseTitle($response_type){
-		switch($response_type){
+	public static function getResponseTitle($response_type)
+	{
+		switch($response_type)
+		{
 			case self::RESPONSE_NEW: return 'new';
             case self::RESPONSE_UNDER_REVIEW: return 'under-review';
 			case self::RESPONSE_ACCEPTED: return 'accepted';
@@ -278,8 +282,10 @@ class Post extends CActiveRecord
             case self::RESPONSE_DUPLICATE: return 'duplicate';
         }
 	}
-	public static function getResponseText($response_type, $type){
-		switch($response_type){
+	public static function getResponseText($response_type, $type)
+	{
+		switch($response_type)
+		{
 			case self::RESPONSE_NEW: return Yii::t('ContentModule.forum', 'n==1#New|n==2||n==3#New', $type);
             case self::RESPONSE_UNDER_REVIEW: return Yii::t('ContentModule.forum', 'Under Review');
 			case self::RESPONSE_ACCEPTED: return Yii::t('ContentModule.forum', 'n==1#Accepted|n==2||n==3#Accepted', $type);
@@ -291,7 +297,9 @@ class Post extends CActiveRecord
 	public function tagsAsArray()
 	{
 		if (strlen(trim($this->tags)) > 0)
+		{
 			return explode(',', preg_replace('/\s*,\s+/', ',', $this->tags));
+		}
 
 		return array();
 	}

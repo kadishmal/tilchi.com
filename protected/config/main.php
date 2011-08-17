@@ -73,18 +73,13 @@ return array(
                 // Blog URLs
                 array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>/<param>'),
                 array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>', 'defaultParams'=>array('param'=>'all')),
-                array('content/blog/<action>', 'pattern'=>'blog/<action:\w+>/<id:\d+>'),
-                array('content/blog/<action>', 'pattern'=>'blog/<action:\w+>'),
-                array('content/blog/view', 'pattern'=>'blog/<title>'),
-                array('content/blog/index', 'pattern'=>'blog'),
                 // Forum URLs
                 array('content/forum/<action>', 'pattern'=>'forum/<action:\w+>/<type:(question|idea|issue)>'),
-                array('content/forum/<action>', 'pattern'=>'forum/<action:\w+>/<id:\d+>'),
-                array('content/forum/<action>', 'pattern'=>'forum/<action:\w+>'),
-                array('content/forum/view', 'pattern'=>'forum/<slug>'),
+                array('content/<controller>/<action>', 'pattern'=>'<controller:(blog|forum)>/<action:\w+>/<id:\d+>'),
+                array('content/<controller>/view', 'pattern'=>'<controller:(blog|forum)>/<slug>'),
+                array('content/<controller>/<action>', 'pattern'=>'<controller:(blog|forum|vote)>/<action:\w+>'),
                 array('content/forum/index', 'pattern'=>'forum'),
-                // Vote URLs
-                array('content/vote/<action>', 'pattern'=>'vote/<action:\w+>'),
+                array('content/<controller>/index', 'pattern'=>'<controller:(blog|forum)>'),
                 // Site URLs
                 array('<controller>/', 'pattern'=>'<controller:\w+>'),
                 array('<controller>/<action>', 'pattern'=>'<controller:\w+>/<action:\w+>'),

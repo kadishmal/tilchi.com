@@ -112,31 +112,24 @@ class ForumController extends Controller
 			array('slug'=>$slug, 'status'=>Post::STATUS_PUBLISHED)
 		);
 
-		if ($model === null){
-			throw new CHttpException(404, 'The requested page does not exist.');
-		}
+		if ($model === null)
+		{
+			$action = 'action' . $slug;
 
-        if ($model->type == Post::TYPE_QUESTION)
-        {
-            $this->render('viewQuestion', array(
-                'model'=>$model,
-            ));
-        }
-        else if ($model->type == Post::TYPE_IDEA)
-        {
-            $this->render('viewIdea', array(
-                'model'=>$model,
-            ));
-        }
-        else if ($model->type == Post::TYPE_ISSUE)
-        {
-            $this->render('viewIssue', array(
-                'model'=>$model,
-            ));
-        }
-        else{
-            $this->redirect('/forum');
-        }
+			if (method_exists($this, $action))
+			{
+				call_user_func(array($this, $action));
+			}
+			else{
+				throw new CHttpException(404, 'The requested page does not exist.');
+			}
+		}
+		else
+		{
+			$this->render('view' . ucfirst(Post::getTypeTitle($model->type)), array(
+				'model'=>$model,
+			));
+		}
 	}
     public function actionSearch()
     {
@@ -214,9 +207,31 @@ class ForumController extends Controller
                 $model->type = $model->getTypeCode($type);
 
                 $model->slug = ContentModule::sanitize_title_with_dashes($model->title);
+				$tags = $model->tagsAsArray();
+				$i = 0;
+				// If there is no dash, means the slug consists of one word, which may
+				// potentially be a controller action. For this reason we will
+				// not allow one-word slugs.
+				if (strpos($model->slug, '-') === false)
+				{
+					if (count($tags) > 0)
+					{
+						$model->slug .= '-' . $tags[$i++];
+					}
+					else{
+						$model->slug .= '-' . rand(1, 999);
+					}
+				}
 
-				while (!$model->validate('slug')){
-					$model->slug = $model->slug . '-2';
+				while (!$model->validate('slug'))
+				{
+					if (count($tags) > $i)
+					{
+						$model->slug .= '-' . $tags[$i++];
+					}
+					else{
+						$model->slug .= '-' . rand(1, 999);
+					}
 				}
 
                 if($model->save(false))
