@@ -149,10 +149,11 @@ class BlogController extends Controller
 				throw new CHttpException(404, 'The requested page does not exist.');
 			}
 		}
-
-		$this->render('view', array(
-			'model'=>$model,
-		));
+		else{
+			$this->render('view', array(
+				'model'=>$model,
+			));
+		}
 	}
 	/**
 	 * Lists all models.
