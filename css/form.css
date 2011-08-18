@@ -123,3 +123,21 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 	clear: left;
 	padding-left: 110px;
 }
+/* cursor */
+button,.button,.link-button{cursor:pointer}
+/* display */
+.button,button{display:inline-block}
+/* line-height */
+button,.button{line-height:14px}
+/* margin */
+button,.button{margin:0}
+/* padding */
+button,.button{padding:3px 10px}
+/* font-size */
+button,.button{font-size:11px}
+/* font-weight */
+button,.button{font-weight:bold}
+/* color */
+button,.button{color:#FFF}
+/* background */
+button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
