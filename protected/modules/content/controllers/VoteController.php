@@ -76,8 +76,9 @@ class VoteController extends Controller
                     if ($post)
                     {
                         $model->type = $post->type;
-
-                        if ($post->type == Post::TYPE_QUESTION)
+						// Allows all users to post questions or issues regardless of
+						// the number of votes they have left.
+                        if ($model->type == Post::TYPE_QUESTION || $model->type == Post::TYPE_ISSUE)
                         {
                             if ($model->save())
                             {
@@ -85,14 +86,15 @@ class VoteController extends Controller
                                 $results['count'] = Yii::t('ContentModule.forum', '<b>{1} user</b> would like this answered|<b>{n} users</b> would like this answered', Vote::model()->countByAttributes(array('post_id'=>$model->post_id)));
                             }
                         }
-                        else if ($post->type == Post::TYPE_IDEA)
+                        else if ($model->type == Post::TYPE_IDEA)
                         {
                             $criteria = new CDbCriteria;
-                            $criteria->condition = 't.type = :type AND t.user_id = :user_id AND p.user_id <> :user_id';
+							// find all votes for this user given for any idea which was not yet completed
+                            $criteria->condition = 't.type = :type AND t.user_id = :user_id AND p.response_type < :response_type';
                             $criteria->join = 'LEFT JOIN tbl_posts p ON t.post_id = p.id';
-                            $criteria->params = array(':type'=>$model->type, ':user_id'=>$model->user_id);
-
-                            if (Vote::model()->count($criteria) == ContentModule::USER_MAX_ACTIVE_IDEA)
+                            $criteria->params = array(':type'=>$model->type, ':user_id'=>$model->user_id, ':response_type'=>Post::RESPONSE_COMPLETED);
+							// if user has exhausted all his votes, inform about it.
+                            if (Vote::model()->count($criteria) >= ContentModule::USER_MAX_ACTIVE_IDEA)
                             {
                                 $results['status'] = self::STATUS_MAX_IDEA_VOTE_REACHED;
                                 $results['title'] = Yii::t('ContentModule.forum', 'No more votes');

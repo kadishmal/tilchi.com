@@ -1,3 +1,25 @@
+var localStrings = new Array();
+
+function setLocalText(controller, englishText, localText)
+{
+	if (!localStrings[controller])
+	{
+		localStrings[controller] = new Array();
+	}
+
+	localStrings[controller][englishText] = localText;
+}
+
+function getLocalText(controller, englishText)
+{
+	if (localStrings[controller] && localStrings[controller][englishText]){
+		return localStrings[controller][englishText];
+	}
+	else{
+		return englishText;
+	}
+}
+
 function activateEditPost()
 {
 	// Publish Date Edit
