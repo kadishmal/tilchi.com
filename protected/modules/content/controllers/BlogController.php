@@ -91,7 +91,7 @@ class BlogController extends Controller
 				{
 					if (count($tags) > 0)
 					{
-						$model->slug .= '-' . $tags[$i++];
+						$model->slug .= '-' . ContentModule::sanitize_title_with_dashes($tags[$i++]);
 					}
 					else{
 						$model->slug .= '-' . rand(1, 999);
@@ -102,7 +102,7 @@ class BlogController extends Controller
 				{
 					if (count($tags) > $i)
 					{
-						$model->slug .= '-' . $tags[$i++];
+						$model->slug .= '-' . ContentModule::sanitize_title_with_dashes($tags[$i++]);
 					}
 					else{
 						$model->slug .= '-' . rand(1, 999);
