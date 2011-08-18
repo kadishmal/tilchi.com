@@ -260,12 +260,14 @@ function enableVoting()
                     else
                         voteBtn.addClass('voted');
                 }
+				// user is not signed in
                 else if (data.status == 1)
                 {
                     showMessage(data.title, data.message, data.yes, function(){
                         window.location = '/site/login';
                     }, true, data.no);
                 }
+				// no more votes left
                 else if (data.status == 3)
                 {
                     showMessage(data.title, data.message, data.ok);

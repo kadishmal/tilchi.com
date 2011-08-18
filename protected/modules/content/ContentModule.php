@@ -3,7 +3,7 @@
 class ContentModule extends CWebModule
 {
     const USER_PENDING_COMMENT_COUNT = 3;
-    const USER_MAX_ACTIVE_IDEA = 1;
+    const USER_MAX_ACTIVE_IDEA = 10;
 
 	public $cssAssetUrl;
 
