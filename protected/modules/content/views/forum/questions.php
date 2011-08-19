@@ -6,7 +6,7 @@
 <div id="forum">
     <div class="forum-body">
         <div class="frame">
-            <div class="title""><h2><?php
+            <div class="title"><h2><?php
                 echo CHtml::link(Yii::t('ContentModule.forum', 'Forums'), '/forum') . ' / ' .
                     CHtml::link(Yii::t('ContentModule.forum', 'Support'), '/forum/support') . ' / ' .
                     Yii::t('ContentModule.forum', 'Questions');
@@ -18,7 +18,8 @@
                         'action'=>'/forum/search'
                     ));
 
-                    echo CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
+                    echo CHtml::hiddenField('Forum[scope]', Post::TYPE_QUESTION) .
+							CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
 
                     $this->endWidget();
                 ?>

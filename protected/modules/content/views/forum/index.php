@@ -5,7 +5,7 @@
 <div id="forum">
      <div class="forum-body">
          <div class="frame">
-            <div class="title""><h2><?php echo Yii::t('ContentModule.forum', 'Forums'); ?></h2></div>
+            <div class="title"><h2><?php echo Yii::t('ContentModule.forum', 'Forums'); ?></h2></div>
             <div id="forum-search">
                 <?php
                     $form = $this->beginWidget('CActiveForm', array(
@@ -13,7 +13,8 @@
                         'action'=>'/forum/search'
                     ));
 
-                    echo CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
+                    echo CHtml::hiddenField('Forum[scope]', Post::TYPE_BLOG) .
+						CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
 
                     $this->endWidget();
                 ?>

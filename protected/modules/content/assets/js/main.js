@@ -218,7 +218,8 @@ function activateSearchForm(formName)
             'cache': true,
             'dataType':'json',
             'data': form.serialize() + '&ajax=' + formName,
-            'success': function(data, textStatus, jqXHR){
+            'success': function(data, textStatus, jqXHR)
+			{
                 results.empty();
 
                 if (data.count == 0)

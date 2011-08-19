@@ -1,12 +1,12 @@
 <?php
-    $this->pageTitle = Yii::t('ContentModule.forum', 'Questions') . ' | ' .
+    $this->pageTitle = Yii::t('ContentModule.forum', 'Ideas') . ' | ' .
             Yii::t('ContentModule.forum', 'Forum') . ' | ' . Yii::app()->name;
 ?>
 
 <div id="forum">
     <div class="forum-body">
         <div class="frame">
-            <div class="title""><h2><?php
+            <div class="title"><h2><?php
                 echo CHtml::link(Yii::t('ContentModule.forum', 'Forums'), '/forum') . ' / ' .
                     Yii::t('ContentModule.forum', 'Ideas');
             ?></h2></div>
@@ -17,7 +17,8 @@
                         'action'=>'/forum/search'
                     ));
 
-                    echo CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
+                    echo CHtml::hiddenField('Forum[scope]', Post::TYPE_IDEA) .
+							CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
 
                     $this->endWidget();
                 ?>

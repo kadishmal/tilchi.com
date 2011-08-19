@@ -97,8 +97,8 @@ return array(
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
-			'enableProfiling' =>true,
-            'enableParamLogging'=>true
+			'enableProfiling' =>false,
+            'enableParamLogging'=>false
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors

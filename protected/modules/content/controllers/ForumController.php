@@ -141,9 +141,18 @@ class ForumController extends Controller
 
             if (strlen(trim($phrase)) > 0)
             {
+				$scope = $_POST['Forum']['scope'];
+
+				switch ($scope){
+					case Post::TYPE_IDEA: $typeCondition = '=' . Post::TYPE_IDEA; break;
+					case Post::TYPE_ISSUE: $typeCondition = '=' . Post::TYPE_ISSUE; break;
+					case Post::TYPE_QUESTION: $typeCondition = '=' . Post::TYPE_QUESTION; break;
+					default: $typeCondition = '>' . Post::TYPE_BLOG;
+				}
+
                 $dataProvider = new CActiveDataProvider('Post', array(
                     'criteria'=>array(
-                        'condition'=>'title LIKE :phrase',
+                        'condition'=>'title LIKE :phrase AND type' . $typeCondition,
                         'limit'=>3,
                         'params'=>array(':phrase'=>'%' . $phrase . '%'),
                     ),
