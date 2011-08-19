@@ -34,6 +34,13 @@
                         }
 
                         echo '</span></span>';
+
+						if (Yii::app()->user->id == $model->user_id || Yii::app()->params['adminEmail'] == Yii::app()->user->name)
+						{
+							echo CHtml::tag('div', array('id'=>'post-actions'),
+								CHtml::link('<i class="edit"></i>', '/forum/edit/' . $model->id, array('title'=>Yii::t('ContentModule.blog', 'Edit')))
+							);
+						}
                     ?>
                     <div class="vote-panel">
                         <?php
