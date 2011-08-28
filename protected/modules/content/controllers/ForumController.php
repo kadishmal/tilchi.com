@@ -165,8 +165,8 @@ class ForumController extends Controller
 					$crlf = "\r\n";
 					$req = 'GET /api/search/?target=forum&phrase=' . $phrase . '&scope=' . $scope . ' HTTP/1.1' . $crlf;
 					$req .= 'Host: ' . $host . $crlf;
-					$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'];
-					$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'];
+//					$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
+//					$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
 					$req .= 'Connection: Close' . $crlf . $crlf;
 
 					fwrite($fp, $req);
@@ -176,31 +176,42 @@ class ForumController extends Controller
 						$ret .= fgets($fp, 128);
 					}
 					fclose($fp);
-					// remove headers
-					// otherwise the following is returned:
-					// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
-					$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
 
-					$searchResults = json_decode($ret);
+					$status = strpos($ret, 'HTTP/1.1 200 OK');
 
-					$results['count'] = $searchResults->count;
-
-					if ($results['count'] > 0)
+					if ($status !== false)
 					{
-						$dataProvider = new CActiveDataProvider('Post', array(
-							'criteria'=>array(
-								'condition'=>'id IN (' . implode(',', $searchResults->ids) . ')'
-							)
-						));
-						$results['count'] = $dataProvider->itemCount;
+						// remove headers or the following is returned:
+						// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
+						$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
+
+						$searchResults = json_decode($ret);
+
+						$results['count'] = $searchResults->count;
+
+						if ($results['count'] > 0)
+						{
+							$dataProvider = new CActiveDataProvider('Post', array(
+								'criteria'=>array(
+									'condition'=>'id IN (' . implode(',', $searchResults->ids) . ')'
+								)
+							));
+							$results['count'] = $dataProvider->itemCount;
+						}
+						else{
+							$results['count'] = 0;
+							$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
+						}
 					}
 					else{
 						$results['count'] = 0;
+						$results['status'] = Yii::t('ContentModule.forum', 'Your request could not be processed. Please try again later.');
 					}
 				}
             }
             else{
                 $results['count'] = 0;
+                $results['status'] = Yii::t('ContentModule.forum', 'No topics found');
             }
 
             if(isset($_POST['ajax']) && $_POST['ajax'] === 'forum-search-form')
@@ -225,9 +236,6 @@ class ForumController extends Controller
                             'votesTitle'=>Yii::t('ContentModule.forum', '{n} vote|{n} votes', $data->votesCount)
                         );
                     }
-                }
-                else{
-                    $results['status'] = Yii::t('ContentModule.forum', 'No topics found');
                 }
 
                 echo CJSON::encode($results);
