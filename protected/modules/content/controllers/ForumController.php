@@ -144,33 +144,73 @@ class ForumController extends Controller
 				$scope = $_POST['Forum']['scope'];
 
 				switch ($scope){
-					case Post::TYPE_IDEA: $typeCondition = '=' . Post::TYPE_IDEA; break;
-					case Post::TYPE_ISSUE: $typeCondition = '=' . Post::TYPE_ISSUE; break;
-					case Post::TYPE_QUESTION: $typeCondition = '=' . Post::TYPE_QUESTION; break;
-					default: $typeCondition = '>' . Post::TYPE_BLOG;
+					case Post::TYPE_IDEA;
+					case Post::TYPE_ISSUE;
+					case Post::TYPE_QUESTION;
+					case Post::TYPE_BLOG: break;
+					default: $scope = Post::TYPE_BLOG;
 				}
 
-                $dataProvider = new CActiveDataProvider('Post', array(
-                    'criteria'=>array(
-                        'condition'=>'title LIKE :phrase AND type' . $typeCondition,
-                        'limit'=>3,
-                        'params'=>array(':phrase'=>'%' . $phrase . '%'),
-                    ),
-                ));
+				$host = 'peopletranslate.com';
+				$port = 80;
 
-                $results['count'] = $dataProvider->itemCount;
+                if (($fp = @fsockopen($host, $port, $errno, $errstr)) == false)
+				{
+					$results['count'] = 0;
+					$results['status'] = Yii::t('ContentModule.forum', 'Your request could not be processed. Please try again later.');
+				}
+				else{
+					$ret = '';
+
+					$crlf = "\r\n";
+					$req = 'GET /api/search/?target=forum&phrase=' . $phrase . '&scope=' . $scope . ' HTTP/1.1' . $crlf;
+					$req .= 'Host: ' . $host . $crlf;
+					$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'];
+					$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'];
+					$req .= 'Connection: Close' . $crlf . $crlf;
+
+					fwrite($fp, $req);
+
+					while (!feof($fp))
+					{
+						$ret .= fgets($fp, 128);
+					}
+					fclose($fp);
+					// remove headers
+					// otherwise the following is returned:
+					// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
+					$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
+
+					$searchResults = json_decode($ret);
+
+					$results['count'] = $searchResults->count;
+
+					if ($results['count'] > 0)
+					{
+						$dataProvider = new CActiveDataProvider('Post', array(
+							'criteria'=>array(
+								'condition'=>'id IN (' . implode(',', $searchResults->ids) . ')'
+							)
+						));
+						$results['count'] = $dataProvider->itemCount;
+					}
+					else{
+						$results['count'] = 0;
+					}
+				}
             }
             else{
-                $dataProvider = null;
                 $results['count'] = 0;
             }
 
             if(isset($_POST['ajax']) && $_POST['ajax'] === 'forum-search-form')
             {
-                if ($results['count'] > 0){
+                if ($results['count'] > 0)
+				{
                     $results['posts'] = array();
 
-                    foreach($dataProvider->getData() as $data){
+                    foreach($dataProvider->getData() as $data)
+					{
                         $type = Post::getTypeTitle($data->type);
                         $category = $type . 's';
 

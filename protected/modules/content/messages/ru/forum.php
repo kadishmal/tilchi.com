@@ -50,5 +50,7 @@ return array(
     'Category'=>'Категория',
     'To change the category, choose one from the list below.'=>'Чтобы изменить категорию, выберите один из нижеследующий категорий.',
 	// Edit
+	// Search
+	'Your request could not be processed. Please try again later.'=>'Ваш запрос не может быть обработан. Пожалуйста, повторите позднее.'
 );
 ?>
