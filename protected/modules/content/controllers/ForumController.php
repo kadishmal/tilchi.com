@@ -165,8 +165,8 @@ class ForumController extends Controller
 					$crlf = "\r\n";
 					$req = 'GET /api/search/?target=forum&phrase=' . $phrase . '&scope=' . $scope . ' HTTP/1.1' . $crlf;
 					$req .= 'Host: ' . $host . $crlf;
-//					$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
-//					$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
+					$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
+					$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
 					$req .= 'Connection: Close' . $crlf . $crlf;
 
 					fwrite($fp, $req);
