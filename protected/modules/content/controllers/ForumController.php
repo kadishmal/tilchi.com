@@ -155,30 +155,37 @@ class ForumController extends Controller
 				}
 
 				$ret = $this->sendRequest('/api/search/?target=forum&phrase=' . urlencode($phrase) . '&scope=' . $scope);
-				$status = strpos($ret, 'HTTP/1.1 200 OK');
 
-				if ($status !== false)
+				if ($ret !== false)
 				{
-					// remove headers or the following is returned:
-					// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
-					$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
+					$status = strpos($ret, 'HTTP/1.1 200 OK');
 
-					$results = CJSON::decode($ret);
-
-					if ($results['count'] > 0)
+					if ($status !== false)
 					{
-						foreach($results['posts'] as $post)
+						// remove headers or the following is returned:
+						// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
+						$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
+
+						$results = CJSON::decode($ret);
+
+						if ($results['count'] > 0)
 						{
-							$post['categoryText'] = Yii::t('ContentModule.forum', $post['categoryText']);
-							$post['votesTitle'] = Yii::t('ContentModule.forum', '{n} vote|{n} votes', $post['votesCount']);
+							foreach($results['posts'] as $post)
+							{
+								$post['categoryText'] = Yii::t('ContentModule.forum', $post['categoryText']);
+								$post['votesTitle'] = Yii::t('ContentModule.forum', '{n} vote|{n} votes', $post['votesCount']);
+							}
+						}
+						else{
+							$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
 						}
 					}
 					else{
-						$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
+						$results['status'] = Yii::t('ContentModule.forum', 'Not authorized.');
 					}
 				}
 				else{
-					$results['status'] = Yii::t('ContentModule.forum', 'Not authorized.');
+					$results['status'] = Yii::t('ContentModule.forum', 'Your request could not be processed. Please try again later.');
 				}
             }
             else{
