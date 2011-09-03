@@ -13,7 +13,7 @@
                         'action'=>'/forum/search'
                     ));
 
-                    echo CHtml::hiddenField('Forum[scope]', Post::TYPE_BLOG) .
+                    echo CHtml::hiddenField('Forum[scope]', Post::TYPE_FORUMS) .
 						CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
 
                     $this->endWidget();

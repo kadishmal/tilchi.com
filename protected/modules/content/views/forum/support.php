@@ -15,7 +15,8 @@
                         'action'=>'/forum/search'
                     ));
 
-                    echo CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
+                    echo CHtml::hiddenField('Forum[scope]', Post::TYPE_SUPPORT) .
+						CHtml::textField('Forum[phrase]', '', array('class'=>'textField')) . CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
 
                     $this->endWidget();
                 ?>

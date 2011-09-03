@@ -145,7 +145,7 @@ button,.button,.link-button,#forum .vote-up,#forum .msg i,#post-actions{cursor:p
 #forum .frame.status a,#forum .frame.status .assigned:hover,#forum .frame.status .assigned.active,#forum .list .item .status.assigned,#forum .frame.status .duplicate,#forum .frame.status .duplicate:hover{color:#555}
 #blog .post .meta,#blog #post-controls,#blog .comment .meta .date a,#forum .post .meta{color:#777}
 #forum .comment .date a{color:#888}
-#search-container #results .summary{color:#999}
+#search-container #results .summary{color:#666}
 #search-container #results .category a{color:#4C758C}
 #blog .post .meta a,#blog .filters .count,.link-button,#forum h2,#forum-new-form label.h2,#forum .post .meta a{color:#555}
 #blog .post .meta a:hover,#blog .disapprove,.link-button:hover{color:#06C}
@@ -187,6 +187,7 @@ button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
 #forum .frame.status .completed.active,#forum .frame.status .completed:hover,#forum .list .item .status.completed{background:#00BC3A}
 #forum .list .item .answer{background:#444}
 #forum .type .body a.active{background: -o-linear-gradient(top,#EEE,#E0E0E0);background:-webkit-gradient(linear,left top,left bottom,from(#EEE),to(#E0E0E0));background: -moz-linear-gradient(top,#EEE,#E0E0E0);background: -o-linear-gradient(top,#EEE,#E0E0E0);}
+#forum .info b{background-color:#FF8}
 /* background-position */
 #blog .publish-date i{background-position:0 0}
 #blog h1 i{background-position:0 -13px}

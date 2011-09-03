@@ -134,6 +134,7 @@ class ForumController extends Controller
     public function actionSearch()
     {
         $results = array();
+		$results['count'] = 0;
 
         if(isset($_POST['Forum']))
 		{
@@ -143,101 +144,49 @@ class ForumController extends Controller
             {
 				$scope = $_POST['Forum']['scope'];
 
-				switch ($scope){
+				switch ($scope)
+				{
 					case Post::TYPE_IDEA;
 					case Post::TYPE_ISSUE;
 					case Post::TYPE_QUESTION;
-					case Post::TYPE_BLOG: break;
-					default: $scope = Post::TYPE_BLOG;
+					case Post::TYPE_SUPPORT;
+					case Post::TYPE_FORUMS: break;
+					default: $scope = Post::TYPE_FORUMS;
 				}
 
-				$host = 'peopletranslate.com';
-				$port = 80;
+				$ret = $this->sendRequest('/api/search/?target=forum&phrase=' . urlencode($phrase) . '&scope=' . $scope);
+				$status = strpos($ret, 'HTTP/1.1 200 OK');
 
-                if (($fp = @fsockopen($host, $port, $errno, $errstr)) == false)
+				if ($status !== false)
 				{
-					$results['count'] = 0;
-					$results['status'] = Yii::t('ContentModule.forum', 'Your request could not be processed. Please try again later.');
-				}
-				else{
-					$ret = '';
+					// remove headers or the following is returned:
+					// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
+					$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
 
-					$crlf = "\r\n";
-					$req = 'GET /api/search/?target=forum&phrase=' . $phrase . '&scope=' . $scope . ' HTTP/1.1' . $crlf;
-					$req .= 'Host: ' . $host . $crlf;
-					$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
-					$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
-					$req .= 'Connection: Close' . $crlf . $crlf;
+					$results = CJSON::decode($ret);
 
-					fwrite($fp, $req);
-
-					while (!feof($fp))
+					if ($results['count'] > 0)
 					{
-						$ret .= fgets($fp, 128);
-					}
-					fclose($fp);
-
-					$status = strpos($ret, 'HTTP/1.1 200 OK');
-
-					if ($status !== false)
-					{
-						// remove headers or the following is returned:
-						// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
-						$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
-
-						$searchResults = json_decode($ret);
-
-						$results['count'] = $searchResults->count;
-
-						if ($results['count'] > 0)
+						foreach($results['posts'] as $post)
 						{
-							$dataProvider = new CActiveDataProvider('Post', array(
-								'criteria'=>array(
-									'condition'=>'id IN (' . implode(',', $searchResults->ids) . ')'
-								)
-							));
-							$results['count'] = $dataProvider->itemCount;
-						}
-						else{
-							$results['count'] = 0;
-							$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
+							$post['categoryText'] = Yii::t('ContentModule.forum', $post['categoryText']);
+							$post['votesTitle'] = Yii::t('ContentModule.forum', '{n} vote|{n} votes', $post['votesCount']);
 						}
 					}
 					else{
-						$results['count'] = 0;
-						$results['status'] = Yii::t('ContentModule.forum', 'Your request could not be processed. Please try again later.');
+						$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
 					}
+				}
+				else{
+					$results['status'] = Yii::t('ContentModule.forum', 'Not authorized.');
 				}
             }
             else{
-                $results['count'] = 0;
-                $results['status'] = Yii::t('ContentModule.forum', 'No topics found');
+				$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
             }
 
             if(isset($_POST['ajax']) && $_POST['ajax'] === 'forum-search-form')
             {
-                if ($results['count'] > 0)
-				{
-                    $results['posts'] = array();
-
-                    foreach($dataProvider->getData() as $data)
-					{
-                        $type = Post::getTypeTitle($data->type);
-                        $category = $type . 's';
-
-                        $results['posts'][] = array(
-                            'title'=>$data->title,
-                            'type'=>$type,
-                            'summary'=>CHtml::encode(substr(strip_tags($data->content), 0, 150)),
-                            'link'=>'/forum/' . $data->slug,
-                            'categoryLink'=>'/forum/' . $category,
-                            'categoryText'=>Yii::t('ContentModule.forum', ucfirst($category)),
-                            'votesCount'=>$data->votesCount,
-                            'votesTitle'=>Yii::t('ContentModule.forum', '{n} vote|{n} votes', $data->votesCount)
-                        );
-                    }
-                }
-
                 echo CJSON::encode($results);
             }
             else{
@@ -400,7 +349,7 @@ class ForumController extends Controller
             'dataProvider'=>$dataProvider
         ));
     }
-    public function actionSetStatusNew()
+    public function actionSetStatusNew($id)
     {
        $this->changeStatus($id, Post::RESPONSE_NEW);
     }
@@ -486,5 +435,35 @@ class ForumController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	private function sendRequest($uri)
+	{
+		$host = 'peopletranslate.com';
+		$port = 80;
+
+		if (($fp = @fsockopen($host, $port, $errno, $errstr, 5)) == false)
+		{
+			return false;
+		}
+
+		$ret = '';
+
+		$crlf = "\r\n";
+		$req = 'GET ' . $uri . ' HTTP/1.1' . $crlf;
+		$req .= 'Host: ' . $host . $crlf;
+		$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
+		$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
+		$req .= 'Connection: Close' . $crlf . $crlf;
+
+		fwrite($fp, $req);
+
+		while (!feof($fp))
+		{
+			$ret .= fgets($fp, 128);
+		}
+
+		fclose($fp);
+
+		return $ret;
 	}
 }

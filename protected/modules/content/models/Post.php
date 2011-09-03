@@ -23,6 +23,8 @@ class Post extends CActiveRecord
     const TYPE_QUESTION = 1;
     const TYPE_IDEA = 2;
     const TYPE_ISSUE = 3;
+	const TYPE_SUPPORT = 4;
+	const TYPE_FORUMS = 5;
     const RESPONSE_NEW = 0;
     const RESPONSE_UNDER_REVIEW = 1;
     const RESPONSE_ACCEPTED = 2;
