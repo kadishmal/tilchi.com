@@ -441,7 +441,7 @@ class ForumController extends Controller
 		$host = 'peopletranslate.com';
 		$port = 80;
 
-		if (($fp = @fsockopen($host, $port, $errno, $errstr, 5)) == false)
+		if (($fp = @fsockopen($host, $port, $errno, $errstr)) == false)
 		{
 			return false;
 		}
