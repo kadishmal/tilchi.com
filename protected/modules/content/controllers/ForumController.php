@@ -154,7 +154,7 @@ class ForumController extends Controller
 					default: $scope = Post::TYPE_FORUMS;
 				}
 
-				$ret = $this->sendRequest('/api/search/?target=forum&phrase=' . urlencode($phrase) . '&scope=' . $scope);
+				$ret = $this->sendSocketRequest('/api/search/?target=forum&phrase=' . urlencode($phrase) . '&scope=' . $scope);
 
 				if ($ret !== false)
 				{
@@ -470,6 +470,43 @@ class ForumController extends Controller
 		}
 
 		fclose($fp);
+
+		return $ret;
+	}
+	private function sendSocketRequest($uri)
+	{
+		$host = '114.200.120.216';
+		$port = getservbyname('www', 'tcp');
+
+		$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
+		if ($socket === false) {
+			return false;
+		}
+
+		$result = socket_connect($socket, $host, $port);
+
+		if ($result === false) {
+			return false;
+		}
+
+		$ret = '';
+		$buf = '';
+
+		$crlf = "\r\n";
+		$req = 'GET ' . $uri . ' HTTP/1.1' . $crlf;
+		$req .= 'Host: peopletranslate.com' . $crlf;
+		$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
+		$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
+		$req .= 'Connection: Close' . $crlf . $crlf;
+
+		socket_write($socket, $req, strlen($req));
+
+		while ($buf = socket_read($socket, 2048)) {
+			$ret .= $buf;
+		}
+
+		socket_close($socket);
 
 		return $ret;
 	}
