@@ -11,4 +11,4 @@ php_extensions:
     - ctype
     - memcache
     - mbstring
-    - sockets
+    - sphinx
