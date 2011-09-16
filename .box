@@ -2,6 +2,8 @@ shared_writable_dirs:
     - /assets
     - /protected/runtime
 
+php_version: 5.3.6
+
 php_extensions:
     - pdo
     - pdo_mysql
