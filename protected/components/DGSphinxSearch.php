@@ -44,9 +44,9 @@ class DGSphinxSearchException extends CException
  *
  * Usage:
  * --------------
- * 
+ *
  * Search by criteria Object:
- * 	
+ *
  *     $searchCriteria = new stdClass();
  *     $pages = new CPagination();
  *     $pages->pageSize = Yii::app()->params['firmPerPage'];
@@ -93,7 +93,8 @@ class DGSphinxSearchException extends CException
  *      $search->select('field_1, field_2')->search($searchCriteria);
  *                                     ;
  */
-if (!class_exists('SphinxClient', false)) {
+if (!class_exists('SphinxClient', false))
+{
 	include_once(dirname(__FILE__) . '/sphinxapi.php');
 }
 
@@ -119,7 +120,8 @@ class DGSphinxSearch extends CApplicationComponent
 	 * @var integer
 	 * @brief sphinx default rank mode
 	 */
-	public $rankMode = SPH_RANK_SPH04;
+	//public $rankMode = SPH_RANK_SPH04;
+	public $rankMode = SPH_RANK_PROXIMITY_BM25;
 	/**
 	 * @var integer
 	 * @brief sphinx max exec time
@@ -164,8 +166,7 @@ class DGSphinxSearch extends CApplicationComponent
 		$this->client = new SphinxClient;
 		$this->client->setServer($this->server, $this->port);
 		$this->client->setMaxQueryTime($this->maxQueryTime);
-		 Yii::trace("weigth: " . print_r ($this->fieldWeights,true), 'CEXT.DGSphinxSearch.doSearch');
-		 
+
 		$this->resetCriteria();
 	}
 
