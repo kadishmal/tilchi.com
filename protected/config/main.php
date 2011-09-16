@@ -58,6 +58,18 @@ return array(
             ),
  			'logging' => false,
  		),
+        'search' => array(
+            'class' => 'application.components.DGSphinxSearch',
+            'server' => 'peopletranslate.com',
+            'port' => 9312,
+            'maxQueryTime' => 3000,
+            'enableProfiling'=>false,
+            'enableResultTrace'=>false,
+            'fieldWeights' => array(
+                'name' => 10000,
+                'keywords' => 100,
+            ),
+        ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
