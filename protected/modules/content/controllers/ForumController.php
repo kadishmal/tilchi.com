@@ -144,48 +144,73 @@ class ForumController extends Controller
             {
 				$scope = $_POST['Forum']['scope'];
 
+				$search = Yii::App()->search;
+
+				$search->select('*')->
+					from('idx_posts')->
+					where($phrase)->
+					//orderby('publish_date')->
+					limit(0, 3, 1000);
+
 				switch ($scope)
 				{
 					case Post::TYPE_IDEA;
 					case Post::TYPE_ISSUE;
-					case Post::TYPE_QUESTION;
-					case Post::TYPE_SUPPORT;
-					case Post::TYPE_FORUMS: break;
-					default: $scope = Post::TYPE_FORUMS;
+					case Post::TYPE_QUESTION: $search->filters(array('type'=>$scope)); break;
+					case Post::TYPE_SUPPORT: $search->filters(array('type'=>array(Post::TYPE_ISSUE, Post::TYPE_QUESTION))); break;
+					default: $search->filters(array('type'=>array(Post::TYPE_BLOG)), true);
 				}
 
-				$ret = $this->sendSocketRequest('/api/search/?target=forum&phrase=' . urlencode($phrase) . '&scope=' . $scope);
+				$searchResults = $search->search();
+				$results['count'] = $searchResults->getTotal();
 
-				if ($ret !== false)
+				if ($results['count'] > 0)
 				{
-					$status = strpos($ret, 'HTTP/1.1 200 OK');
+					$posts = Post::model()->findAll(array(
+						'condition'=>'id IN (' . implode(',', $searchResults->getIdList()) . ')'
+					));
 
-					if ($status !== false)
+					$contents = array();
+					$titles = array();
+					$results['posts'] = array();
+
+					foreach($posts as $post)
 					{
-						// remove headers or the following is returned:
-						// HTTP/1.1 200 OK Date: Sun, 28 Aug 2011 12:44:52 GMT Server: Apache/2.2.17 (Ubuntu) X-Powered-By: PHP/5.3.5-1ubuntu7.2 Vary: Accept-Encoding Content-Length: 26 Connection: close Content-Type: text/html {"count":3,"ids":[12,7,6]}
-						$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
+						$type = Post::getTypeTitle($post->type);
+						$category = $type . 's';
+						$vcount = $post->votesCount;
 
-						$results = CJSON::decode($ret);
+						$results['posts'][] = array(
+							'type'=>$type,
+							'link'=>'/forum/' . $post->slug,
+							'categoryLink'=>'/forum/' . $category,
+							'categoryText'=>Yii::t('ContentModule.forum', ucfirst($category)),
+							'votesCount'=>$vcount,
+							'votesTitle'=>Yii::t('ContentModule.forum', '{n} vote|{n} votes', $vcount)
+						);
 
-						if ($results['count'] > 0)
-						{
-							foreach($results['posts'] as $post)
-							{
-								$post['categoryText'] = Yii::t('ContentModule.forum', $post['categoryText']);
-								$post['votesTitle'] = Yii::t('ContentModule.forum', '{n} vote|{n} votes', $post['votesCount']);
-							}
-						}
-						else{
-							$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
-						}
+						$titles[] = $post->title;
+						$contents[] = strip_tags($post->content);
 					}
-					else{
-						$results['status'] = Yii::t('ContentModule.forum', 'Not authorized.');
+
+					$excerptsTitles = $search->BuildExcerpts($titles, 'idx_posts', $phrase, array(
+						'chunk_separator'       => '',
+						'limit'                 => 200
+					));
+
+					$excerptsContents = $search->BuildExcerpts($contents, 'idx_posts', $phrase, array(
+						'limit'                 => 150,
+						'around'                => 3
+					));
+
+					for($i = 0; $i < $results['count']; ++$i)
+					{
+						$results['posts'][$i]['title'] = $excerptsTitles[$i];
+						$results['posts'][$i]['summary'] = $excerptsContents[$i];
 					}
 				}
 				else{
-					$results['status'] = Yii::t('ContentModule.forum', 'Your request could not be processed. Please try again later.');
+					$results['status'] = Yii::t('ContentModule.forum', 'No topics found');
 				}
             }
             else{
@@ -442,72 +467,5 @@ class ForumController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-	}
-	private function sendRequest($uri)
-	{
-		$host = 'peopletranslate.com';
-		$port = 80;
-
-		if (($fp = @fsockopen($host, $port, $errno, $errstr)) == false)
-		{
-			return false;
-		}
-
-		$ret = '';
-
-		$crlf = "\r\n";
-		$req = 'GET ' . $uri . ' HTTP/1.1' . $crlf;
-		$req .= 'Host: ' . $host . $crlf;
-		$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
-		$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
-		$req .= 'Connection: Close' . $crlf . $crlf;
-
-		fwrite($fp, $req);
-
-		while (!feof($fp))
-		{
-			$ret .= fgets($fp, 128);
-		}
-
-		fclose($fp);
-
-		return $ret;
-	}
-	private function sendSocketRequest($uri)
-	{
-		$host = '114.200.120.216';
-		$port = getservbyname('www', 'tcp');
-
-		$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-
-		if ($socket === false) {
-			return false;
-		}
-
-		$result = socket_connect($socket, $host, $port);
-
-		if ($result === false) {
-			return false;
-		}
-
-		$ret = '';
-		$buf = '';
-
-		$crlf = "\r\n";
-		$req = 'GET ' . $uri . ' HTTP/1.1' . $crlf;
-		$req .= 'Host: peopletranslate.com' . $crlf;
-		$req .= 'X_USERNAME: ' . $_SERVER['HTTP_X_USERNAME'] . $crlf;
-		$req .= 'X_PASSWORD: ' . $_SERVER['HTTP_X_PASSWORD'] . $crlf;
-		$req .= 'Connection: Close' . $crlf . $crlf;
-
-		socket_write($socket, $req, strlen($req));
-
-		while ($buf = socket_read($socket, 2048)) {
-			$ret .= $buf;
-		}
-
-		socket_close($socket);
-
-		return $ret;
 	}
 }
