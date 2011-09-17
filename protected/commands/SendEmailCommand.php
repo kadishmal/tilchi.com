@@ -14,7 +14,7 @@ class SendEmailCommand extends CConsoleCommand
 
 		// retrieve all post title, slug, type, and author information
         $command->text = '
-            SELECT DISTINCT(post_id), p.title, p.slug, p.type, u.id as u_id, u.email, u.first_name, u.subsсr_post_comments
+            SELECT DISTINCT(post_id), p.title, p.slug, p.type, u.id as u_id, u.email, u.first_name, u.subscr_post_comments
             FROM tbl_comments c
             LEFT JOIN tbl_posts p ON c.post_id = p.id
             LEFT JOIN tbl_users u ON p.user_id = u.id
@@ -35,7 +35,7 @@ class SendEmailCommand extends CConsoleCommand
 			$p['u_id'] = $post['u_id'];
 			$p['email'] = $post['email'];
             $p['first_name'] = $post['first_name'];
-			$p['subsсr_post_comments'] = $post['subsсr_post_comments'];
+			$p['subscr_post_comments'] = $post['subscr_post_comments'];
 
 			$distinctPosts[$post['post_id']] = $p;
         }
@@ -44,7 +44,7 @@ class SendEmailCommand extends CConsoleCommand
         {
 			// get all new comments with their authors
             $command->text = '
-                SELECT c.id, c.content, u.email, u.first_name, u.subsсr_post_comments, c.post_id
+                SELECT c.id, c.content, u.email, u.first_name, u.subscr_post_comments, c.post_id
                 FROM tbl_comments c
                 LEFT JOIN tbl_users u ON c.user_id = u.id
                 WHERE c.id > ' . $lastId .
@@ -57,7 +57,7 @@ class SendEmailCommand extends CConsoleCommand
                 $postId = $comment['post_id'];
 
                 $postAuthorEmail = $distinctPosts[$postId]['email'];
-				$isPostAuthorSubscribed = $distinctPosts[$postId]['subsсr_post_comments'];
+				$isPostAuthorSubscribed = $distinctPosts[$postId]['subscr_post_comments'];
 				// if the post author is different from the comment author
 				// and if the post author is subscribed to receive comments
 				// send notify him as well
@@ -73,7 +73,7 @@ class SendEmailCommand extends CConsoleCommand
 					SELECT u.email, u.first_name
 					FROM tbl_comments c
 					LEFT JOIN tbl_users u ON c.user_id = u.id
-					WHERE c.id < ' . $comment['id'] . ' AND post_id = ' . $postId . ' AND user_id <> ' . $distinctPosts[$postId]['u_id'] . ' AND u.subsсr_post_comments = 1';
+					WHERE c.id < ' . $comment['id'] . ' AND post_id = ' . $postId . ' AND user_id <> ' . $distinctPosts[$postId]['u_id'] . ' AND u.subscr_post_comments = 1';
 
 				$postCommenters = $command->queryAll();
 				// These commenters are subscribed
