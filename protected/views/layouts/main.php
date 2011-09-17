@@ -56,7 +56,11 @@
 					array('label'=>Yii::t('blog', 'Comments'), 'url'=>'/blog/comments', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
 					array('label'=>Yii::t('blog', 'Posts'), 'url'=>'/blog/posts', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
 				)),
-                array('label'=>Yii::t('site','Forum'), 'url'=>'/forum'),
+                array('label'=>Yii::t('forum','Forum'), 'url'=>'/forum', 'items'=>array(
+					array('label'=>Yii::t('forum', 'Ask a question'), 'url'=>'/forum/new/question'),
+					array('label'=>Yii::t('forum', 'Submit an idea'), 'url'=>'/forum/new/idea'),
+					array('label'=>Yii::t('forum', 'Report an issue'), 'url'=>'/forum/new/issue'),
+				)),
                 array('label'=>Yii::t('site','Register'), 'url'=>'/user/register', 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>Yii::t('site','Login'), 'url'=>'/user/signin', 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'right')),
 				array('label'=>Yii::t('site', 'Account'), 'visible'=>!Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'right parent'), 'items'=>array(

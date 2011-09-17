@@ -4,6 +4,7 @@
 
     $this->breadcrumbs=array(
         Yii::t('ContentModule.forum', 'Forums')=>'/forum',
+        Yii::t('ContentModule.forum', 'Support')=>'/forum/support',
         Yii::t('ContentModule.forum', 'Issues')=>'/forum/issues',
         Yii::t('ContentModule.forum', 'New issue'),
     );
