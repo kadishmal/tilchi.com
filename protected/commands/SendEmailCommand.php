@@ -12,97 +12,102 @@ class SendEmailCommand extends CConsoleCommand
 
         $lastId = ($cronSettings ? $cronSettings['last_id'] : 0);
 
+		// retrieve all post title, slug, type, and author information
         $command->text = '
-            SELECT DISTINCT(post_id), p.title, p.slug, p.type, u.email, u.first_name
+            SELECT DISTINCT(post_id), p.title, p.slug, p.type, u.id as u_id, u.email, u.first_name, u.subsсr_post_comments
             FROM tbl_comments c
             LEFT JOIN tbl_posts p ON c.post_id = p.id
             LEFT JOIN tbl_users u ON p.user_id = u.id
             WHERE c.id > ' . $lastId;
 
         $posts = $command->queryAll();
-        $postIds = array();
-        $users = array();
-        $titles = array();
-        $slugs = array();
-        $types = array();
-        $globalTypes = array();
-        $postCommenters = array();
+
+		$distinctPosts = array();
 
         foreach($posts as $post)
         {
-            $id = $post['post_id'];
-            $postIds[] = $id;
+			$p = array();
 
-            $slugs[$id] = $post['slug'];
-            $titles[$id] = $post['title'];
-            $types[$id] = $post['type'];
-            $globalTypes[$id] = Post::getGlobalTypeTitle($post['type']);
+            $p['title'] = $post['title'];
+			$p['slug'] = $post['slug'];
+            $p['type'] = $post['type'];
+            $p['global_type'] = Post::getGlobalTypeTitle($post['type']);
+			$p['u_id'] = $post['u_id'];
+			$p['email'] = $post['email'];
+            $p['first_name'] = $post['first_name'];
+			$p['subsсr_post_comments'] = $post['subsсr_post_comments'];
 
-            $users[$id] = array();
-            $users[$id]['email'] = $post['email'];
-            $users[$id]['first_name'] = $post['first_name'];
-
-            $postCommenters[$post['post_id']] = array();
+			$distinctPosts[$post['post_id']] = $p;
         }
-
-        if (!empty($postIds))
+		// If there are any post with comments
+        if (!empty($distinctPosts))
         {
+			// get all new comments with their authors
             $command->text = '
-                SELECT c.id, c.content, u.email, u.first_name, c.post_id
+                SELECT c.id, c.content, u.email, u.first_name, u.subsсr_post_comments, c.post_id
                 FROM tbl_comments c
                 LEFT JOIN tbl_users u ON c.user_id = u.id
-                WHERE c.id > ' . $lastId . ' AND c.post_id IN(' . implode(',', $postIds) . ')' .
-                'ORDER BY c.id';
+                WHERE c.id > ' . $lastId .
+                ' ORDER BY c.id';
 
             $comments = $command->queryAll();
 
             foreach ($comments as $comment)
             {
-                $postCommenters[$comment['post_id']][$comment['email']] = $comment['first_name'];
-            }
-
-            foreach ($comments as $comment)
-            {
                 $postId = $comment['post_id'];
-                $email = $users[$postId]['email'];
-                $name = $users[$postId]['first_name'];
 
-                if ($comment['email'] != $email)
+                $postAuthorEmail = $distinctPosts[$postId]['email'];
+				$isPostAuthorSubscribed = $distinctPosts[$postId]['subsсr_post_comments'];
+				// if the post author is different from the comment author
+				// and if the post author is subscribed to receive comments
+				// send notify him as well
+                if ($comment['email'] != $postAuthorEmail && $isPostAuthorSubscribed)
                 {
-                    $message->addBcc($email, $name);
+                    $message->addBcc($postAuthorEmail, $distinctPosts[$postId]['first_name']);
                 }
 
-                $message = New YiiMailMessage;
-                $message->view = 'new' . ucfirst(Post::getTypeTitle($types[$postId])) . 'Comment';
+				// Select all users who have previously commented on this same
+				// post and are subscribed to receive notifications.
+				// Exclude the post author as
+				$command->text = '
+					SELECT u.email, u.first_name
+					FROM tbl_comments c
+					LEFT JOIN tbl_users u ON c.user_id = u.id
+					WHERE c.id < ' . $comment['id'] . ' AND post_id = ' . $postId . ' AND user_id <> ' . $distinctPosts[$postId]['u_id'] . ' AND u.subsсr_post_comments = 1';
 
-                $message->subject = Yii::t('ContentModule.comment', 'first_name commented on "post_title"', array('first_name'=>$comment['first_name'], 'post_title'=>$titles[$postId]));
+				$postCommenters = $command->queryAll();
+				// These commenters are subscribed
+				foreach($postCommenters as $commenter)
+                {
+					$message->addBcc($commenter['email'], $commenter['first_name']);
+				}
+
+                $message = New YiiMailMessage;
+                $message->view = 'new' . ucfirst(Post::getTypeTitle($distinctPosts[$postId]['type'])) . 'Comment';
+
+                $message->subject = Yii::t('ContentModule.comment', 'first_name commented on "post_title"', array('first_name'=>$comment['first_name'], 'post_title'=>$distinctPosts[$postId]['title']));
 
                 $message->setBody(array(
                     'comment'=>$comment,
-                    'title'=>$titles[$postId],
-                    'link'=>'http://beta.tilchi.com/' . $globalTypes[$postId] . '/' . $slugs[$postId] . '#comment-' . $comment['id']
+                    'title'=>$distinctPosts[$postId]['title'],
+                    'link'=>'http://tilchi.info/' . $distinctPosts[$postId]['global_type'] . '/' . $distinctPosts[$postId]['slug'] . '#comment-' . $comment['id']
                 ), 'text/html');
 
-                $message->setFrom($globalTypes[$postId] . '@tilchi.com', 'Tilchi.com');
-
-                foreach($postCommenters[$postId] as $email => $name)
-                {
-                    if ($email != $comment['email'])
-                        $message->addBcc($email, $name);
-                }
+                $message->setFrom($distinctPosts[$postId]['global_type'] . '@tilchi.com', 'Tilchi.com');
 
                 Yii::app()->mail->send($message);
             }
 
             $lastComment = end($comments);
 
-            if ($cronSettings){
-                echo $command->update('tbl_cron_job_settings', array(
+            if ($cronSettings)
+			{
+                $command->update('tbl_cron_job_settings', array(
                     'last_id'=>$lastComment['id']
                 ), 'model_name = \'' . $model_name . '\'');
             }
             else{
-                echo $command->insert('tbl_cron_job_settings', array(
+                $command->insert('tbl_cron_job_settings', array(
                     'model_name'=>$model_name,
                     'last_id'=>$lastComment['id']
                 ));
