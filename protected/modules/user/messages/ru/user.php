@@ -30,6 +30,9 @@ return array(
 	'Cancel'=>'Отменить',
     // registration-form
     'My profile'=>'Мой профайл',
+	'Notifications'=>'Уведомления',
+	'Comments on my posts'=>'Комментарии на мои записи',
+	'Receive email notifications, if someone comments on a post I have created or I have previously commented on.'=>'Получать уведомления на почту, если кто-то прокомментирует мои записи или комментарии.',
     // info-form
     'Tell us about yourself'=>'Расскажите нам о себе',
     'Last name'=>'Фамилия',

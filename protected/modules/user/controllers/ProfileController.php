@@ -2,6 +2,7 @@
 
 class ProfileController extends Controller
 {
+	const SUBSCR_STATUS_SUCCESS = 1;
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -26,7 +27,7 @@ class ProfileController extends Controller
 	{
 		return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index'),
+				'actions'=>array('index', 'subscribe'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -41,6 +42,29 @@ class ProfileController extends Controller
 	{
 		$model = $this->loadModel(Yii::app()->user->id);
 		$this->render('index', array('model'=>$model));
+	}
+	public function actionSubscribe()
+	{
+		$results = array();
+
+		if(isset($_POST['User']))
+		{
+            $target = $_POST['User']['target'];
+			$value = $_POST['User']['v'];
+
+			if ($target == 'post_comments')
+			{
+				$model = $this->loadModel(Yii::app()->user->id);
+				$model->subsсr_post_comments = ($value == 'true' ? true : false);
+
+				if ($model->save())
+				{
+					$results['status'] = self::SUBSCR_STATUS_SUCCESS;
+				}
+			}
+		}
+
+		echo CJSON::encode($results);
 	}
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
