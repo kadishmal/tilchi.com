@@ -68,7 +68,7 @@ class User extends CActiveRecord
 			array('passwordNew_repeat', 'compare', 'compareAttribute'=>'passwordNew', 'on'=>'changePassword', 'message'=>'The confirmation password does not match with your new password. You need to enter your new password twice.'),
 			//array('username', 'length', 'max'=>150),
 			array('password, password_repeat, passwordNew, passwordNew_repeat', 'length', 'max'=>100, 'min'=>6),
-			array('subsсr_post_comments', 'boolean')
+			array('subscr_post_comments', 'boolean')
 		);
 	}
 

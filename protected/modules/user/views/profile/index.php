@@ -46,7 +46,7 @@ $this->menu=array(
 	<div class="section">
 		<div class="th"><?php echo Yii::t('UserModule.user', 'Notifications'); ?></div>
 		<div class="td">
-			<div class="settings checkbox"><input type="checkbox" id="subsсr_post_comments" <?php echo $model->subsсr_post_comments ? 'checked' : ''; ?> /><label for="subsсr_post_comments"><?php echo Yii::t('UserModule.user', 'Comments on my posts'); ?></label><span class="msg" title="<?php echo Yii::t('UserModule.user', 'Receive email notifications, if someone comments on a post I have created or I have previously commented on.'); ?>"><i></i></span></div>
+			<div class="settings checkbox"><input type="checkbox" id="subsсr_post_comments" <?php echo $model->subscr_post_comments ? 'checked' : ''; ?> /><label for="subsсr_post_comments"><?php echo Yii::t('UserModule.user', 'Comments on my posts'); ?></label><span class="msg" title="<?php echo Yii::t('UserModule.user', 'Receive email notifications, if someone comments on a post I have created or I have previously commented on.'); ?>"><i></i></span></div>
 		</div>
 	</div>
 </div>

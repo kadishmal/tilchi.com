@@ -55,7 +55,7 @@ class ProfileController extends Controller
 			if ($target == 'post_comments')
 			{
 				$model = $this->loadModel(Yii::app()->user->id);
-				$model->subsсr_post_comments = ($value == 'true' ? true : false);
+				$model->subscr_post_comments = ($value == 'true' ? true : false);
 
 				if ($model->save())
 				{
