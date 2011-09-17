@@ -31,8 +31,7 @@ $this->menu=array(
 	<h1><?php echo Yii::t('UserModule.user', 'My profile'); ?></h1>
 	<div class="row">
 		<div class="th"><?php echo $model->getAttributeLabel('first_name') ?></div>
-		<div class="td"><b><?php echo $model->first_name . ' ' . $model->last_name; ?></b></div>
-		<div class="td leftm10"><?php echo CHtml::link(Yii::t('UserModule.user', 'Change'), '/user/edit/profile', array('class'=>'link-button')); ?></div>
+		<div class="td"><b><?php echo $model->first_name . ' ' . $model->last_name; ?></b> <?php echo CHtml::link(Yii::t('UserModule.user', 'Change'), '/user/edit/profile', array('class'=>'link-button')); ?></div>
 	</div>
 	<div class="row">
 		<div class="th"><?php echo $model->getAttributeLabel('email') ?></div>
@@ -40,8 +39,7 @@ $this->menu=array(
 	</div>
 	<div class="row">
 		<div class="th"><?php echo $model->getAttributeLabel('password') ?></div>
-		<div class="td"><?php echo '******'; ?></div>
-		<div class="td"><?php echo CHtml::link(Yii::t('UserModule.user', 'Change'), '/user/edit/password', array('class'=>'link-button mLeft10')); ?></div>
+		<div class="td"><?php echo '******' . CHtml::link(Yii::t('UserModule.user', 'Change'), '/user/edit/password', array('class'=>'link-button mLeft10')); ?></div>
 	</div>
 	<div class="section">
 		<div class="th"><?php echo Yii::t('UserModule.user', 'Notifications'); ?></div>
