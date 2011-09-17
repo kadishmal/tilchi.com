@@ -46,9 +46,9 @@ return array(
     'Assigned'=>'Работа началась',
     'Duplicate'=>'Повтор',
     'n==1#Answered|n==2#Completed|n==3#Fixed'=>'n==1#С ответом|n==2#Реализована|n=3#Исправлена',
-    'To change the status, choose one from the list below.'=>'Чтобы изменить статус, выберите один из нижеследующий статусов.',
+    'To change the status, choose one from the list below.'=>'Чтобы изменить статус, выберите один из нижеследующих статусов.',
     'Category'=>'Категория',
-    'To change the category, choose one from the list below.'=>'Чтобы изменить категорию, выберите один из нижеследующий категорий.',
+    'To change the category, choose one from the list below.'=>'Чтобы изменить категорию, выберите один из нижеследующих категорий.',
 	// Edit
 	// Search
 	'Your request could not be processed. Please try again later.'=>'Ваш запрос не может быть обработан. Пожалуйста, повторите позднее.'
