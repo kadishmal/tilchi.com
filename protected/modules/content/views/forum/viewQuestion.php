@@ -1,5 +1,6 @@
 <?php
-    $this->pageTitle = Yii::t('ContentModule.forum', 'Questions') . ' | ' .
+    $this->pageTitle = $model->title . ' | ' .
+            Yii::t('ContentModule.forum', 'Questions') . ' | ' .
             Yii::t('ContentModule.forum', 'Forum') . ' | ' . Yii::app()->name;
 
     Yii::app()->clientScript->registerScript('vote-post', "
