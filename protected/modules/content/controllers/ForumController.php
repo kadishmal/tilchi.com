@@ -146,7 +146,11 @@ class ForumController extends Controller
 
 				$search = Yii::App()->search;
 
-				$search->select('*')->
+				$search->setFieldWeights(array(
+						'title'=>2,
+						'content'=>1
+					))->
+					select('*')->
 					from('idx_posts')->
 					where($phrase)->
 					//orderby('publish_date')->
