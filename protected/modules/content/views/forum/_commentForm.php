@@ -2,7 +2,7 @@
     <?php
     if (Yii::app()->user->isGuest)
     {
-        echo CHtml::tag('p', array('id'=>'comment-form'), Yii::t('ContentModule.comment', 'In order to leave a comment you need to be <a href="/site/login">logged in</a>. If you are not our member yet, <a href="/user/register">join us</a> and share your thoughts with other member of our community!'));
+        echo CHtml::tag('p', array('id'=>'comment-form'), Yii::t('ContentModule.comment', 'In order to leave a comment you need to be <a href="_url">logged in</a>. If you are not our member yet, <a href="/user/register">join us</a> and share your thoughts with other member of our community!', array('_url'=>Yii::app()->user->loginUrl[0])));
     }
     else{
         $form = $this->beginWidget('CActiveForm', array(

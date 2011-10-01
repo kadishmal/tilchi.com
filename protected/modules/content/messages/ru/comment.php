@@ -14,7 +14,7 @@ return array(
     'Reply'=>'Ответить',
     'Cancel'=>'Отменить',
     'Publish'=>'Опубликовать',
-    'In order to leave a comment you need to be <a href="/site/login">logged in</a>. If you are not our member yet, <a href="/user/register">join us</a> and share your thoughts with other member of our community!' =>'Чтобы оставить комментарий, Вам необходимо <a href="/site/login">войти</a> в систему. Если Вы еще не являетесь нашим пользователем, <a href="/user/register">присоединяйтесь к нам</a> и делитесь своим мнением с другими участниками нашего клуба!',
+    'In order to leave a comment you need to be <a href="_url">logged in</a>. If you are not our member yet, <a href="/user/register">join us</a> and share your thoughts with other member of our community!' =>'Чтобы оставить комментарий, Вам необходимо <a href="_url">войти</a> в систему. Если Вы еще не являетесь нашим пользователем, <a href="/user/register">присоединяйтесь к нам</a> и делитесь своим мнением с другими участниками нашего клуба!',
     '{n} comment|{n} comments' => '{n} комментарий|{n} комментария|{n} комментариев|{n} комментария',
     'first_name commented on "post_title"'=>'first_name прокомментировал "post_title"'
 );
