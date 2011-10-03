@@ -7,6 +7,7 @@ define("DB_SOCK", $_SERVER['db_sock']);
 define("DB_NAME", $_SERVER['db_name']);
 define("DB_USER", $_SERVER['db_user']);
 define("DB_PASS", $_SERVER['db_pass']);
+define("FORUM_PASS", $_SERVER['forum_pass']);
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -36,12 +37,6 @@ return array(
         'user'=>array(
 
 	    ),
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'MyGiiGfuLgtr4e',
-		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1'),
-		),
 	),
 
 	// application components
@@ -52,7 +47,7 @@ return array(
             'transportOptions'=>array(
                 'host'=>'smtp.gmail.com',
                 'username'=>'forum@incorex.com',
-                'password'=>'J*1g!3C$z5',
+                'password'=>FORUM_PASS,
                 'encryption'=>'ssl',
                 'port'=>465,
             ),
@@ -64,11 +59,7 @@ return array(
             'port' => 9312,
             'maxQueryTime' => 3000,
             'enableProfiling'=>false,
-            'enableResultTrace'=>false,
-            'fieldWeights' => array(
-                'name' => 10000,
-                'keywords' => 100,
-            ),
+            'enableResultTrace'=>false
         ),
 		'user'=>array(
 			// enable cookie-based authentication
@@ -79,6 +70,11 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
+				// A custom rule to handle '/ky/phrase' like URLs.
+				array(
+					'class' => 'application.components.LanguageUrlRule',
+					'connectionID' => 'db',
+				),
 				array('user/profile', 'pattern'=>'user'),
 				array('user/signin/logout', 'pattern'=>'user/logout'),
                 array('user/<controller>', 'pattern'=>'user/<controller:\w+>'),
