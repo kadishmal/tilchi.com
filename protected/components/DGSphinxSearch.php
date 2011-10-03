@@ -100,7 +100,6 @@ if (!class_exists('SphinxClient', false))
 
 class DGSphinxSearch extends CApplicationComponent
 {
-
 	/**
 	 * @var string
 	 * @brief sphinx server
@@ -120,8 +119,7 @@ class DGSphinxSearch extends CApplicationComponent
 	 * @var integer
 	 * @brief sphinx default rank mode
 	 */
-	//public $rankMode = SPH_RANK_SPH04;
-	public $rankMode = SPH_RANK_PROXIMITY_BM25;
+	public $rankMode = SPH_RANK_SPH04;
 	/**
 	 * @var integer
 	 * @brief sphinx max exec time
@@ -476,7 +474,7 @@ class DGSphinxSearch extends CApplicationComponent
 		}
 
 		if ($this->enableResultTrace) {
-			Yii::trace("Query result: " . substr(print_r($res, true), 500), 'CEXT.DGSphinxSearch.doSearch');
+			Yii::trace("Query result: " . print_r($res, true), 'CEXT.DGSphinxSearch.doSearch');
 		}
 
 		if (!isset($res['matches'])) {

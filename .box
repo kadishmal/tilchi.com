@@ -13,4 +13,3 @@ php_extensions:
     - ctype
     - memcache
     - mbstring
-    - sphinx
