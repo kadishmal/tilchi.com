@@ -128,13 +128,6 @@ div.form .rememberMe label
 	display: inline;
 }
 
-div.view
-{
-	padding: 10px;
-	margin: 10px 0;
-	border: 1px solid #C9E0ED;
-}
-
 div.breadcrumbs
 {
 	font-size: 0.9em;
@@ -228,60 +221,113 @@ div.search-form
 	background: #80CFFF;
 }
 /* cursor */
-#mainmenu *{cursor:pointer}
+#mainmenu *,.block-button,.switch{cursor:pointer}
 /* display */
-#msgBox,#floodPanel,#spinner,#mainmenu ul ul{display:none}
-#mainmenu li *,#mainmenu a{display:inline-block}
-#mainmenu .submenu,#mainmenu .submenu li,#mainmenu .submenu a{display:block}
+#msgBox,#floodPanel,#spinner,#mainmenu ul ul,#search-container,#tilchi .options,#translationResults,#add-text,#add-phrase,.language{display:none}
+#mainmenu li *,#mainmenu a,#tilchi .tilchi-body,.sprite{display:inline-block}
+#mainmenu .submenu,#mainmenu .submenu li,#mainmenu .submenu a,#tilchi #results .item,.block-button,#add-text,.view .language{display:block}
 /* position */
 #mainmenu .menuHover{position:relative}
-#msgBox,#floodPanel,#mainmenu .submenu{position:absolute}
+#msgBox,#floodPanel,#mainmenu .submenu,#translationResults{position:absolute}
 #floodPanel{top:0;left:0}
+/* overflow */
+#tilchi .frame .body,#translationResults{overflow:hidden}
 /* z-index */
 #mainmenu .menuHover,#mainmenu .submenu,#msgBox{z-index:9999}
 /* width */
 #floodPanel{width:100%}
+.switch{width:20px}
+#tilchi-search .button{width:71px}
 #msgBox{width:467px}
+#tilchi .textField{width:550px}
+#translationResults{width:608px}
+#tilchi #results{width:562px}
+#tilchi .tilchi-body{width:661px}
 /* height */
 #floodPanel,#spinner{height:100%}
 #mainmenu span,#mainmenu li.parent a{height:16px}
+.switch{height:20px}
 #mainmenu{height:27px}
 #spinner{height:31px}
+#tilchi .button.big{height:36px}
 /* margin */
-#mainmenu ul{margin:0}
+#mainmenu ul,#tilchi-search #Tilchi_phrase,#tilchi .textField,#Tilchi_toLang{margin:0}
+#tilchi .button.big{margin-left:10px}
+#tilchi h2{margin-bottom:5px}
+#tilchi-search,#add-translation-form .hint,#Tilchi_toLang{margin-bottom:10px}
+#tilchi .frame{margin-bottom:15px}
+#tilchi .frame .title{margin:8px 0 10px 10px}
+#tilchi .frame .title h3{margin:18px 0 10px 0}
 /* padding */
 #mainmenu ul,#mainmenu .submenu{padding:0}
 #mainmenu ul{padding:0 0 0 20px}
+.block-button{padding:3px}
+#tilchi .textField,#translationResults .item{padding:5px}
+#tilchi #results .item{padding:0 6px}
 #mainmenu ul li a,#mainmenu span{padding:5px 8px}
 #msgBox .title{padding:5px 10px}
+#tilchi .frame{padding:8px}
+#tilchi .frame .body{padding:15px 15px 20px 20px}
 #msgBox,#msgBox .msg,#msgBox .buttons{padding:10px}
 /* font-size */
+#tilchi .block-button,.hint{font-size:11px}
 #mainmenu ul li a,#mainmenu span{font-size:12px}
+.language{font-size:13px}
+#tilchi .button.big{font-size:14px}
+#translationResults{font-size:16px}
+#tilchi .textField,#tilchi #results .item{font-size:20px}
+#tilchi h2{font-size:24px}
+/* font-style */
+.language{font-style:italic}
 /* font-weight */
 #msgBox .title,#mainmenu *{font-weight:bold}
+#tilchi .block-button{font-weight:normal}
 /* color */
-#msgBox .title,#mainmenu *,#mainmenu .submenu li:hover a,#mainmenu .submenu li.active a{color:#ffffff}
+#msgBox .title,#mainmenu *,#mainmenu .submenu li:hover a,#mainmenu .submenu li.active a,#translationResults .item.active,#translationResults .item:hover,#results .item.active,#tilchi #results .item:hover{color:#FFF}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu a{color:#4C99C5}
+#tilchi h2{color:#555}
+#translationResults .item{color:#999}
+#tilchi .block-button{color:#06C}
+.block-button:hover{color:#09F}
+/* line-height */
+#tilchi #results .item{line-height:36px}
+/* vertical-align */
+#tilchi .button.big{vertical-align:top}
+.switch{vertical-align:middle}
 /* text-align */
-#msgBox .buttons,.text-right{text-align:right}
+#msgBox .buttons,.text-right,.language{text-align:right}
 /* text-decoration */
-#mainmenu a,#mainmenu span{text-decoration:none}
+#mainmenu a,#mainmenu span,#tilchi #results .item{text-decoration:none}
+.block-button{text-decoration:underline}
 /* background */
+.sprite{background:url(sprite-icons.png) no-repeat}
 #mainmenu .submenu li:hover a{background:transparent}
+#tilchi .frame{background:#F4F4F4}
+#translationResults .item.active,#translationResults .item:hover,#tilchi #results .item.active,#tilchi #results .item:hover{background:#3b9bfc}
+#tilchi .frame .body,#translationResults{background:#FFF}
 #spinner{background:url(spin-blue.gif) no-repeat center center}
 #mainmenu,#msgBox .title{background:#4C99C5 url(bg.gif) repeat-x left top}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu span:hover,#mainmenu .menuHover,#mainmenu .submenu,#msgBox .msg{background:#ffffff}
 #mainmenu .submenu li:hover,#mainmenu .submenu li.active a{background:#4C99C5}
 #msgBox{background:rgba(82,82,82,0.7);/* For IE 5.5 - 7*/filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#AF525252, endColorstr=#AF525252);/* For IE 8*/-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#AF525252, endColorstr=#AF525252)";}
 #msgBox .buttons{background:#F2F2F2}
+/* background-position */
+.switch{background-position:0 0}
 /* border */
 #mainmenu ul li a,#mainmenu ul li.active a,#mainmenu span,#mainmenu .submenu a:hover{border:1px solid transparent}
+#tilchi-search #Tilchi_phrase{border:1px solid #BBB}
+#translationResults{border:1px solid #CCC}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu{border:1px solid #4C99C5}
 #mainmenu .menuHover{border-bottom:none}
-#mainmenu .submenu{border-top:none}
+#mainmenu .submenu,#translationResults{border-top:none}
 #msgBox .msg{border-bottom:1px solid #CCCCCC}
+#tilchi .frame .body{border:1px solid #E9E9E9}
+.block-button{border:1px dashed #E9E9E9}
 /* border-radius */
-#msgBox{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
+#translationResults{border-bottom-left-radius:5px;-moz-border-bottom-left-radius:5px;-webkit-border-bottom-left-radius:5px}
+#translationResults{border-bottom-right-radius:5px;-moz-border-bottom-right-radius:5px;-webkit-border-bottom-right-radius:5px}
+#tilchi .frame .body{border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px}
+#msgBox,#tilchi .frame{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
 /* box-shadow */
 #mainmenu ul li a:hover,#mainmenu ul .menuHover{box-shadow:0 3px 10px #888;-moz-box-shadow:0 3px 10px #888;-webkit-box-shadow:0 3px 10px #888}
 #mainmenu .submenu{box-shadow:0 5px 10px #888;-moz-box-shadow:0 5px 10px #888;-webkit-box-shadow:0 5px 10px #888}

@@ -106,7 +106,6 @@ div.form .errorSummary ul
 
 div.wide.form label
 {
-	float: left;
 	margin-right: 10px;
 	position: relative;
 	text-align: right;
@@ -126,18 +125,42 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 /* cursor */
 button,.button,.link-button{cursor:pointer}
 /* display */
+#add-translation-form,#Tilchi_explanation_block{display:none}
 .button,button{display:inline-block}
+.h3,#Tilchi_translation{display:block}
+/* width */
+#tilchi #Tilchi_translation{width:595px}
 /* line-height */
 button,.button{line-height:14px}
 /* margin */
 button,.button{margin:0}
+.h3{margin-bottom:7px}
+.top-10{margin-top:10px}
+.link-button{margin-right:10px}
+#fromLang{margin-left:40px}
 /* padding */
 button,.button{padding:3px 10px}
 /* font-size */
-button,.button{font-size:11px}
+button,.button,.link-button{font-size:11px}
+.h3,#tilchi #Tilchi_translation{font-size:16px}
 /* font-weight */
-button,.button{font-weight:bold}
+button.primary,.button.primary,.button.big,.h3{font-weight:bold}
 /* color */
-button,.button{color:#FFF}
+button.primary,.button.primary,.button.big{color:#FFF}
+.h3{color:#333}
+.link-button{color:#555}
+.link-button:hover{color:#06C}
+button,.button{color:#464646}
+/* vertical-align */
+#fromLang,#toLang{vertical-align:middle}
 /* background */
-button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
+button,.button{background:#F2F2F2}
+button.primary,.button.primary,button.inline:hover,.button.inline:hover,.button.big{background:#4c99c5}
+/* border */
+button,.button{border:1px solid #BBB}
+button:hover,.button:hover{border:1px solid #666}
+button.primary,.button.primary,.button.big{border-color:#4c99c5}
+button.primary:hover,.button.primary:hover,.button.big:hover{border-color:#1e6791}
+/* border-radius */
+.button.big{border-radius:0}
+button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px}
