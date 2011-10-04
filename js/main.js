@@ -269,7 +269,7 @@ function retrieveTranslation(item)
 
 			if (data.translationsCount == 0)
 			{
-				translationsBox.append('<div id="translation-body"><p>' + data.messages.noTranslation + '</p></div>');
+				translationsBox.append('<div id="translation-body"><p class=".msg">' + data.messages.noTranslation + '</p></div>');
 			}
 			else{
 				jQuery.each(data.translations, function(index, translation)
