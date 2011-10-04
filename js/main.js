@@ -103,7 +103,8 @@ function doSearch(url, dataToSend, searchHandler, completeHandler)
 			searchHandler(data);
 		},
 		'error':function(jqXHR, textStatus, errorThrown){
-			alert(textStatus + jqXHR + errorThrown);
+			alert(textStatus + ' ' + jqXHR.statusText + ' ' + jqXHR.responseText);
+			alert(jqXHR.getAllResponseHeaders());
 		},
 		'complete':function()
 		{
