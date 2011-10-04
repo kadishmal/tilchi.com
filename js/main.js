@@ -90,11 +90,12 @@ function activateMainMenu(){
 	}
 }
 
-function doSearch(url, dataToSend, searchHandler, completeHandler)
+function doSearch(url, dataToSend, searchHandler, completeHandler, async)
 {
 	jQuery.ajax({
 		'type':'POST',
 		'url': url,
+		'async': (async == undefined ? true : async),
 		'cache': true,
 		'dataType':'json',
 		'data': dataToSend,
@@ -103,8 +104,7 @@ function doSearch(url, dataToSend, searchHandler, completeHandler)
 			searchHandler(data);
 		},
 		'error':function(jqXHR, textStatus, errorThrown){
-			alert("readyState: "+jqXHR.readyState+"\nstatus: "+jqXHR.status);
-			alert("responseText: "+jqXHR.responseText);
+			alert(JSON.stringify(jqXHR));
 		},
 		'complete':function()
 		{
@@ -410,7 +410,7 @@ function activateTranslation()
 						'Tilchi[fromLang]=' + $('#Tilchi_toLang').val() +
 						'&Tilchi[toLang]=' + $('#Tilchi_fromLang').val() +
 						'&Tilchi[phrase]=' + translation.val() +
-						'&ajax=tilchi-search-form', translationSearchHandler);
+						'&ajax=tilchi-search-form', translationSearchHandler, false);
 				}
 				else{
 					translationResults.hide();
