@@ -95,7 +95,7 @@ function doSearch(url, dataToSend, searchHandler, completeHandler, async)
 	jQuery.ajax({
 		'type':'POST',
 		'url': url,
-		'async': (async == undefined ? true : async),
+		'async': false,
 		'cache': true,
 		'dataType':'json',
 		'data': dataToSend,
