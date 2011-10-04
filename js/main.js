@@ -102,8 +102,8 @@ function doSearch(url, dataToSend, searchHandler, completeHandler)
 		{
 			searchHandler(data);
 		},
-		'error':function(){
-			alert('error');
+		'error':function(jqXHR, textStatus, errorThrown){
+			alert(textStatus + jqXHR + errorThrown);
 		},
 		'complete':function()
 		{
