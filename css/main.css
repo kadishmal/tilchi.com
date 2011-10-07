@@ -318,7 +318,7 @@ div.search-form
 #tilchi-search #Tilchi_phrase{border:1px solid #BBB}
 #translationResults{border:1px solid #CCC}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu{border:1px solid #4C99C5}
-#mainmenu .menuHover{border-bottom:none}
+#mainmenu ul li a.menuHover:hover,#mainmenu .menuHover{border-bottom:none}
 #mainmenu .submenu,#translationResults{border-top:none}
 #msgBox .msg{border-bottom:1px solid #CCCCCC}
 #tilchi .frame .body{border:1px solid #E9E9E9}

@@ -28,7 +28,7 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
     <script type="text/javascript">
       var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', '<?php echo $_SERVER['ga_track_code']; ?>']);
+      _gaq.push(['_setAccount', 'UA-3787071-5']);
       _gaq.push(['_trackPageview']);
 
       (function() {
@@ -51,12 +51,12 @@
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>Yii::t('zii','Home'), 'url'=>'/site'),
-                array('label'=>Yii::t('blog', 'Blog'), 'url'=>'/blog/', 'items'=>array(
+                array('label'=>Yii::t('blog', 'Blog'), 'url'=>'/blog/', 'itemOptions'=>array('class'=>'parent'), 'items'=>array(
 					array('label'=>Yii::t('blog', 'New Post'), 'url'=>'/blog/new', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
 					array('label'=>Yii::t('blog', 'Comments'), 'url'=>'/blog/comments', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
 					array('label'=>Yii::t('blog', 'Posts'), 'url'=>'/blog/posts', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
 				)),
-                array('label'=>Yii::t('forum','Forum'), 'url'=>'/forum', 'items'=>array(
+                array('label'=>Yii::t('forum','Forum'), 'url'=>'/forum', 'itemOptions'=>array('class'=>'parent'), 'items'=>array(
 					array('label'=>Yii::t('forum', 'Ask a question'), 'url'=>'/forum/new/question'),
 					array('label'=>Yii::t('forum', 'Submit an idea'), 'url'=>'/forum/new/idea'),
 					array('label'=>Yii::t('forum', 'Report an issue'), 'url'=>'/forum/new/issue'),
