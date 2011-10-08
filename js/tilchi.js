@@ -315,7 +315,7 @@ function activateTranslation()
 		{
 			if (translation.val() != '')
 			{
-				doSearch('http://beta.tilchi.com/site/search',
+				doSearch('/site/search',
 					'Tilchi[fromLang]=' + $('#Tilchi_toLang').val() +
 					'&Tilchi[toLang]=' + $('#Tilchi_fromLang').val() +
 					'&Tilchi[phrase]=' + translation.val() +
