@@ -3,6 +3,7 @@
 	$baseUrl = Yii::app()->baseUrl;
 
 	Yii::app()->clientScript->registerCoreScript('cookie')->
+		registerScriptFile($baseUrl . '/js/jquery.typing-0.2.0.min.js')->
 		registerScriptFile($baseUrl . '/js/tilchi.js')->
 		registerScript('tilchi-search',"
 		activateTilchiSearch('tilchi-search-form');
@@ -34,7 +35,7 @@
 
                     echo CHtml::hiddenField('Tilchi[fromLang]') .
 						CHtml::hiddenField('Tilchi[toLang]') .
-						CHtml::textField('Tilchi[phrase]', '', array('class'=>'textField')) .
+						CHtml::textField('Tilchi[phrase]', '', array('class'=>'textField', 'autocomplete'=>'off')) .
 						CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
 
                     $this->endWidget();
@@ -58,7 +59,7 @@
 							CHtml::hiddenField('Tilchi[toLang]') .
 							CHtml::hiddenField('Tilchi[phrase]') .
 							CHtml::label(Yii::t('tilchi', 'Enter the exact translation'), 'Tilchi_translation', array('class'=>'h3')) .
-							CHtml::textField('Tilchi[translation]', '', array('class'=>'textField')) .
+							CHtml::textField('Tilchi[translation]', '', array('class'=>'textField', 'autocomplete'=>'off')) .
 							CHtml::tag('div', array('id'=>'translationResults'), '') .
 							CHtml::tag('div', array('class'=>'hint'), Yii::t('tilchi', 'Please enter the precise translation and <b>only one at a time</b>. If there are more than one meanings, enter only one. Other meanings can be entered later. If you think there is no exact translation, leave this field empty and instead enter the explanation below.')) .
 							CHtml::label(Yii::t('tilchi', 'Enter the explanation'), 'Tilchi_explanation', array('class'=>'h3 top-10 block-button', 'id'=>'add-explanation')) .
