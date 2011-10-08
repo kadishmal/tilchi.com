@@ -10,11 +10,6 @@ function doSearch(url, dataToSend, searchHandler, completeHandler)
 		{
 			searchHandler(data);
 		},
-		'error':function(jqXHR)
-		{
-			//alert(jqXHR.status);
-			alert(jqXHR.getResponseHeader('Location'));
-		},
 		'complete':function()
 		{
 			if (completeHandler)
@@ -73,8 +68,10 @@ function activateTilchiSearch(formName)
 		$('#toLang').val(t).change();
 	});
 
-	phrase.keydown(function(event){
-		switch (event.keyCode){
+	phrase.keydown(function(event)
+	{
+		switch (event.keyCode)
+		{
 			case 40: // DOWN arrow
 				event.preventDefault();
 
@@ -127,14 +124,22 @@ function activateTilchiSearch(formName)
 				}
 
 				break;
-			case 13:
+			case 13: // Enter
+				event.preventDefault();
 				if (selectedPhrase && selectedPhrase.length > 0 && selectedPhrase.text() == phrase.val())
 				{
-					event.preventDefault();
 					selectedPhrase.click();
 				}
 				break;
 		}
+	})
+	.typing({
+		stop: function (event, $elem)
+		{
+			form.submit();
+		},
+		delay: 900,
+		onBlur: false
 	});
 
     form.submit(function()
@@ -305,26 +310,23 @@ function activateTranslation()
 				break;
 		}
 	})
-	.keyup(function(event){
-		switch (event.keyCode)
+	.typing({
+		stop: function (event, $elem)
 		{
-			// DOWN key
-			case 40:
-			case 38:
-			case 13: break;
-			default:
-				if (translation.val() != '')
-				{
-					doSearch('http://beta.tilchi.com/site/search',
-						'Tilchi[fromLang]=' + $('#Tilchi_toLang').val() +
-						'&Tilchi[toLang]=' + $('#Tilchi_fromLang').val() +
-						'&Tilchi[phrase]=' + translation.val() +
-						'&ajax=tilchi-search-form', translationSearchHandler);
-				}
-				else{
-					translationResults.hide();
-				}
-		}
+			if (translation.val() != '')
+			{
+				doSearch('http://beta.tilchi.com/site/search',
+					'Tilchi[fromLang]=' + $('#Tilchi_toLang').val() +
+					'&Tilchi[toLang]=' + $('#Tilchi_fromLang').val() +
+					'&Tilchi[phrase]=' + translation.val() +
+					'&ajax=tilchi-search-form', translationSearchHandler);
+			}
+			else{
+				translationResults.hide();
+			}
+		},
+		delay: 900,
+		onBlur: false
 	})
 	.blur(function(){
 		translationResults.hide();
