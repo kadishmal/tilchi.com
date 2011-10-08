@@ -2,7 +2,7 @@
     $cs = Yii::app()->getClientScript();
 	$baseUrl = Yii::app()->baseUrl;
 
-	$cs->registerCoreScript('jquery.ui');
+	//$cs->registerCoreScript('jquery.ui');
 	$cs->registerScriptFile($baseUrl . '/js/main.js');
 
     $cs->registerScript('activate-menu', "

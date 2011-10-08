@@ -1,9 +1,10 @@
 <?php
     $this->pageTitle = Yii::app()->name;
+	$baseUrl = Yii::app()->baseUrl;
 
-	$cs = Yii::app()->clientScript;
-	$cs->registerCoreScript('cookie');
-	$cs->registerScript('tilchi-search',"
+	Yii::app()->clientScript->registerCoreScript('cookie')->
+		registerScriptFile($baseUrl . '/js/tilchi.js')->
+		registerScript('tilchi-search',"
 		activateTilchiSearch('tilchi-search-form');
 	");
 ?>
