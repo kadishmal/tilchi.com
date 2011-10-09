@@ -99,5 +99,27 @@
                 </div>
             </div>
         </div>
+		<div class="frame">
+			<div class="title"><h3><?php echo CHtml::link(Yii::t('tilchi', 'Latest translations'), '/site/translations'); ?></h3></div>
+			<div class="body"><?php
+				for($j = 0; $j < 3; ++$j)
+				{
+					$to = $j*10 + 10;
+
+					echo '<span id="translations">';
+
+					for($i = $to - 10; $i < $to; ++$i)
+					{
+						echo CHtml::tag('div', array('class'=>'phrase'),
+							CHtml::link($translations[$i]->phrase->phrase, '/site/' . $translations[$i]->phrase->language->abbreviation . '/' . $translations[$i]->phrase->phrase) .
+							CHtml::tag('span', array('class'=>'author'), $translations[$i]->user->first_name . ' ' . $translations[$i]->user->last_name)
+						);
+					}
+
+					echo '</span>';
+				}
+			?>
+			</div>
+		</div>
     </div>
 </div>

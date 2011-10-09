@@ -72,7 +72,11 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->render('index');
+		$translations = PhraseTranslation::model()->with('user', 'phrase', 'phrase.language')->findAll(array(
+			'order'=>'t.date DESC',
+			'limit'=>30
+		));
+		$this->render('index', array('translations'=>$translations));
 	}
 
 	/**
