@@ -1,11 +1,11 @@
 <?php
-    $cs = Yii::app()->getClientScript();
 	$baseUrl = Yii::app()->baseUrl;
 
-	//$cs->registerCoreScript('jquery.ui');
-	$cs->registerScriptFile($baseUrl . '/js/main.js');
-
-    $cs->registerScript('activate-menu', "
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/main.js')->
+		registerCoreScript('cookie')->
+		registerScriptFile($baseUrl . '/js/jquery.typing-0.2.0.min.js')->
+		registerScriptFile($baseUrl . '/js/tilchi.js')->
+		registerScript('activate-menu', "
 		activateMainMenu();
 	");
 ?>

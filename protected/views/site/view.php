@@ -1,9 +1,7 @@
 <?php
     $this->pageTitle = $phrase . ' | ' . $fromLang . ' ' . Yii::t('tilchi', 'Dictionary') . ' | ' . Yii::app()->name;
 
-	$cs = Yii::app()->clientScript;
-	$cs->registerCoreScript('cookie');
-	$cs->registerScript('tilchi-search',"
+	Yii::app()->clientScript->registerScript('tilchi-search',"
 		activateTilchiSearch('tilchi-search-form');
 	");
 ?>

@@ -1,11 +1,7 @@
 <?php
     $this->pageTitle = Yii::app()->name;
-	$baseUrl = Yii::app()->baseUrl;
 
-	Yii::app()->clientScript->registerCoreScript('cookie')->
-		registerScriptFile($baseUrl . '/js/jquery.typing-0.2.0.min.js')->
-		registerScriptFile($baseUrl . '/js/tilchi.js')->
-		registerScript('tilchi-search',"
+	Yii::app()->clientScript->registerScript('tilchi-search',"
 		activateTilchiSearch('tilchi-search-form');
 	");
 ?>
