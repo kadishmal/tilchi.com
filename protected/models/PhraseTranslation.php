@@ -64,13 +64,13 @@ class PhraseTranslation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'phrase' => array(self::BELONGS_TO, 'Phrase', 'phrase_id'),
 			'translationPhrase' => array(self::BELONGS_TO, 'Phrase', 'translation_phrase_id'),
 			'translationLanguage' => array(self::BELONGS_TO, 'Language', 'translation_language_id'),
-			'comments' => array(self::HAS_MANY, 'TranslationComments', 'translation_id'),
-			'commentsCount' => array(self::STAT, 'TranslationComments', 'translation_id'),
-			'votesCount' => array(self::STAT, 'TranslationVotes', 'translation_id'),
+			'comments' => array(self::HAS_MANY, 'TranslationComment', 'translation_id'),
+			'commentsCount' => array(self::STAT, 'TranslationComment', 'translation_id'),
+			'votesCount' => array(self::STAT, 'TranslationVote', 'translation_id'),
 		);
 	}
 
