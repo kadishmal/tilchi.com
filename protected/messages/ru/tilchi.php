@@ -16,6 +16,7 @@ return array(
 	'Request translation'=>'Запросить перевод',
 	'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.'=>'Слово <b>_phrase</b> не найдено, но мы уже добавили его в список слов, требующих перевода.',
 	'Choose a language'=>'Выберите язык',
-	'Choose a language to translate to'=>'Выберите язык для перевода'
+	'Choose a language to translate to'=>'Выберите язык для перевода',
+	'Translations'=>'Переводы'
 );
 ?>

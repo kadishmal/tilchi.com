@@ -224,7 +224,7 @@ div.search-form
 #mainmenu *,.block-button,.switch{cursor:pointer}
 /* display */
 #msgBox,#floodPanel,#spinner,#mainmenu ul ul,#search-container,#tilchi .options,#translationResults,#add-text,#add-phrase,.language{display:none}
-#mainmenu li *,#mainmenu a,#tilchi .tilchi-body,.sprite{display:inline-block}
+#mainmenu li *,#mainmenu a,#tilchi .tilchi-body,.sprite,.phrase span{display:inline-block}
 #mainmenu .submenu,#mainmenu .submenu li,#mainmenu .submenu a,#tilchi #results .item,.block-button,#add-text,.view .language{display:block}
 /* position */
 #mainmenu .menuHover{position:relative}
@@ -237,21 +237,28 @@ div.search-form
 /* width */
 #floodPanel{width:100%}
 .switch{width:20px}
+.ky,.ru{width:32px}
 #tilchi-search .button{width:71px}
 #msgBox{width:467px}
+.phrase .info{width:500px}
+.phrase .meta{width:108px}
 #tilchi .textField{width:550px}
-#translationResults{width:608px}
 #tilchi #results{width:562px}
+#translationResults{width:608px}
 #tilchi .tilchi-body{width:661px}
+/* max-width */
+.phrase .from-phrase,.phrase .to-phrase{max-width:172px}
 /* height */
 #floodPanel,#spinner{height:100%}
 #mainmenu span,#mainmenu li.parent a{height:16px}
 .switch{height:20px}
 #mainmenu{height:27px}
 #spinner{height:31px}
+.ky,.ru{height:32px}
 #tilchi .button.big{height:36px}
 /* margin */
 #mainmenu ul,#tilchi-search #Tilchi_phrase,#tilchi .textField,#Tilchi_toLang{margin:0}
+.phrase .from-phrase,.phrase .to-phrase{margin-left:5px}
 #tilchi .button.big{margin-left:10px}
 #tilchi h2{margin-bottom:5px}
 #tilchi-search,#add-translation-form .hint,#Tilchi_toLang{margin-bottom:10px}
@@ -270,7 +277,7 @@ div.search-form
 #tilchi .frame .body{padding:15px 15px 20px 20px}
 #msgBox,#msgBox .msg,#msgBox .buttons{padding:10px}
 /* font-size */
-#tilchi .block-button,.hint{font-size:11px}
+#tilchi .block-button,.hint,.phrase .meta .date{font-size:11px}
 #mainmenu ul li a,#mainmenu span{font-size:12px}
 .language{font-size:13px}
 #tilchi .button.big{font-size:14px}
@@ -280,22 +287,22 @@ div.search-form
 /* font-style */
 .language{font-style:italic}
 /* font-weight */
-#msgBox .title,#mainmenu *{font-weight:bold}
+#msgBox .title,#mainmenu *,.phrase .from-phrase{font-weight:bold}
 #tilchi .block-button{font-weight:normal}
 /* color */
 #msgBox .title,#mainmenu *,#mainmenu .submenu li:hover a,#mainmenu .submenu li.active a,#translationResults .item.active,#translationResults .item:hover,#results .item.active,#tilchi #results .item:hover{color:#FFF}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu a{color:#4C99C5}
 #tilchi h2{color:#555}
-#translationResults .item{color:#999}
+#translationResults .item,.phrase .from-lang,.phrase .to-lang,.phrase .meta .date{color:#999}
 #tilchi .block-button{color:#06C}
 .block-button:hover{color:#09F}
 /* line-height */
 #tilchi #results .item{line-height:36px}
 /* vertical-align */
-#tilchi .button.big{vertical-align:top}
+#tilchi .button.big,.phrase .info,.phrase .info span{vertical-align:top}
 .switch{vertical-align:middle}
 /* text-align */
-#msgBox .buttons,.text-right,.language{text-align:right}
+#msgBox .buttons,.text-right,.language,.phrase .meta{text-align:right}
 /* text-decoration */
 #mainmenu a,#mainmenu span,#tilchi #results .item{text-decoration:none}
 .block-button{text-decoration:underline}
@@ -313,6 +320,8 @@ div.search-form
 #msgBox .buttons{background:#F2F2F2}
 /* background-position */
 .switch{background-position:0 0}
+.ky{background-position:0 -21px}
+.ru{background-position:0 -53px}
 /* border */
 #mainmenu ul li a,#mainmenu ul li.active a,#mainmenu span,#mainmenu .submenu a:hover{border:1px solid transparent}
 #tilchi-search #Tilchi_phrase{border:1px solid #BBB}

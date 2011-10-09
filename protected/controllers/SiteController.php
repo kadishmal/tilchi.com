@@ -8,6 +8,14 @@ class SiteController extends Controller
 	const STATUS_NEW_EXISTS = 23000;
 	const STATUS_NEW_UNKNOWN_DB_ERROR = 3;
 	const STATUS_NEW_PHRASE_FAIL = 4;
+	const TRANSLATIONS_PER_PAGE = 25;
+
+	public function init()
+	{
+		Yii::import('application.modules.user.models.*');
+		Yii::import('application.modules.user.*');
+		Yii::import('application.modules.content.*');
+	}
 	/**
 	 * @return array action filters
 	 */
@@ -26,11 +34,11 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform view actions
-				'actions'=>array('search', 'index', 'view'),
+				'actions'=>array('search', 'index', 'view', 'translations'),
 				'users'=>array('*'),
 			),
             array('allow',  // allow all users to perform view actions
-				'actions'=>array('new', 'edit', 'insert', 'map'),
+				'actions'=>array('new'),
 				'users'=>array('@'),
 			),
             array('deny', // do not allow guest users to logout
@@ -417,4 +425,21 @@ class SiteController extends Controller
 			echo CJSON::encode($results);
 		}
     }
+
+	public function actionTranslations()
+	{
+		$dataProvider = new CActiveDataProvider('PhraseTranslation', array(
+			'criteria'=>array(
+				'order'=>'t.date DESC',
+                'with'=>array('user', 'phrase', 'translationPhrase', 'phrase.language')
+			),
+			'pagination'=>array(
+				'pageSize'=>self::TRANSLATIONS_PER_PAGE,
+			),
+    	));
+
+		$this->render('translations', array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
 }
