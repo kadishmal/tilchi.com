@@ -1,5 +1,5 @@
 <?php
-    $this->pageTitle = Yii::app()->name;
+    $this->pageTitle = Yii::t('tilchi', 'Online Kyrgyz dictionary') . ' | ' . Yii::app()->name;
 
 	Yii::app()->clientScript->registerScript('tilchi-search',"
 		activateTilchiSearch('tilchi-search-form');

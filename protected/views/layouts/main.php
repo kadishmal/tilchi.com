@@ -17,7 +17,6 @@
 
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
@@ -50,7 +49,7 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>Yii::t('zii','Home'), 'url'=>'/site'),
+				array('label'=>Yii::t('tilchi','Dictionary'), 'url'=>'/site'),
                 array('label'=>Yii::t('blog', 'Blog'), 'url'=>'/blog/', 'itemOptions'=>array('class'=>'parent'), 'items'=>array(
 					array('label'=>Yii::t('blog', 'New Post'), 'url'=>'/blog/new', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
 					array('label'=>Yii::t('blog', 'Comments'), 'url'=>'/blog/comments', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),

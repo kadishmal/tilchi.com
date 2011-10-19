@@ -1,6 +1,7 @@
 <?php
 return array(
 	'Dictionary' => 'Словарь',
+	'Online Kyrgyz dictionary'=>'Онлайн кыргызский словарь',
 	'Translation'=>'Перевод',
 	'The "<b>phrase</b>" phrase already exists.'=>'Фраза "<b>phrase</b>" уже существует.',
 	'The word <b>_phrase</b> exists in our database, but no translation has been found for it. If you know the translation, help us improve Tilchi.com by adding your translation. You will be recorded as a contributor.'=>'Слово <b>_phrase</b> существует в нашей базе, но перевода для него не нашлось. Если Вы знаете перевод, помогите нам улучшить Tilchi.com, добавив свой перевод. Вы будете зачислены в список переводчиков.',

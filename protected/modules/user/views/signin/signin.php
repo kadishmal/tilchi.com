@@ -3,6 +3,12 @@
 	$this->breadcrumbs=array(
 		Yii::t('UserModule.login', 'Login'),
 	);
+
+	Yii::app()->clientScript->registerScript('login-button',"
+		$('#login-form').submit(function(){
+			$('#login-button').attr('disabled','disabled');
+		});
+	");
 ?>
 
 <div id="login">
