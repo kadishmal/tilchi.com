@@ -1,0 +1,20 @@
+--- 
+db1: 
+  dbpass: hgkrPTYe
+  dbuser: meghann
+  name: joe
+  type: mysql
+web1: 
+  name: tilchi.com
+  php_extensions: 
+    - pdo
+    - pdo_mysql
+    - apc
+    - mcrypt
+    - gd
+    - ctype
+    - memcache
+    - mbstring
+  shared_writable_dirs: 
+    - /assets
+    - /protected/runtime
