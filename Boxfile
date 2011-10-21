@@ -1,7 +1,5 @@
 --- 
-db1: 
-  dbpass: hgkrPTYe
-  dbuser: meghann
+db1:
   name: joe
   type: mysql
 web1: 
