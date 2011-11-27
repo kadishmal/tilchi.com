@@ -1,12 +1,4 @@
 <?php
-// These constants are defined based for Pagodabox.
-// To set your db connection credentials, replace $_SERVER['db_host'] and the
-// rest with appropriate data.
-define("DB_HOST", $_SERVER['db_host']);
-define("DB_NAME", $_SERVER['db_name']);
-define("DB_USER", $_SERVER['db_user']);
-define("DB_PASS", $_SERVER['db_pass']);
-define("FORUM_PASS", $_SERVER['forum_pass']);
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -46,7 +38,7 @@ return array(
             'transportOptions'=>array(
                 'host'=>'smtp.gmail.com',
                 'username'=>'forum@incorex.com',
-                'password'=>FORUM_PASS,
+                'password'=>'iFB#yq5Z*b',
                 'encryption'=>'ssl',
                 'port'=>465,
             ),
@@ -60,6 +52,9 @@ return array(
             'enableProfiling'=>false,
             'enableResultTrace'=>false
         ),
+		'amqp' => array(
+			'class' => 'application.components.AMQP.CAMQP'
+		),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -98,9 +93,9 @@ return array(
 			),
 		),
 		'db'=>array(
-			'username' => DB_USER,
-			'password' => DB_PASS,
-			'connectionString' => 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME,
+			'username' => 'root',
+			'password' => 'MySQLGfuLgtr4e',
+			'connectionString' => 'mysql:host=localhost;dbname=dbtilchi',
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
@@ -118,12 +113,6 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning, trace, info',
 				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
 			),
 		),
 	),

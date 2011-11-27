@@ -13,6 +13,9 @@ return array(
 		'application.components.*',
 		'application.modules.content.*',
 		'application.modules.content.models.*',
+        'application.modules.user.*',
+        'application.modules.user.controllers.*',
+        'application.modules.user.models.*',
         'ext.yii-mail.YiiMailMessage',
 	),
 	// application components
@@ -23,23 +26,24 @@ return array(
             'transportOptions'=>array(
                 'host'=>'smtp.gmail.com',
                 'username'=>'forum@incorex.com',
-                'password'=>'J*1g!3C$z5',
+                'password'=>'iFB#yq5Z*b',
                 'encryption'=>'ssl',
                 'port'=>465,
             ),
  			'logging' => false,
  		),
+        'amqp' => array(
+            'class' => 'application.components.AMQP.CAMQP'
+        ),
 		'db'=>array(
-			'username' => 'opentran_tilchi',
-			'password' => 'G9xbCB3^hM',
-			'connectionString' => 'mysql:host=localhost;dbname=opentran_dbtilchi',
-//			'username' => 'root',
-//			'password' => 'rootOtPsWdGfuLgtr4e',
+			'username' => 'root',
+			'password' => 'MySQLGfuLgtr4e',
+			'connectionString' => 'mysql:host=localhost;dbname=dbtilchi',
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
-			'enableProfiling' =>true,
-            'enableParamLogging'=>true
+			'enableProfiling' =>false,
+            'enableParamLogging'=>false
 		),
 	),
 );
