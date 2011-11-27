@@ -146,7 +146,9 @@ div.form div.success input,div.form div.success textarea,div.form div.success se
 #profile .female i{background-position:-34px -68px}
 #profile .msg i{background-position:-9px -112px}
 /* outline */
-#login input[type="text"],#login input[type="password"],#profile .row input[type="text"],#profile .row input[type="password"]{outline:none}
+#login input[type="text"],#login input[type="password"],#profile .row input[type="text"],#profile .row input[type="password"],#login-button{outline-width:0!important}
+#login-button:focus::-moz-focus-inner{border-color:transparent!important}
+#login #LoginForm_rememberMe:focus{outline:3px solid #C9E0ED}
 /* border */
 #login input[type="text"],#login input[type="password"]{border:0}
 button,.button{border:1px solid transparent}
@@ -155,6 +157,7 @@ button,.button{border:1px solid transparent}
 #login .row.last{border-top:none}
 #profile .section{border-top:1px solid #CCC}
 #login-button{border:1px solid #FFF}
+#login-button:focus{border:1px solid #4D9AC6}
 #profile .arrow-border{
 border-color: transparent #C9E0ED transparent transparent;
 border-style: solid;
