@@ -1,6 +1,48 @@
 <?php
 class SendEmailCommand extends CConsoleCommand
 {
+    public function actionRegisteredUsers()
+    {
+        $amqp = Yii::app()->amqp;
+
+        if ($amqp->declareQueue(RegisterController::QUEUE_REGISTERED_USERS, AMQP_DURABLE) > 0)
+        {
+            $queue = $amqp->queue(RegisterController::QUEUE_REGISTERED_USERS);
+            $queue->bind(RegisterController::EXCHANGE_REGISTERED_USERS, RegisterController::QUEUE_REGISTERED_USERS);
+
+            while ($queueMessage = $queue->get(AMQP_NOACK))
+            {
+                // stop the loop if there are no more messages
+                if ($queueMessage['count'] < 0)
+                {
+                    break;
+                }
+
+                $user = User::model()->findByPk($queueMessage['msg']);
+
+                if ($user)
+                {
+                    $message = New YiiMailMessage;
+                    $message->view = 'newUser';
+
+                    $message->subject = Yii::t('UserModule.register', 'You account details at Tilchi.com Online Dictionary site.');
+
+                    $message->setBody(array(
+                        'name'=>$user->first_name
+                    ), 'text/html');
+
+                    $message->setFrom('noreply@tilchi.com', 'Tilchi.com');
+                    $message->setTo($user->email, $user->first_name . ' ' . $user->last_name);
+
+                    if (Yii::app()->mail->send($message))
+                    {
+                        $queue->ack($queueMessage['delivery_tag']);
+                    }
+                }
+            }
+        }
+    }
+
     public function actionComments()
     {
         $model_name = 'Comment';

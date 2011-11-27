@@ -2,6 +2,9 @@
 
 class RegisterController extends Controller
 {
+    const EXCHANGE_REGISTERED_USERS = 'tilchi.exchange.registered.users';
+    const QUEUE_REGISTERED_USERS = 'tilchi.queue.registered.users';
+
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -96,6 +99,16 @@ class RegisterController extends Controller
 
                 if($model->save())
                 {
+                    $amqp = Yii::app()->amqp;
+                    $amqp->declareExchange(RegisterController::EXCHANGE_REGISTERED_USERS, AMQP_EX_TYPE_DIRECT, AMQP_DURABLE);
+
+                    $ex = $amqp->exchange(RegisterController::EXCHANGE_REGISTERED_USERS);
+                    $amqp->declareQueue(RegisterController::QUEUE_REGISTERED_USERS, AMQP_DURABLE);
+                    $queue = $amqp->queue(RegisterController::QUEUE_REGISTERED_USERS);
+                    $queue->bind(RegisterController::EXCHANGE_REGISTERED_USERS, RegisterController::QUEUE_REGISTERED_USERS);
+
+                    $ex->publish($model->id, RegisterController::QUEUE_REGISTERED_USERS, AMQP_MANDATORY);
+
                     $this->redirect('/user');
                 }
             }
