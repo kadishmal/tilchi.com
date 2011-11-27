@@ -78,6 +78,7 @@
 	<?php echo $content; ?>
 
 	<div id="footer">
+        <p>Создүк | Словарь | Dictionary | 사전 | Sözlük</p>
 		<?php echo date('Y'); ?> &copy; Tilchi.com<br /><?php echo Yii::t('site', 'All Rights Reserved.'); ?>
 	</div><!-- footer -->
 
@@ -85,6 +86,5 @@
 	<div id="floodPanel"></div>
 	<div id="msgBox"></div>
 </div><!-- page -->
-
 </body>
 </html>
