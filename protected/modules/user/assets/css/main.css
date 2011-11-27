@@ -148,7 +148,8 @@ div.form div.success input,div.form div.success textarea,div.form div.success se
 /* outline */
 #login input[type="text"],#login input[type="password"],#profile .row input[type="text"],#profile .row input[type="password"]{outline:none}
 /* border */
-#login input[type="text"],#login input[type="password"],button,.button{border:0}
+#login input[type="text"],#login input[type="password"]{border:0}
+button,.button{border:1px solid transparent}
 #login input[type="password"]{border-right:1px solid #C9E0ED}
 #login .row,#profile .row input[type="text"],#profile .row input[type="password"],#profile .row label{border:1px solid #C9E0ED}
 #login .row.last{border-top:none}
