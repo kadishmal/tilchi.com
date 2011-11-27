@@ -1,4 +1,6 @@
 <?php
+$this->pageTitle = Yii::t('ContentModule.blog', 'Blog') . ' | ' . Yii::app()->name;
+
 $this->breadcrumbs=array(
 	Yii::t('ContentModule.blog', 'Blog')=>'/blog',
 );
