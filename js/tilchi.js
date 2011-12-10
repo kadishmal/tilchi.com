@@ -182,16 +182,22 @@ function retrieveTranslation(item)
 		{
 			translationsBox.append('<h3>' + item.html() + '</h3>');
 
-			if (data.translationsCount == 0)
-			{
-				translationsBox.append('<div id="translation-body"><p class="msg">' + data.messages.noTranslation + '</p></div>');
-			}
-			else{
-				jQuery.each(data.translations, function(index, translation)
-				{
-					translationsBox.append('<div id="translation-body"><p>' + translation.phrase + '</p></div>');
-				});
-			}
+            if (data.translationsCount == undefined)
+            {
+                translationsBox.append('<div id="translation-body"><p class="msg">' + data.messages.noPhrase + '</p></div>');
+            }
+            else{
+                if (data.translationsCount == 0)
+                {
+                    translationsBox.append('<div id="translation-body"><p class="msg">' + data.messages.noTranslation + '</p></div>');
+                }
+                else{
+                    jQuery.each(data.translations, function(index, translation)
+                    {
+                        translationsBox.append('<div id="translation-body"><p>' + translation.phrase + '</p></div>');
+                    });
+                }
+            }
 
 			$('#add-text').show();
 		},

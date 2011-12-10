@@ -274,6 +274,11 @@ class SiteController extends Controller
 						);
 					}
 				}
+                else{
+                    $results['messages'] = array(
+                        'noPhrase'=>Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase))
+                    );
+                }
 
 				if (isset($_GET['ajax']) && $_GET['ajax'] == 'ajax')
 				{
