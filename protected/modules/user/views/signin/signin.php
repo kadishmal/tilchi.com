@@ -39,6 +39,9 @@
             <?php echo CHtml::link(Yii::t('UserModule.login', 'Not registered yet?'), '/user/register'); ?>
         </div>
 
+        <div class="extra">
+            <?php echo CHtml::link(Yii::t('UserModule.login', 'Forgot password?'), '/user/signin/restorePassword'); ?>
+        </div>
     <?php $this->endWidget(); ?>
     </div><!-- form -->
 
