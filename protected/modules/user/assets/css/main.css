@@ -10,7 +10,7 @@
 /* cursor */
 button,.button,#login-button,.msg i{cursor:pointer}
 /* display */
-.button,#login label,#progress-bar .bar,#progress-bar span,#progress-bar i,#profile i,#profile .gender label,.gender .options,.gender span,.th,.td,#profile .section label{display:inline-block}
+.button,#login label,#progress-bar .bar,#progress-bar span,#progress-bar i,#profile i,#profile .gender label,.gender .options,.gender span,.th,.td,#profile .section label,.button-blue,.button-blue a{display:inline-block}
 #profile .row label,#profile .row .errorBox,#profile .gender label.gender_text{display:none}
 /* position */
 #login .row label,#profile .row label,#profile .row i,#profile .arrow,#profile .arrow-border,#profile .row .errorBox,#profile .gender label.gender_text{position:absolute}
@@ -39,6 +39,7 @@ div.width25 input{width:172px}
 .button{width:auto}
 .submit i{width:9px}
 #login-button{width:49px}
+#login #restore-password-form #login-button{width:90px}
 #progress-bar .bar{width:220px}
 #progress-bar .active{width:230px}
 #progress-bar i,#profile .password i,#profile .password-old i{width:11px}
@@ -46,7 +47,10 @@ div.width25 input{width:172px}
 #profile .email i{width:23px}
 #profile .last-name i{width:24px}
 #profile .name i{width:25px}
+#reset-password-form #login-button{width:95px}
 #profile .row label,#profile .row .errorBox{max-width:200px}
+#reset-password-form .last input[type="password"]{width:220px}
+#reset-password-form .first input[type="password"]{width:316px}
 /* height */
 #profile .arrow,#profile .arrow-border{height:0}
 .submit i{height:6px}
@@ -60,7 +64,7 @@ button,.button{line-height:18px}
 #login input[type="text"],#login input[type="password"]{line-height:16px}
 /* margin */
 #login,#profile{margin:0 auto}
-#login input[type="checkbox"],#login-button,#profile .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button,#profile .section input[type="checkbox"]{margin:0}
+#login input[type="checkbox"],#login-button,#profile .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button,#profile .section input[type="checkbox"],.button-blue a{margin:0}
 #profile .gender span{margin-right:6px}
 .mRight10{margin-right:10px}
 #profile .gender #User_gender_0{margin:0 0 0 5px}
@@ -81,6 +85,7 @@ button,.button{line-height:18px}
 .check,#login-button,#profile .gender input[type="radio"],#profile .section input[type="checkbox"]{padding:0}
 #login input[type="text"],#login input[type="password"]{padding:6px 5px 6px 65px}
 .gender span{padding:6px 6px 31px 6px}
+.button-blue a{padding:7px 5px}
 #profile .gender .options{padding-bottom:6px}
 .section{padding-top:10px}
 #profile input[type="text"],#profile input[type="password"]{padding:9px 9px 9px 33px}
@@ -90,13 +95,14 @@ button,select,.button{padding:3px 10px}
 button.inline,.button.inline{padding:0 10px}
 #progress-bar .bar span{padding:13px 0}
 #progress-bar .active span{padding:12px 0}
+#reset-password-form input[type="password"]{padding-left:90px}
 /* font-size */
-button,.button,label,#login-button,#profile .row .errorMessage,#login .extra,.link-button,.section .td{font-size:11px}
+button,.button,label,#login-button,#profile .row .errorMessage,#login .extra,.link-button,.section .td,.button-blue a{font-size:11px}
 #progress-bar .bar,#profile .gender label{font-size:12px}
 #progress-bar .active{font-size:14px}
 #profile .row input[type="text"],#profile .row input[type="password"]{font-size:18px}
 /* font-weight */
-button,.button,#login-button,#progress-bar .bar,#blog button.bold,#blog .button.bold,#profile .th{font-weight:bold}
+button,.button,#login-button,#progress-bar .bar,#blog button.bold,#blog .button.bold,#profile .th,.button-blue a{font-weight:bold}
 /* color */
 button,button:hover,.button,.button:hover,button.inline:hover,.button.inline:hover{color:#fff}
 button.inline,.button.inline,.link-button{color:#555}
@@ -106,12 +112,12 @@ button.cancel,.button.cancel,#login-button:hover{color:#000}
 #profile .td{color:#808080}
 .required{color:#C1272D}
 #progress-bar .bar{color:#ccc}
-#login-button,#progress-bar .active{color:#276086}
+#login-button,#progress-bar .active,.button-blue a,.button-blue a:hover{color:#276086}
 /* text-align */
 #progress-bar .bar,#profile .row label,#profile .row .errorBox{text-align:center}
 #login .extra{text-align:right}
 /* text-decoration */
-button,.button,a.button.inline,.link-button{text-decoration:none}
+button,.button,a.button.inline,.link-button,.button-blue a{text-decoration:none}
 .link-button:hover{text-decoration:underline}
 /* text-transform */
 #login .row label{text-transform:uppercase}
@@ -128,7 +134,7 @@ button:focus,.button:focus{background:#48dc7c}
 .submit i{background-position:-91px -60px}
 button.inline,button.cancel,.button.inline,.button.cancel{background:#CFCFCF}
 #login input[type="text"]:focus,#login input[type="password"]:focus,#profile .row input[type="text"]:focus,#profile .row input[type="password"]:focus,#profile .row label{background:#FAFFBD}
-#login-button{background:#C9E0ED}
+#login-button,.button-blue a{background:#C9E0ED}
 #progress-bar .bar{background:#eee}
 #progress-bar .active,#progress-bar .completed{background:#d8ebf8}
 div.form div.error input,div.form div.error textarea,div.form div.error select,div.form input.error,div.form textarea.error,div.form select.error,#profile .row .errorBox{background:#FEE !important}
@@ -146,18 +152,18 @@ div.form div.success input,div.form div.success textarea,div.form div.success se
 #profile .female i{background-position:-34px -68px}
 #profile .msg i{background-position:-9px -112px}
 /* outline */
-#login input[type="text"],#login input[type="password"],#profile .row input[type="text"],#profile .row input[type="password"],#login-button{outline-width:0!important}
+#login input[type="text"],#login input[type="password"],#profile .row input[type="text"],#profile .row input[type="password"],#login-button,.button-blue a{outline-width:0!important}
 #login-button:focus::-moz-focus-inner{border-color:transparent!important}
 #login #LoginForm_rememberMe:focus{outline:3px solid #C9E0ED}
 /* border */
 #login input[type="text"],#login input[type="password"]{border:0}
 button,.button{border:1px solid transparent}
-#login input[type="password"]{border-right:1px solid #C9E0ED}
-#login .row,#profile .row input[type="text"],#profile .row input[type="password"],#profile .row label{border:1px solid #C9E0ED}
+#login input[type="password"],#login #restore-password-form input[type="text"]{border-right:1px solid #C9E0ED}
+#login .row,#profile .row input[type="text"],#profile .row input[type="password"],#profile .row label,.button-blue{border:1px solid #C9E0ED}
 #login .row.last{border-top:none}
 #profile .section{border-top:1px solid #CCC}
-#login-button{border:1px solid #FFF}
-#login-button:focus{border:1px solid #4D9AC6}
+#login-button,.button-blue a{border:1px solid #FFF}
+#login-button:focus,.button-blue a:focus,.button-blue a:hover{border:1px solid #4D9AC6}
 #profile .arrow-border{
 border-color: transparent #C9E0ED transparent transparent;
 border-style: solid;
@@ -175,7 +181,7 @@ border-width: 6px
 div.form div.error input,div.form div.error textarea,div.form div.error select,div.form input.error,div.form textarea.error,div.form select.error,#profile .row .errorBox{border-color:#C00}
 /* border-radius */
 button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px}
-#login .row,#profile .row input[type="text"],#profile .row input[type="password"]{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}
+#login .row,#profile .row input[type="text"],#profile .row input[type="password"],#login #restore-password-form .row,.button-blue{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}
 #msgBox{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
 #login .row.first{border-bottom-left-radius:0;-moz-border-bottom-left-radius:0;-webkit-border-bottom-left-radius:0;border-bottom-right-radius:0;-moz-border-bottom-right-radius:0;-webkit-border-bottom-right-radius:0}
 #login .row.last{border-top-left-radius:0;-moz-border-top-left-radius:0;-webkit-border-top-left-radius:0;border-top-right-radius:0;-moz-border-top-right-radius:0;-webkit-border-top-right-radius:0}
