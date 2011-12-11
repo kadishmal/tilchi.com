@@ -60,12 +60,14 @@ class User extends CActiveRecord
             array('gender', 'in', 'range'=>array(self::GENDER_MALE, self::GENDER_FEMALE)),
             // Login
 			array('email, password', 'required', 'on'=>'login'),
-			// Change password
+            // Restore password
+            array('email', 'required', 'on'=>'restore-password', 'message'=>Yii::t('UserModule.login', 'Email is required to restore the password.')),
+            // Reset or Change password
 			array('password_repeat', 'required', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Enter your <b>old password</b>.')),
-			array('passwordNew', 'required', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Enter a <b>new password</b>.')),
-			array('passwordNew_repeat', 'required', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Repeat your <b>new password</b>.')),
+			array('passwordNew', 'required', 'on'=>'changePassword,resetPassword', 'message'=>Yii::t('UserModule.user', 'Enter a <b>new password</b>.')),
+			array('passwordNew_repeat', 'required', 'on'=>'changePassword,resetPassword', 'message'=>Yii::t('UserModule.user', 'Repeat your <b>new password</b>.')),
 			array('password', 'compare', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Your old password is incorrect.')),
-			array('passwordNew_repeat', 'compare', 'compareAttribute'=>'passwordNew', 'on'=>'changePassword', 'message'=>'The confirmation password does not match with your new password. You need to enter your new password twice.'),
+			array('passwordNew_repeat', 'compare', 'compareAttribute'=>'passwordNew', 'on'=>'changePassword,resetPassword', 'message'=>Yii::t('UserModule.user', 'The confirmation password does not match with your new password. You need to enter your new password twice.')),
 			//array('username', 'length', 'max'=>150),
 			array('password, password_repeat, passwordNew, passwordNew_repeat', 'length', 'max'=>100, 'min'=>6),
 			array('subscr_post_comments', 'boolean')
@@ -80,7 +82,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-
+            'userPasswordRestore'=>array(self::HAS_MANY, 'UserPasswordRestore', 'user_id')
 		);
 	}
 
@@ -93,9 +95,9 @@ class User extends CActiveRecord
 			'id' => 'ID',
 			'email' => Yii::t('UserModule.user', 'Email'),
 			'password' => Yii::t('UserModule.user', 'Password'),
-			'password_repeat' => 'Старый пароль',
-			'passwordNew' => 'Новый пароль',
-			'passwordNew_repeat' => 'Подтвердите пароль',
+			'password_repeat' => Yii::t('UserModule.user', 'Old password'),
+			'passwordNew' => Yii::t('UserModule.user', 'New password'),
+			'passwordNew_repeat' => Yii::t('UserModule.user', 'Repeat password'),
 			'username' => Yii::t('UserModule.user', 'Username'),
 			'first_name' => Yii::t('UserModule.user', 'First name'),
 			'last_name' => Yii::t('UserModule.user', 'Last name'),
@@ -108,7 +110,8 @@ class User extends CActiveRecord
      */
     public function beforeSave()
     {
-    	if (parent::beforeSave()){
+    	if (parent::beforeSave())
+        {
 			if ($this->scenario == 'changePassword' || $this->scenario == 'changeUserPassword'){
 				$this->password = $this->passwordNew;
 			}
@@ -130,7 +133,7 @@ class User extends CActiveRecord
 
 	public function cryptPassword()
 	{
-		$salt  = $this->genRandomPassword(32);
+		$salt  = User::genRandomPassword(32);
 		$crypt = User::getCryptedPassword($this->password, $salt);
 		$this->password = $crypt.':'.$salt;
 	}
@@ -142,7 +145,7 @@ class User extends CActiveRecord
 	 * @return	string			Random Password
 	 * @since	1.5
 	 */
-	private function genRandomPassword($length = 8)
+	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);

@@ -42,6 +42,9 @@ return array(
     'Enter your <b>gender</b> necessary to receive customized messages.'=>'Введите свой <b>пол</b>, чтобы получать сообщения в правильной форме.',
     'Phone number'=>'Городской телефон',
 	// change password
+    'Old password'=>'Старый пароль',
+    'New password'=>'Новый пароль',
+    'Repeat password'=>'Повторный пароль',
 	'Enter your <b>old password</b>.'=>'Введите свой <b>старый пароль</b>.',
 	'Enter a <b>new password</b>.'=>'Введите <b>новый пароль</b>.',
 	'Repeat your <b>new password</b>.'=>'Введите новый пароль <b>еще раз</b>.',
