@@ -69,9 +69,11 @@ return array(
 					'class' => 'application.components.LanguageUrlRule',
 					'connectionID' => 'db',
 				),
+                // User URLs
 				array('user/profile', 'pattern'=>'user'),
 				array('user/signin/logout', 'pattern'=>'user/logout'),
                 array('user/<controller>', 'pattern'=>'user/<controller:\w+>'),
+                array('user/<controller>/<action>', 'pattern'=>'user/<controller:\w+>/<action:\w+>/<param>'),
                 // Blog URLs
                 array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>/<param>'),
                 array('content/blog/<action>', 'pattern'=>'blog/<action:(comments|tags)>', 'defaultParams'=>array('param'=>'all')),
