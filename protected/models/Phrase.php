@@ -83,12 +83,12 @@ class Phrase extends CActiveRecord
 
 	public function checkUnique($attribute,$params)
     {
-        $existringPhrases = Phrase::model()->findAllByAttributes(array(
+        $existingPhrases = Phrase::model()->findAllByAttributes(array(
 			'phrase'=>$this->$attribute,
 			'language_id'=>$this->language_id
 		));
 
-		foreach($existringPhrases as $phrase)
+		foreach($existingPhrases as $phrase)
 		{
 			if ($phrase->phrase == $this->$attribute)
 			{
