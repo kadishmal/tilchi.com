@@ -33,18 +33,21 @@ class SiteController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform view actions
-				'actions'=>array('search', 'index', 'view', 'translations'),
-				'users'=>array('*'),
-			),
+            array('allow',
+                'actions'=>array('search', 'view', 'index', 'translations'),
+                'roles'=>array('guest', 'member')
+            ),
             array('allow',  // allow all users to perform view actions
 				'actions'=>array('new'),
-				'users'=>array('@'),
+				'roles'=>array('translator'),
 			),
             array('deny', // do not allow guest users to logout
 				'actions'=>array('logout'),
 				'users'=>array('?'),
 			),
+            array('deny',  // deny all users
+                'users'=>array('*'),
+            ),
 		);
 	}
     /**
