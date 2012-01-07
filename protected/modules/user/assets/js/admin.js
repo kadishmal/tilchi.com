@@ -33,7 +33,7 @@ function loadPermission($this)
         roleName = parent.find('input.name').val(),
         output = $('<div class="tabContainer" id="' + roleName + '"></div>'),
         tabContents, users, $input,
-        spinner = $('#spinner').clone();
+        spinner = $('#spinner').clone(), msgBox;
 
     output.append(spinner);
 
@@ -98,7 +98,10 @@ function loadPermission($this)
                 output.append(data.message);
             }
 
-            $('#msgBox > .buttons .ok a').text(data.ok);
+            msgBox = $('#msgBox');
+            msgBox.find('.buttons .ok a').text(data.ok);
+
+            msgBox.animate({top: ( $(window).height() - msgBox.height() ) / 2 - msgBox.outerHeight() / 2});
         },
         'complete': function()
         {
