@@ -20,6 +20,24 @@ function doSearch(url, dataToSend, searchHandler, completeHandler)
 	});
 }
 
+function enableLanguageSwitch()
+{
+    $('#fromLang,#toLang').change(function()
+    {
+        $('[id=Tilchi_' + $(this).attr('id') + ']').val($(this).val());
+        $.cookie('Tilchi_' + $(this).attr('id'), $(this).val());
+        $('#Tilchi_phrase').focus();
+    })
+    .change();
+
+    $('.switch').click(function()
+    {
+        var t = $('#fromLang').val();
+        $('#fromLang').val($('#toLang').val()).change();
+        $('#toLang').val(t).change();
+    });
+}
+
 function activateTilchiSearch(formName)
 {
     var form = $('#' + formName),
@@ -38,7 +56,7 @@ function activateTilchiSearch(formName)
 				$('#add-phrase').hide();
 				jQuery.each(data.phrases, function(index, phrase)
 				{
-					var item = $('<a class="item" href="/site/' + phrase.langAbbr + '/' + phrase.phrase + '"></a>');
+					var item = $('<a class="item" href="/site/' + phrase.fromLang + '/' + phrase.toLang + '/' + phrase.phrase + '"></a>');
 					results.append(item);
 
 					item.append(phrase.phrase)
@@ -55,18 +73,7 @@ function activateTilchiSearch(formName)
 			spinner.hide();
 		};
 
-	$('#fromLang,#toLang').change(function()
-	{
-		$('[id=Tilchi_' + $(this).attr('id') + ']').val($(this).val());
-		$.cookie('Tilchi_' + $(this).attr('id'), $(this).val());
-	})
-	.change();
-
-	$('.switch').click(function(){
-		var t = $('#fromLang').val();
-		$('#fromLang').val($('#toLang').val()).change();
-		$('#toLang').val(t).change();
-	});
+	enableLanguageSwitch();
 
 	phrase.keydown(function(event)
 	{
@@ -154,8 +161,6 @@ function activateTilchiSearch(formName)
 
         return false;
     });
-
-	activateTranslation();
 }
 
 function retrieveTranslation(item)
@@ -194,7 +199,8 @@ function retrieveTranslation(item)
                 else{
                     jQuery.each(data.translations, function(index, translation)
                     {
-                        translationsBox.append('<div id="translation-body"><p>' + translation.phrase + '</p></div>');
+                        translationsBox.append('<div id="translation-body"><p>' + translation.phrase + '</p><div>'
+                            + translation.explanation + '</div></div>');
                     });
                 }
             }
@@ -239,7 +245,7 @@ function activateTranslation()
 			translationResults.show();
 		};
 
-	addText.click(function()
+	addText.on('click', function()
 	{
 		$(this).hide();
 
@@ -391,5 +397,4 @@ function activateTranslation()
 
 		return false;
 	});
-
 }

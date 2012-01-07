@@ -117,107 +117,114 @@ class SiteController extends Controller
         $results = array();
 		$results['count'] = 0;
 
-        if(isset($_POST['Tilchi']))
-		{
-            $searchPhrase = $_POST['Tilchi']['phrase'];
-
-            if (strlen(trim($searchPhrase)) > 0)
+        if(isset($_POST['ajax']) && $_POST['ajax'] === 'tilchi-search-form')
+        {
+            if(isset($_POST['Tilchi']))
             {
-				$fromLang = $_POST['Tilchi']['fromLang'];
-				//$toLang = $_POST['Tilchi']['toLang'];
+                $searchPhrase = $_POST['Tilchi']['phrase'];
 
-				$fromLang = Language::model()->find('id = :id', array(':id'=>$fromLang));
-				//$toLang = Language::model()->find('id = :id', array(':id'=>$toLang));
+                if (strlen(trim($searchPhrase)) > 0)
+                {
+                    $fromLang = $_POST['Tilchi']['fromLang'];
+                    $toLang = $_POST['Tilchi']['toLang'];
 
-				if ($fromLang)
-				{
-					$idx = 'idx_phrases';
-					// Russiang and Kyrgyz languages have their own customized indexes
-					if ($fromLang->abbreviation == 'ru' || $fromLang->abbreviation == 'ky')
-					{
-						$idx .= '_' . $fromLang->abbreviation;
-					}
+                    $fromLang = Language::model()->find('id = :id', array(':id'=>$fromLang));
+                    $toLang = Language::model()->find('id = :id', array(':id'=>$toLang));
 
-					$search = Yii::App()->search;
+                    if ($fromLang && $toLang)
+                    {
+                        $idx = 'idx_phrases';
 
-					$search->select('id')->
-						from($idx)->
-						where($searchPhrase . '*')->
-						filters(array('language_id'=>$fromLang->id))->
-						limit(0, 10, 1000);
+                        if ($fromLang->abbreviation == 'ru' || $fromLang->abbreviation == 'ky'
+                            || $fromLang->abbreviation == 'en' || $fromLang->abbreviation == 'tr')
+                        {
+                            $idx .= '_' . $fromLang->abbreviation;
+                        }
 
-					$searchResults = $search->search();
-					$results['count'] = $searchResults->getTotal();
-					$ids = implode(',', $searchResults->getIdList());
+                        $search = Yii::App()->search;
 
-					if ($results['count'] > 0)
-					{
-						$phrases = Phrase::model()->with('language')->findAll(array(
-							'condition'=>'t.id IN (' . $ids . ')',
-							'order'=>'FIELD(t.id,' . $ids . ')'
-						));
+                        $search->select('id')->
+                            from($idx)->
+                            where($searchPhrase . '*')->
+                            filters(array('language_id'=>$fromLang->id))->
+                            limit(0, 10, 1000);
 
-						$results['phrases'] = array();
+                        $searchResults = $search->search();
+                        $results['count'] = $searchResults->getTotal();
+                        $ids = implode(',', $searchResults->getIdList());
 
-						$lang = Yii::app()->language;
+                        if ($results['count'] > 0)
+                        {
+                            $phrases = Phrase::model()->with('language')->findAll(array(
+                                'condition'=>'t.id IN (' . $ids . ')',
+                                'order'=>'FIELD(t.id,' . $ids . ')'
+                            ));
 
-						foreach($phrases as $phrase)
-						{
-							$results['phrases'][] = array(
-								'phrase'=>$phrase->phrase,
-								'language'=>$phrase->language->$lang,
-								'langAbbr'=>$phrase->language->abbreviation
-							);
-						}
-					}
-					else{
-//						$results['status'] = Yii::t('tilchi', 'Sorry, but the phrase <b>_phrase</b> has not been found. If you are sure this phrase exists, request its translation below, and our community members will make sure it is translated.', array(
-//							'_phrase'=>$searchPhrase
-//						));
-						$results['status'] = Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase));
-					}
+                            $results['phrases'] = array();
 
-					if (!Yii::app()->user->isGuest)
-					{
-						$searchHistory = new PhraseSearchHistory;
-						$searchHistory->user_id = Yii::app()->user->id;
-						$searchHistory->phrase = $searchPhrase;
-						$searchHistory->language_id = $fromLang->id;
-						$searchHistory->search_date = time();
+                            foreach($phrases as $phrase)
+                            {
+                                $results['phrases'][] = array(
+                                    'fromLang'=>$fromLang->abbreviation,
+                                    'toLang'=>$toLang->abbreviation,
+                                    'phrase'=>$phrase->phrase
+                                );
+                            }
+                        }
+                        else{
+                            //						$results['status'] = Yii::t('tilchi', 'Sorry, but the phrase <b>_phrase</b> has not been found. If you are sure this phrase exists, request its translation below, and our community members will make sure it is translated.', array(
+                            //							'_phrase'=>$searchPhrase
+                            //						));
+                            $results['status'] = Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase));
+                        }
+                    }
+                }
+                else{
+                    $results['status'] = Yii::t('tilchi', 'No translation found');
+                }
 
-						$searchHistory->save();
-					}
-				}
-            }
-            else{
-				$results['status'] = Yii::t('tilchi', 'No translation found');
-            }
-
-            if(isset($_POST['ajax']) && $_POST['ajax'] === 'tilchi-search-form')
-            {
                 echo CJSON::encode($results);
             }
+        }
+        // static search
+        else{
+            if(isset($_POST['Tilchi']))
+            {
+                $uri = '/site';
+                $fromLang = $_POST['Tilchi']['fromLang'];
+                $toLang = $_POST['Tilchi']['toLang'];
+
+                $fromLang = Language::model()->find('id = :id', array(':id'=>$fromLang));
+                $toLang = Language::model()->find('id = :id', array(':id'=>$toLang));
+                $searchPhrase = $_POST['Tilchi']['phrase'];
+
+                if ($fromLang && $toLang)
+                {
+                    $uri .= '/' . $fromLang->abbreviation . '/' . $toLang->abbreviation . '/' . $searchPhrase;
+                }
+
+                $this->redirect($uri);
+            }
             else{
-                $this->render('_viewSearchResults', array(
                     'dataProvider'=>$dataProvider
-                ));
+                $this->actionIndex();
             }
         }
     }
 	public function actionView()
 	{
-		if (isset($_GET['language']))
+		if (isset($_GET['fromLang']) && isset($_GET['toLang']))
 		{
 			$searchPhrase = $_GET['phrase'];
-			$toLang = isset($_GET['toLang']) ? $_GET['toLang'] : false;
 
-			$lang = Language::model()->findByPk($_GET['language']);
+			$lang = Language::model()->findByPk($_GET['fromLang']);
 
 			if ($lang)
 			{
 				$idx = 'idx_phrases';
 				// Russiang and Kyrgyz languages have their own customized indexes
-				if ($lang->abbreviation == 'ru' || $lang->abbreviation == 'ky')
+				if ($lang->abbreviation == 'ru' || $lang->abbreviation == 'ky'
+                    || $lang->abbreviation == 'en' || $lang->abbreviation == 'tr')
 				{
 					$idx .= '_' . $lang->abbreviation;
 				}
@@ -239,26 +246,21 @@ class SiteController extends Controller
 				if ($results['count'] > 0)
 				{
 					$results['translations'] = array();
-					$params = array(
-						':id'=>implode(',', $searchResults->getIdList())
-					);
-					$condition = 't.id = :id';
 
-					if ($toLang !== false)
-					{
-						$params[':language_id'] = $toLang;
-						$condition .= ' AND translations.translation_language_id = :language_id';
-					}
-
-					$phrase = Phrase::model()->with('translations', 'translations.translationPhrase', 'translations.translationLanguage')->find($condition, $params);
+					$phrase = Phrase::model()->with('translations', 'translations.translationPhrase', 'translations.translationLanguage')
+                                ->find('t.id = :id AND translations.translation_language_id = :language_id', array(
+                                    ':id'=>implode(',', $searchResults->getIdList()),
+                                    ':language_id'=>$_GET['toLang']
+                                ));
 
 					if ($phrase)
 					{
 						foreach ($phrase->translations as $translation)
 						{
 							$results['translations'][] = array(
-								'phrase'=>$translation->translationPhrase->phrase,
-								'language'=>$translation->translationLanguage->$sysLang
+								'phrase'=>($translation->translationPhrase ? $translation->translationPhrase->phrase : ''),
+								'language'=>$translation->translationLanguage->$sysLang,
+                                'explanation'=>$translation->explanation ? $translation->explanation : ''
 							);
 						}
 					}
@@ -273,6 +275,23 @@ class SiteController extends Controller
 							'noTranslation'=>Yii::t('tilchi', 'The word <b>_phrase</b> exists in our database, but no translation has been found for it. If you know the translation, help us improve Tilchi.com by adding your translation. You will be recorded as a contributor.', array('_phrase'=>$searchPhrase))
 						);
 					}
+
+                    if (!Yii::app()->user->isGuest && Yii::app()->user->getState('save_search_history'))
+                    {
+                        $searchHistory = new PhraseSearchHistory;
+                        $searchHistory->user_id = Yii::app()->user->id;
+
+                        if ($phrase)
+                        {
+                            $searchHistory->phrase_id = $phrase->id;
+                        }
+
+                        $searchHistory->phrase = $searchPhrase;
+                        $searchHistory->language_id = $lang->id;
+                        $searchHistory->search_date = time();
+
+                        $searchHistory->save();
+                    }
 				}
                 else{
                     $results['messages'] = array(
@@ -289,11 +308,14 @@ class SiteController extends Controller
 						'phrase'=>$searchPhrase,
 						'fromLang'=>$lang->$sysLang,
 						'fromLangId'=>$lang->id,
-						'sysLang'=>$sysLang,
+						'toLangId'=>$_GET['toLang'],
 						'results'=>$results
 					));
 				}
 			}
+            else{
+                $this->actionIndex();
+            }
 		}
 		else{
 			$this->actionIndex();

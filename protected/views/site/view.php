@@ -1,16 +1,47 @@
 <?php
     $this->pageTitle = $phrase . ' | ' . $fromLang . ' ' . Yii::t('tilchi', 'Dictionary') . ' | ' . Yii::app()->name;
 
-	Yii::app()->clientScript->registerScript('tilchi-search',"
-		activateTilchiSearch('tilchi-search-form');
+    Yii::app()->clientScript->registerScript('tilchi-search',"
+		enableLanguageSwitch();
 	");
 ?>
 
 <div id="tilchi">
      <div class="tilchi-body">
          <div class="frame">
-            <div class="title"><h2><?php echo Yii::t('tilchi', 'Dictionary') . ' ' . $fromLang; ?></h2></div>
-            <div class="body" id="search-container" style="display:block">
+            <div class="title"><h2><?php
+                echo Yii::t('tilchi', 'Dictionary');
+
+                $lang = Yii::app()->language;
+
+                $langs = CHtml::listData(Language::model()->findAll(array(
+                    'select'=>'id, ' . $lang
+                )), 'id', $lang);
+
+                $fromLang = isset(Yii::app()->request->cookies['Tilchi_fromLang']) ?
+                    Yii::app()->request->cookies['Tilchi_fromLang']->value : 1;
+
+                $toLang = isset(Yii::app()->request->cookies['Tilchi_toLang']) ?
+                    Yii::app()->request->cookies['Tilchi_toLang']->value : 2;
+
+                echo CHtml::dropDownList('fromLang', $fromLang, $langs) .
+                    CHtml::tag('span', array('style'=>'margin:0 10px', 'class'=>'sprite switch'), '')
+                    . CHtml::dropDownList('toLang', $toLang, $langs);
+                ?></h2>
+            </div><div id="tilchi-search"><?php
+                 $form = $this->beginWidget('CActiveForm', array(
+                     'id'=>'tilchi-search-form',
+                     'action'=>'/site/search',
+                     'focus'=>'#Tilchi_phrase'
+                 ));
+
+                 echo CHtml::hiddenField('Tilchi[fromLang]', $fromLang) .
+                     CHtml::hiddenField('Tilchi[toLang]', $toLang) .
+                     CHtml::textField('Tilchi[phrase]', $phrase, array('class'=>'textField', 'autocomplete'=>'off')) .
+                     CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
+
+                 $this->endWidget();
+            ?></div><div class="body" id="search-container" style="display:block">
 				<div id="translation">
 					<h3><?php echo $phrase; ?></h3>
 					<div id="translation-body">
@@ -21,7 +52,9 @@
 							{
 								foreach ($results['translations'] as $translation)
 								{
-									echo '<h4 class="language">' . Yii::t('tilchi', 'Translation') . ': ' . $translation['language'] . '</h4><p>' . $translation['phrase'] . '</p>';
+									echo CHtml::tag('h4', array('class'=>'language'), Yii::t('tilchi', 'Translation') . ': ' . $translation['language']) .
+                                        CHtml::tag('p', array(), $translation['phrase']) .
+                                        CHtml::tag('div', array(), $translation['explanation']);
 								}
 							}
 							else{
