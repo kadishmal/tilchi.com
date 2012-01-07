@@ -2,7 +2,8 @@
 
 class ProfileController extends Controller
 {
-	const SUBSCR_STATUS_SUCCESS = 1;
+	const SETTINGS_SET_STATUS_SUCCESS = 1;
+	const SETTINGS_SET_STATUS_FAIL = -1;
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -27,7 +28,7 @@ class ProfileController extends Controller
 	{
 		return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'subscribe'),
+				'actions'=>array('index', 'setSettings'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -40,44 +41,51 @@ class ProfileController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = $this->loadModel(Yii::app()->user->id);
-		$this->render('index', array('model'=>$model));
+		$model = User::model()->with('settings')->findByPk(Yii::app()->user->id);
+
+        if (!$model->settings)
+        {
+            $userSettings = new UserSettings;
+            $userSettings->user_id = $model->id;
+
+            if (!$userSettings->save())
+            {
+                throw new CHttpException(404, Yii::t('UserModule.profile',
+                    'Could not process your request. Please try again later. If this happens regularly, please <a href="/forum/new/issue">report this issue</a>.'));
+            }
+
+            $model->settings = $userSettings;
+        }
+
+        $this->render('index', array('model'=>$model));
 	}
-	public function actionSubscribe()
+
+	public function actionSetSettings()
 	{
 		$results = array();
+        $results['status'] = self::SETTINGS_SET_STATUS_FAIL;
 
 		if(isset($_POST['User']))
 		{
-            $target = $_POST['User']['target'];
+            $target = $_POST['User']['t'];
 			$value = $_POST['User']['v'];
 
-			if ($target == 'post_comments')
-			{
-				$model = $this->loadModel(Yii::app()->user->id);
-				$model->subscr_post_comments = ($value == 'true' ? true : false);
+            $model = UserSettings::model()->findByAttributes(array(
+                'user_id'=>Yii::app()->user->id
+            ));
 
-				if ($model->save())
-				{
-					$results['status'] = self::SUBSCR_STATUS_SUCCESS;
-				}
-			}
+            if ($model && $model->hasAttribute($target))
+            {
+                $model->$target = ($value == 'true' ? true : false);
+
+                if ($model->save())
+                {
+                    $results['status'] = self::SETTINGS_SET_STATUS_SUCCESS;
+                    Yii::app()->user->setState($target, $model->$target);
+                }
+            }
 		}
 
 		echo CJSON::encode($results);
-	}
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the ID of the model to be loaded
-	 */
-	public function loadModel($id)
-	{
-		$model = User::model()->findByPk((int)$id);
-
-        if($model === null)
-			throw new CHttpException(404, 'The requested page does not exist.');
-
-		return $model;
 	}
 }

@@ -33,7 +33,9 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		$user = User::model()->findByAttributes(array('email'=>$this->email));
+		$user = User::model()->findByAttributes(array(
+            'email'=>$this->email
+        ));
 
         if($user === null)
         {
@@ -48,8 +50,15 @@ class UserIdentity extends CUserIdentity
 			if ($crypt == $testcrypt)
             {
 				$this->_id = $user->id;
-	    		//$this->setState('name', $user->first_name);
-	            $this->errorCode=self::ERROR_NONE;
+
+                // get the user's settings and preferences and store them in cookies
+                if ($user->settings)
+                {
+                    $this->setState('ajax_search', $user->settings->ajax_search);
+                    $this->setState('save_search_history', $user->settings->save_search_history);
+                }
+
+                $this->errorCode=self::ERROR_NONE;
 			} else {
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
 			}

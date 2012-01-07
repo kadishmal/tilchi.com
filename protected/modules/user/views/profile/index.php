@@ -1,25 +1,8 @@
 <?php
 $this->pageTitle = Yii::t('UserModule.user', 'My profile') . ' | ' . Yii::app()->name;
 
-Yii::app()->clientScript->registerScript('vote-post', "
-	var subsсrPostComments = $('#subsсr_post_comments');
-
-	subsсrPostComments.change(function(){
-		jQuery.ajax({
-            'type':'POST',
-            'url': '/user/profile/subscribe',
-            'cache': true,
-            'dataType':'json',
-            'data': 'User[target]=post_comments&User[v]=' + this.checked,
-            'success': function(data, textStatus, jqXHR)
-			{
-				if (data.status != '1')
-				{
-					this.checked = !this.checked;
-				}
-            }
-        });
-	});
+Yii::app()->clientScript->registerScript('enable-profile-edit', "
+    enableProfileEdit();
 ");
 
 $this->menu=array(
@@ -41,10 +24,23 @@ $this->menu=array(
 		<div class="th"><?php echo $model->getAttributeLabel('password') ?></div>
 		<div class="td"><?php echo '******' . CHtml::link(Yii::t('UserModule.user', 'Change'), '/user/edit/password', array('class'=>'link-button mLeft10')); ?></div>
 	</div>
-	<div class="section">
+    <hr />
+	<div class="row">
 		<div class="th"><?php echo Yii::t('UserModule.user', 'Notifications'); ?></div>
 		<div class="td">
-			<div class="settings checkbox"><input type="checkbox" id="subsсr_post_comments" <?php echo $model->subscr_post_comments ? 'checked' : ''; ?> /><label for="subsсr_post_comments"><?php echo Yii::t('UserModule.user', 'Comments on my posts'); ?></label><span class="msg" title="<?php echo Yii::t('UserModule.user', 'Receive email notifications, if someone comments on a post I have created or I have previously commented on.'); ?>"><i></i></span></div>
+			<div class="settings checkbox"><input type="checkbox" id="subscr_post_comments" <?php echo $model->settings->subscr_post_comments ? 'checked' : ''; ?> /><label for="subscr_post_comments"><?php echo Yii::t('UserModule.user', 'Comments on my posts'); ?></label><span class="sprite msg" title="<?php echo Yii::t('UserModule.user', 'Receive email notifications, if someone comments on a post I have created or I have previously commented on.'); ?>"></span></div>
 		</div>
 	</div>
+    <div class="row">
+        <div class="th"><?php echo Yii::t('UserModule.user', 'Settings'); ?></div>
+        <div class="td">
+            <div class="settings checkbox"><input type="checkbox" id="ajax_search" <?php echo $model->settings->ajax_search ? 'checked' : ''; ?> /><label for="ajax_search"><?php echo Yii::t('UserModule.user', 'Activate Instant Translation'); ?></label><span class="sprite msg" title="<?php echo Yii::t('UserModule.user', 'Instant Translation allows to translate without refreshing or redirecting to another page.'); ?>"></span></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="th"></div>
+        <div class="td">
+            <div class="settings checkbox"><input type="checkbox" id="save_search_history" <?php echo $model->settings->save_search_history ? 'checked' : ''; ?> /><label for="save_search_history"><?php echo Yii::t('UserModule.user', 'Save my translation history'); ?></label><span class="sprite msg" title="<?php echo Yii::t('UserModule.user', 'You can easily see the statistics of which words you have already searched for and learn from them.'); ?>"></span></div>
+        </div>
+    </div>
 </div>
