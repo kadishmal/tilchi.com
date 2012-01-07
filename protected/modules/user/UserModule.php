@@ -3,7 +3,7 @@
 class UserModule extends CWebModule
 {
     public $defaultController = 'Profile';
-	public $cssAssetUrl;
+    public $assets;
 
 	public function init()
 	{
@@ -16,13 +16,12 @@ class UserModule extends CWebModule
 			'user.components.*',
 		));
 
-		$cs = Yii::app()->getClientScript();
+		$this->assets = Yii::app()->assetManager
+            ->publish(Yii::getPathOfAlias('application.modules.user.assets'), false, -1, true);
 
-		$this->cssAssetUrl = Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.user.assets.css'), false, 0, true);
-		$cs->registerCssFile($this->cssAssetUrl . '/main.css');
-
-//		$js = Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.content.assets.js'), false, 0, true);
-//		$cs->registerScriptFile($js . '/main.js');
+        Yii::app()->getClientScript()
+            ->registerCssFile($this->assets . '/css/main.css')
+            ->registerScriptFile($this->assets . '/js/main.js');
 	}
 
 	public function beforeControllerAction($controller, $action)
