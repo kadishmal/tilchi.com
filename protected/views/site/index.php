@@ -44,7 +44,7 @@
                     echo CHtml::hiddenField('Tilchi[fromLang]', $fromLang) .
 						CHtml::hiddenField('Tilchi[toLang]', $toLang) .
 						CHtml::textField('Tilchi[phrase]', '', array('class'=>'textField', 'autocomplete'=>'off')) .
-						CHtml::submitButton(Yii::t('site', 'Search'), array('class'=>'button big'));
+						CHtml::tag('span', array('class'=>'button blue'), CHtml::submitButton(Yii::t('site', 'Search')));
 
                     $this->endWidget();
                 ?><div id="results"></div>
