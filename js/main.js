@@ -3,21 +3,11 @@ function isNumber(n){
 }
 function showMessage(title, message, okButtonText, okCallback, alternativeButton, altButtonText, altCallback)
 {
-	/**
-	 * Bug: on project deletion the showMessage() runs two times
-	 * (? maybe showMessage() triggers the blur event one more time).
-	 * Fix: check if there is already such message
-	 */
-	var existingMsgTitle = $('#msgBox').children('.title');
-	if(existingMsgTitle && existingMsgTitle.text() == title){
-		return;
-	}
-
 	$('#floodPanel').show();
 	var msgBox = $('#msgBox');
 	msgBox.append($('<div class="title">' + title + '</div>'))
-		.append($('<div class="msg">' + message + '</div>'))
-		.css("top", "200px")
+		.append($('<div class="msg"></div>').append(message))
+		.css("top", ( $(window).height() - msgBox.height() ) / 2 + "px")
     	.css("left", ( $(window).width() - msgBox.width() ) / 2 + "px");
 
 	var buttons = $('<div class="buttons"></div>');
@@ -29,7 +19,7 @@ function showMessage(title, message, okButtonText, okCallback, alternativeButton
 						if (okCallback) okCallback();
 					};
 
-	$('<span class="button ok" tabindex="0">' + okButtonText + '</span>')
+	$('<span class="button blue ok" tabindex="0"><a>' + okButtonText + '</a></span>')
 		.appendTo(buttons)
 		.click(function(){okButtonEvent();})
 		.focus()
