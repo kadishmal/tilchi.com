@@ -104,6 +104,11 @@ return array(
 			'enableProfiling' =>false,
             'enableParamLogging'=>false
 		),
+        'authManager'=>array(
+            'class'=>'CDbAuthManager',
+            'connectionID'=>'db',
+            'defaultRoles'=>array('member', 'guest'),
+        ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',
