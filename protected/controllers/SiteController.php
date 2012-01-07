@@ -206,7 +206,6 @@ class SiteController extends Controller
                 $this->redirect($uri);
             }
             else{
-                    'dataProvider'=>$dataProvider
                 $this->actionIndex();
             }
         }
