@@ -69,8 +69,7 @@ class User extends CActiveRecord
 			array('password', 'compare', 'on'=>'changePassword', 'message'=>Yii::t('UserModule.user', 'Your old password is incorrect.')),
 			array('passwordNew_repeat', 'compare', 'compareAttribute'=>'passwordNew', 'on'=>'changePassword,resetPassword', 'message'=>Yii::t('UserModule.user', 'The confirmation password does not match with your new password. You need to enter your new password twice.')),
 			//array('username', 'length', 'max'=>150),
-			array('password, password_repeat, passwordNew, passwordNew_repeat', 'length', 'max'=>100, 'min'=>6),
-			array('subscr_post_comments', 'boolean')
+			array('password, password_repeat, passwordNew, passwordNew_repeat', 'length', 'max'=>100, 'min'=>6)
 		);
 	}
 
@@ -82,7 +81,8 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'userPasswordRestore'=>array(self::HAS_MANY, 'UserPasswordRestore', 'user_id')
+            'userPasswordRestore'=>array(self::HAS_MANY, 'UserPasswordRestore', 'user_id'),
+            'settings'=>array(self::HAS_ONE, 'UserSettings', 'user_id')
 		);
 	}
 
