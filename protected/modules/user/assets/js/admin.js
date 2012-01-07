@@ -32,7 +32,7 @@ function loadPermission($this)
     var parent = $this.parent().parent(),
         roleName = parent.find('input.name').val(),
         output = $('<div class="tabContainer" id="' + roleName + '"></div>'),
-        okText = 'Ok', tabContents, users, $input,
+        tabContents, users, $input,
         spinner = $('#spinner').clone();
 
     output.append(spinner);
@@ -98,7 +98,7 @@ function loadPermission($this)
                 output.append(data.message);
             }
 
-            okText = data.ok;
+            $('#msgBox > .buttons .ok a').text(data.ok);
         },
         'complete': function()
         {
@@ -106,7 +106,7 @@ function loadPermission($this)
         }
     });
 
-    showMessage(roleName, output, okText);
+    showMessage(roleName, output, 'Ok');
 }
 
 function filterUsers(authItemName, $input)
