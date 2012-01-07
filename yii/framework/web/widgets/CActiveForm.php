@@ -141,7 +141,7 @@
  * the <code>performAjaxValidation</code> method and its invocation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveForm.php 3253 2011-06-10 23:19:08Z keyboard.idol@gmail.com $
+ * @version $Id: CActiveForm.php 3336 2011-07-02 10:43:56Z mdomba $
  * @package system.web.widgets
  * @since 1.1.1
  */
@@ -236,7 +236,7 @@ class CActiveForm extends CWidget
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>afterValidateAttribute: function, the function that will be invoked after performing ajax-based validation
 	 * triggered by a single attribute input change. The expected function signature should be
-	 * <code>beforeValidateAttribute(form, attribute, data, hasError) {...}</code>, where 'form' is the jquery
+	 * <code>afterValidateAttribute(form, attribute, data, hasError) {...}</code>, where 'form' is the jquery
 	 * representation of the form object; 'attribute' refers to the js options for the triggering attribute (see {@link error});
 	 * 'data' is the JSON response from the server-side validation; 'hasError' is a boolean value indicating whether
 	 * there is any validation error.
@@ -433,7 +433,7 @@ class CActiveForm extends CWidget
 			'inputID'=>$inputID,
 			'errorID'=>$htmlOptions['id'],
 			'model'=>get_class($model),
-			'name'=>CHtml::resolveName($model, $attribute),
+			'name'=>$attribute,
 			'enableAjaxValidation'=>$enableAjaxValidation,
 		);
 
