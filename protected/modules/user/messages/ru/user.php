@@ -1,6 +1,7 @@
 <?php
 return array(
     'User' => 'Пользователь',
+    'Users' => 'Пользователи',
     // My account
     'Email'=>'Электронный адрес',
 	'Password'=>'Пароль',
@@ -23,6 +24,11 @@ return array(
     'Add'=>'Добавить',
     'Remove'=>'Убрать',
     'Remove all'=>'Убрать все',
+    'Settings'=>'Настройки',
+    'Activate Instant Translation'=>'Активировать Моментальный Перевод',
+    'Instant Translation allows to translate without refreshing or redirecting to another page.'=>'Моментальный Перевод позволяет переводить выражения без обновления или перехода на другую страницу.',
+	'Save my translation history'=>'Сохранять историю моих переводов',
+    'You can easily see the statistics of which words you have already searched for and learn from them.'=>'Вы сможете просматривать статистику своих переводов и заучивать их.',
 	// Edit
 	'Edit'=>'Редактировать',
 	'Change'=>'Изменить',
@@ -51,6 +57,6 @@ return array(
 	'Your old password is incorrect.'=>'Ваш старый пароль был введен неверно.',
 	'The confirmation password does not match with your new password. You need to enter your new password twice.'=>'Подтверждающий пароль не соответствует новому паролю. Вам необходимо ввести Ваш новый пароль дважды.',
 	'To change your password, your new password should be different from the old one.'=>'Чтобы сменить свой пароль, необходимо ввести новый пароль отличный от старого.',
-	'Change my password'=>'Сменить мой пароль'
+	'Change my password'=>'Сменить мой пароль',
 );
 ?>
