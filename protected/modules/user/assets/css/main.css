@@ -8,12 +8,12 @@
 .gender span{border:1px solid #c6c6c6}
 .gender i{border:1px solid #d9d9d9}
 /* cursor */
-button,.button,#login-button,.msg i{cursor:pointer}
+button,.button,#login-button,.sprite.msg{cursor:pointer}
 /* display */
-.button,#login label,#progress-bar .bar,#progress-bar span,#progress-bar i,#profile i,#profile .gender label,.gender .options,.gender span,.th,.td,#profile .section label,.button-blue,.button-blue a{display:inline-block}
-#profile .row label,#profile .row .errorBox,#profile .gender label.gender_text{display:none}
+.button,#login label,#progress-bar .bar,#progress-bar span,#progress-bar i,#profile i,#profile .gender label,.gender .options,.gender span,.th,.td,#profile .row .settings label,.button-blue,.button-blue a{display:inline-block}
+#profile form .row label,#profile .row .errorBox,#profile .gender label.gender_text{display:none}
 /* position */
-#login .row label,#profile .row label,#profile .row i,#profile .arrow,#profile .arrow-border,#profile .row .errorBox,#profile .gender label.gender_text{position:absolute}
+#login .row label,#profile form .row label,#profile .row i,#profile .arrow,#profile .arrow-border,#profile .row .errorBox,#profile .gender label.gender_text{position:absolute}
 #profile .gender i,#profile .gender .options,#profile .gender label{position:relative}
 #profile .arrow,#profile .arrow-border{top:12px}
 #profile .gender label{bottom:2px}
@@ -43,18 +43,18 @@ div.width25 input{width:172px}
 #progress-bar .bar{width:220px}
 #progress-bar .active{width:230px}
 #progress-bar i,#profile .password i,#profile .password-old i{width:11px}
-.msg i{width:14px}
+.sprite.msg{width:14px}
 #profile .email i{width:23px}
 #profile .last-name i{width:24px}
 #profile .name i{width:25px}
 #reset-password-form #login-button{width:95px}
-#profile .row label,#profile .row .errorBox{max-width:200px}
-#reset-password-form .last input[type="password"]{width:220px}
-#reset-password-form .first input[type="password"]{width:316px}
+#profile form .row label,#profile .row .errorBox{max-width:200px}
+#reset-password-form .last input[type="password"],#permissions input.description{width:220px}
+#reset-password-form .first input[type="password"],#permissions input.bizrule{width:316px}
 /* height */
 #profile .arrow,#profile .arrow-border{height:0}
 .submit i{height:6px}
-.msg i{height:14px}
+.sprite.msg{height:14px}
 #login input[type="text"],#login input[type="password"]{height:16px}
 #login-button{height:28px}
 #progress-bar,#progress-bar .bar,#progress-bar i{height:40px}
@@ -64,32 +64,31 @@ button,.button{line-height:18px}
 #login input[type="text"],#login input[type="password"]{line-height:16px}
 /* margin */
 #login,#profile{margin:0 auto}
-#login input[type="checkbox"],#login-button,#profile .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button,#profile .section input[type="checkbox"],.button-blue a{margin:0}
+#login input[type="checkbox"],#login-button,#profile .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button,#profile .row input[type="checkbox"],.button-blue a{margin:0}
 #profile .gender span{margin-right:6px}
 .mRight10{margin-right:10px}
 #profile .gender #User_gender_0{margin:0 0 0 5px}
 #profile .gender #User_gender_1{margin:0 0 0 20px}
 #login .row label{margin:8px 0px 6px 10px}
 .checkbox label{margin-left:3px}
-.msg i{margin-left:3px}
+.sprite.msg{margin-left:3px}
 #msgBox .buttons .cancel{margin-left:5px}
 .mLeft10{margin-left:10px}
-#profile .row label{margin-left:20px}
+#profile form .row label{margin-left:20px}
 .check{margin:0 4px}
-.checkbox{margin-top:8px}
-#profile .section .checkbox{margin:2px 0 8px 0}
+.checkbox{margin-top:3px}
+#login .checkbox{margin-top:8px}
 #profile .row,#progress-bar{margin-bottom:10px}
 #profile .email i,#profile .name i,#profile .last-name i{margin:8px 0 0 7px}
 #profile .password i,#profile .password-old i{margin:10px 0 0 13px}
 /* padding */
-.check,#login-button,#profile .gender input[type="radio"],#profile .section input[type="checkbox"]{padding:0}
+.check,#login-button,#profile .gender input[type="radio"],#profile .row input[type="checkbox"]{padding:0}
 #login input[type="text"],#login input[type="password"]{padding:6px 5px 6px 65px}
 .gender span{padding:6px 6px 31px 6px}
 .button-blue a{padding:7px 5px}
 #profile .gender .options{padding-bottom:6px}
-.section{padding-top:10px}
 #profile input[type="text"],#profile input[type="password"]{padding:9px 9px 9px 33px}
-#profile .row label,#profile .row .errorBox{padding:10px}
+#profile form .row label,#profile .row .errorBox{padding:10px}
 #profile .row{padding-right:44px}
 button,select,.button{padding:3px 10px}
 button.inline,.button.inline{padding:0 10px}
@@ -97,7 +96,7 @@ button.inline,.button.inline{padding:0 10px}
 #progress-bar .active span{padding:12px 0}
 #reset-password-form input[type="password"]{padding-left:90px}
 /* font-size */
-button,.button,label,#login-button,#profile .row .errorMessage,#login .extra,.link-button,.section .td,.button-blue a{font-size:11px}
+button,.button,label,#login-button,#profile .row .errorMessage,#login .extra,.link-button,.row .td,.button-blue a{font-size:11px}
 #progress-bar .bar,#profile .gender label{font-size:12px}
 #progress-bar .active{font-size:14px}
 #profile .row input[type="text"],#profile .row input[type="password"]{font-size:18px}
@@ -108,13 +107,13 @@ button,button:hover,.button,.button:hover,button.inline:hover,.button.inline:hov
 button.inline,.button.inline,.link-button{color:#555}
 button.cancel,.button.cancel,#login-button:hover{color:#000}
 .link-button:hover{color:#06C}
-#profile .th,#profile .section .td{color:#333}
+#profile .th,#profile .row .td{color:#333}
 #profile .td{color:#808080}
 .required{color:#C1272D}
 #progress-bar .bar{color:#ccc}
 #login-button,#progress-bar .active,.button-blue a,.button-blue a:hover{color:#276086}
 /* text-align */
-#progress-bar .bar,#profile .row label,#profile .row .errorBox{text-align:center}
+#progress-bar .bar,#profile form .row label,#profile .row .errorBox{text-align:center}
 #login .extra{text-align:right}
 /* text-decoration */
 button,.button,a.button.inline,.link-button,.button-blue a{text-decoration:none}
@@ -124,16 +123,16 @@ button,.button,a.button.inline,.link-button,.button-blue a{text-decoration:none}
 /* text-shadow */
 .inset{text-shadow:#fff 0px 1px 0}
 /* vertical-align */
-.checkbox label,#progress-bar .bar,#profile .th,#profile .td{vertical-align:top}
-#profile .gender .options,.msg i{vertical-align:bottom}
+#progress-bar .bar,#profile .th,#profile .td{vertical-align:top}
+#profile .gender .options,.sprite.msg{vertical-align:bottom}
 /* background */
-#profile i{background:url(sprite-icons-more.png)}
+#profile i,.sprite{background:url(sprite-icons-more.png)}
 button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}
 button:focus,.button:focus{background:#48dc7c}
 .submit{background:#48dc7c}
 .submit i{background-position:-91px -60px}
 button.inline,button.cancel,.button.inline,.button.cancel{background:#CFCFCF}
-#login input[type="text"]:focus,#login input[type="password"]:focus,#profile .row input[type="text"]:focus,#profile .row input[type="password"]:focus,#profile .row label{background:#FAFFBD}
+#login input[type="text"]:focus,#login input[type="password"]:focus,#profile .row input[type="text"]:focus,#profile .row input[type="password"]:focus,#profile form .row label{background:#FAFFBD}
 #login-button,.button-blue a{background:#C9E0ED}
 #progress-bar .bar{background:#eee}
 #progress-bar .active,#progress-bar .completed{background:#d8ebf8}
@@ -150,7 +149,7 @@ div.form div.success input,div.form div.success textarea,div.form div.success se
 #profile .last-name i{background-position:-10px -88px}
 #profile .male i{background-position:-34px 0}
 #profile .female i{background-position:-34px -68px}
-#profile .msg i{background-position:-9px -112px}
+#profile .sprite.msg{background-position:-9px -112px}
 /* outline */
 #login input[type="text"],#login input[type="password"],#profile .row input[type="text"],#profile .row input[type="password"],#login-button,.button-blue a{outline-width:0!important}
 #login-button:focus::-moz-focus-inner{border-color:transparent!important}
@@ -158,10 +157,9 @@ div.form div.success input,div.form div.success textarea,div.form div.success se
 /* border */
 #login input[type="text"],#login input[type="password"]{border:0}
 button,.button{border:1px solid transparent}
+#login .row,#profile .row input[type="text"],#profile .row input[type="password"],#profile form .row label,.button-blue{border:1px solid #C9E0ED}
 #login input[type="password"],#login #restore-password-form input[type="text"]{border-right:1px solid #C9E0ED}
-#login .row,#profile .row input[type="text"],#profile .row input[type="password"],#profile .row label,.button-blue{border:1px solid #C9E0ED}
 #login .row.last{border-top:none}
-#profile .section{border-top:1px solid #CCC}
 #login-button,.button-blue a{border:1px solid #FFF}
 #login-button:focus,.button-blue a:focus,.button-blue a:hover{border:1px solid #4D9AC6}
 #profile .arrow-border{
@@ -188,3 +186,16 @@ button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:
 #login-button{border-bottom-right-radius:3px;-moz-border-bottom-right-radius:3px;-webkit-border-bottom-right-radius:3px}
 #progress-bar .bar.first{border-top-left-radius:5px;-moz-border-top-left-radius:5px;-webkit-border-top-left-radius:5px;border-bottom-left-radius:5px;-moz-border-bottom-left-radius:5px;-webkit-border-bottom-left-radius:5px}
 #progress-bar .bar.last{border-top-right-radius:5px;-moz-border-top-right-radius:5px;-webkit-border-top-right-radius:5px;border-bottom-right-radius:5px;-moz-border-bottom-right-radius:5px;-webkit-border-bottom-right-radius:5px}
+/* tabs */
+.tabContainer .tabs{border-bottom:1px solid #C9E0ED;height:28px;}
+.tabContainer .tabs span{padding:5px 7px;border:1px solid transparent;border-bottom:none;cursor:pointer;height:17px}
+.tabContainer .tabs span.active{border-color:#C9E0ED;border-bottom:1px solid #FFF}
+.tabContainer .tabs .count{margin:0 0 0 5px;padding:3px;border:none;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;background:#C9E0ED;font-size:10px;font-weight:bold;height:11px}
+.tabContainer .tabContents{padding:10px;border:1px solid #C9E0ED;border-top:none}
+.tabContainer .tabContents div{display:none}
+.tabContainer .tabContents div.active,.tabContainer .tabContents div.active div{display:block}
+.tabContainer .tabContents .filterInput{width:415px;margin:0;padding:4px;border:1px solid #C9E0ED;font-size:13px}
+.tabContainer .tabContents .item{padding:5px 4px}
+.tabContainer .tabContents .item:hover{background:#C9E0ED}
+.tabContainer .tabContents .item .link-button{float:right;margin-top:1px;display:none}
+.tabContainer .tabContents .item:hover .link-button{display:inline-block}
