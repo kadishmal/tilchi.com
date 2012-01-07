@@ -7,11 +7,13 @@ function showMessage(title, message, okButtonText, okCallback, alternativeButton
 	var msgBox = $('#msgBox');
 	msgBox.append($('<div class="title">' + title + '</div>'))
 		.append($('<div class="msg"></div>').append(message))
-		.css("top", ( $(window).height() - msgBox.height() ) / 2 + "px")
+		.css("top", "0px")
     	.css("left", ( $(window).width() - msgBox.width() ) / 2 + "px");
 
 	var buttons = $('<div class="buttons"></div>');
 	msgBox.append(buttons).show();
+
+    msgBox.animate({top: ( $(window).height() - msgBox.height() ) / 2 - msgBox.outerHeight() / 2});
 
 	okButtonEvent = function(){
 						msgBox.empty().hide();
