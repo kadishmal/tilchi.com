@@ -38,6 +38,42 @@ function enableLanguageSwitch()
     });
 }
 
+function listenToLetters()
+{
+    var phrase = $('#Tilchi_phrase');
+
+    phrase.keypress(function(event)
+    {
+        if (event.shiftKey)
+        {
+            var keyCode = 0;
+
+            switch (event.keyCode)
+            {
+                // Cyrillic capitalized "Н" was pressed
+                case 1053: keyCode = 1187; break;
+                // Cyrillic capitalized "О" was pressed
+                case 1054: keyCode = 1257; break;
+                // Cyrillic capitalized "У" was pressed
+                case 1059: keyCode = 1199; break;
+            }
+
+            if (keyCode > 0)
+            {
+                event.preventDefault();
+                var len = phrase.val().length,
+                    start = phrase[0].selectionStart,
+                    end = phrase[0].selectionEnd,
+                    sel = phrase[0].value.substring(start, end),
+                    char = String.fromCharCode(keyCode);
+
+                phrase.val(phrase.val().substring(0, start) + char + phrase.val().substr(end));
+                phrase[0].selectionStart = phrase[0].selectionEnd = start + char.length;
+            }
+        }
+    });
+}
+
 function activateTilchiSearch(formName)
 {
     var form = $('#' + formName),
