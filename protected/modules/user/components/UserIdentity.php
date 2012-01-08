@@ -56,6 +56,7 @@ class UserIdentity extends CUserIdentity
                 {
                     $this->setState('ajax_search', $user->settings->ajax_search);
                     $this->setState('save_search_history', $user->settings->save_search_history);
+                    $this->setState('enable_shift_for_letters', $user->settings->enable_shift_for_letters);
                 }
 
                 $this->errorCode=self::ERROR_NONE;

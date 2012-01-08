@@ -50,6 +50,7 @@ div.width25 input{width:172px}
 #reset-password-form #login-button{width:95px}
 #profile form .row label,#profile .row .errorBox{max-width:200px}
 #reset-password-form .last input[type="password"],#permissions input.description{width:220px}
+#profile .row .td .checkbox label{max-width:249px}
 #reset-password-form .first input[type="password"],#permissions input.bizrule{width:316px}
 /* height */
 #profile .arrow,#profile .arrow-border{height:0}
@@ -89,7 +90,7 @@ button,.button{line-height:18px}
 #profile .gender .options{padding-bottom:6px}
 #profile input[type="text"],#profile input[type="password"]{padding:9px 9px 9px 33px}
 #profile form .row label,#profile .row .errorBox{padding:10px}
-#profile .row{padding-right:44px}
+#profile form .row{padding-right:44px}
 button,select,.button{padding:3px 10px}
 button.inline,.button.inline{padding:0 10px}
 #progress-bar .bar span{padding:13px 0}
@@ -123,8 +124,8 @@ button,.button,a.button.inline,.link-button,.button-blue a{text-decoration:none}
 /* text-shadow */
 .inset{text-shadow:#fff 0px 1px 0}
 /* vertical-align */
-#progress-bar .bar,#profile .th,#profile .td{vertical-align:top}
-#profile .gender .options,.sprite.msg{vertical-align:bottom}
+#progress-bar .bar,#profile .th,#profile .td,.checkbox input[type="checkbox"],.checkbox label,.sprite.msg{vertical-align:top}
+#profile .gender .options{vertical-align:bottom}
 /* background */
 #profile i,.sprite{background:url(sprite-icons-more.png)}
 button,.button,button.inline:hover,.button.inline:hover{background:#4c99c5}

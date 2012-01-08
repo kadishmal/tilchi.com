@@ -43,4 +43,10 @@ $this->menu=array(
             <div class="settings checkbox"><input type="checkbox" id="save_search_history" <?php echo $model->settings->save_search_history ? 'checked' : ''; ?> /><label for="save_search_history"><?php echo Yii::t('UserModule.user', 'Save my translation history'); ?></label><span class="sprite msg" title="<?php echo Yii::t('UserModule.user', 'You can easily see the statistics of which words you have already searched for and learn from them.'); ?>"></span></div>
         </div>
     </div>
+    <div class="row">
+        <div class="th"></div>
+        <div class="td">
+            <div class="settings checkbox"><input type="checkbox" id="enable_shift_for_letters" <?php echo $model->settings->enable_shift_for_letters ? 'checked' : ''; ?> /><label for="enable_shift_for_letters"><?php echo Yii::t('UserModule.user', 'Use SHIFT key to input Kyrgyz letters'); ?></label><span class="sprite msg" title="<?php echo Yii::t('UserModule.user', 'For ease of use, you can press SHIFT+о to input Kyrgyz letter \'ө\', or SHIFT+н or SHIFT+у to input Kyrgyz letters \'ң\' or \'ү\', respectively.'); ?>"></span></div>
+        </div>
+    </div>
 </div>

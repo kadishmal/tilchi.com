@@ -29,6 +29,9 @@ return array(
     'Instant Translation allows to translate without refreshing or redirecting to another page.'=>'Моментальный Перевод позволяет переводить выражения без обновления или перехода на другую страницу.',
 	'Save my translation history'=>'Сохранять историю моих переводов',
     'You can easily see the statistics of which words you have already searched for and learn from them.'=>'Вы сможете просматривать статистику своих переводов и заучивать их.',
+    'Use SHIFT key to input Kyrgyz letters'=>'Использовать клавишу SHIFT для ввода кыргызских букв',
+    'For ease of use, you can press SHIFT+о to input Kyrgyz letter \'ө\', or SHIFT+н or SHIFT+у to input Kyrgyz letters \'ң\' or \'ү\', respectively.'
+    =>'Для удобства Вы можете вводить букву \'ө\', нажав на кнопки SHIFT+о, или SHIFT+н, SHIFT+у, чтобы ввести буквы \'ң\' или \'ү\'.',
 	// Edit
 	'Edit'=>'Редактировать',
 	'Change'=>'Изменить',
