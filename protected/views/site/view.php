@@ -1,7 +1,13 @@
 <?php
     $this->pageTitle = $phrase . ' | ' . $fromLang . ' ' . Yii::t('tilchi', 'Dictionary') . ' | ' . Yii::app()->name;
 
-    $script = 'enableLanguageSwitch();';
+    if (Yii::app()->user->getState('ajax_search'))
+    {
+        $script = "activateTilchiSearch('tilchi-search-form');";
+    }
+    else{
+        $script = "enableLanguageSwitch();";
+    }
 
     if (Yii::app()->user->getState('enable_shift_for_letters'))
     {
@@ -46,7 +52,8 @@
                      CHtml::tag('span', array('class'=>'button blue'), CHtml::submitButton(Yii::t('site', 'Search')));
 
                  $this->endWidget();
-            ?></div><div class="body" id="search-container" style="display:block">
+            ?></div><div id="results"></div>
+             <div class="body" id="search-container" style="display:block">
 				<div id="translation">
 					<h3><?php echo $phrase; ?></h3>
 					<div id="translation-body">
