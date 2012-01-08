@@ -6,7 +6,12 @@
         $script = "activateTilchiSearch('tilchi-search-form');";
     }
     else{
-        $script = "enableLanguageSwitch()";
+        $script = "enableLanguageSwitch();";
+    }
+
+    if (Yii::app()->user->getState('enable_shift_for_letters'))
+    {
+        $script .= 'listenToLetters();';
     }
 
     Yii::app()->clientScript->registerScript('tilchi-search', $script);

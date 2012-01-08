@@ -1,9 +1,14 @@
 <?php
     $this->pageTitle = $phrase . ' | ' . $fromLang . ' ' . Yii::t('tilchi', 'Dictionary') . ' | ' . Yii::app()->name;
 
-    Yii::app()->clientScript->registerScript('tilchi-search',"
-		enableLanguageSwitch();
-	");
+    $script = 'enableLanguageSwitch();';
+
+    if (Yii::app()->user->getState('enable_shift_for_letters'))
+    {
+        $script .= 'listenToLetters();';
+    }
+
+    Yii::app()->clientScript->registerScript('tilchi-search', $script);
 ?>
 
 <div id="tilchi">
