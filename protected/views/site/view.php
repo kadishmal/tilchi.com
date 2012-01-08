@@ -39,20 +39,22 @@
                     CHtml::tag('span', array('style'=>'margin:0 10px', 'class'=>'sprite switch'), '')
                     . CHtml::dropDownList('toLang', $toLang, $langs);
                 ?></h2>
-            </div><div id="tilchi-search"><?php
-                 $form = $this->beginWidget('CActiveForm', array(
-                     'id'=>'tilchi-search-form',
-                     'action'=>'/site/search',
-                     'focus'=>'#Tilchi_phrase'
-                 ));
+            </div><div id="tilchi-search">
+                <?php
+                     $form = $this->beginWidget('CActiveForm', array(
+                         'id'=>'tilchi-search-form',
+                         'action'=>'/site/search',
+                         'focus'=>'#Tilchi_phrase'
+                     ));
 
-                 echo CHtml::hiddenField('Tilchi[fromLang]', $fromLang) .
-                     CHtml::hiddenField('Tilchi[toLang]', $toLang) .
-                     CHtml::textField('Tilchi[phrase]', $phrase, array('class'=>'textField', 'autocomplete'=>'off')) .
-                     CHtml::tag('span', array('class'=>'button blue'), CHtml::submitButton(Yii::t('site', 'Search')));
+                     echo CHtml::hiddenField('Tilchi[fromLang]', $fromLang) .
+                         CHtml::hiddenField('Tilchi[toLang]', $toLang) .
+                         CHtml::textField('Tilchi[phrase]', $phrase, array('class'=>'textField', 'autocomplete'=>'off')) .
+                         CHtml::tag('span', array('class'=>'button blue'), CHtml::submitButton(Yii::t('site', 'Search')));
 
-                 $this->endWidget();
-            ?></div><div id="results"></div>
+                     $this->endWidget();
+                ?><div id="results"></div>
+            </div>
              <div class="body" id="search-container" style="display:block">
 				<div id="translation">
 					<h3><?php echo $phrase; ?></h3>
