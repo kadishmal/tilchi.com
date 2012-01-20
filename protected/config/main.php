@@ -46,7 +46,7 @@ return array(
  		),
         'search' => array(
             'class' => 'application.components.DGSphinxSearch',
-            'server' => 'peopletranslate.com',
+            'server' => '127.0.0.1',
             'port' => 9312,
             'maxQueryTime' => 3000,
             'enableProfiling'=>false,
