@@ -5,7 +5,7 @@
 /* height */
 .gender i{height:68px}
 /* border */
-.gender span{border:1px solid #c6c6c6}
+.gender > span{border:1px solid #c6c6c6}
 .gender i{border:1px solid #d9d9d9}
 /* cursor */
 button,.button,#login-button,.sprite.msg{cursor:pointer}
@@ -66,7 +66,7 @@ button,.button{line-height:18px}
 /* margin */
 #login,#profile{margin:0 auto}
 #login input[type="checkbox"],#login-button,#profile .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button,#profile .row input[type="checkbox"],.button-blue a{margin:0}
-#profile .gender span{margin-right:6px}
+#profile .gender > span{margin-right:6px}
 .mRight10{margin-right:10px}
 #profile .gender #User_gender_0{margin:0 0 0 5px}
 #profile .gender #User_gender_1{margin:0 0 0 20px}
@@ -85,7 +85,7 @@ button,.button{line-height:18px}
 /* padding */
 .check,#login-button,#profile .gender input[type="radio"],#profile .row input[type="checkbox"]{padding:0}
 #login input[type="text"],#login input[type="password"]{padding:6px 5px 6px 65px}
-.gender span{padding:6px 6px 31px 6px}
+.gender > span{padding:6px 6px 31px 6px}
 .button-blue a{padding:7px 5px}
 #profile .gender .options{padding-bottom:6px}
 #profile input[type="text"],#profile input[type="password"]{padding:9px 9px 9px 33px}
@@ -124,7 +124,7 @@ button,.button,a.button.inline,.link-button,.button-blue a{text-decoration:none}
 /* text-shadow */
 .inset{text-shadow:#fff 0px 1px 0}
 /* vertical-align */
-#progress-bar .bar,#profile .th,#profile .td,.checkbox input[type="checkbox"],.checkbox label,.sprite.msg{vertical-align:top}
+#progress-bar .bar,#profile .th,#profile .td,.checkbox input[type="checkbox"],.checkbox label,.sprite.msg,.gender input[type="radio"]{vertical-align:top}
 #profile .gender .options{vertical-align:bottom}
 /* background */
 #profile i,.sprite{background:url(sprite-icons-more.png)}
