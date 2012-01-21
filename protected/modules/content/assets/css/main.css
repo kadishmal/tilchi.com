@@ -16,6 +16,7 @@ button,.button,.link-button,#forum .vote-up,#forum .msg i,#post-actions{cursor:p
 #post-body{clear:left}
 #post-sidebar{clear:right}
 /* width */
+#forum .mceEditor{width:100%}
 #blog .post .tags{width:780px}
 #forum .forum-body{width:661px}
 #post-body,#forum #question,#forum #idea,#forum #issue{width:586px}
