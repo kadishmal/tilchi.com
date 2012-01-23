@@ -16,6 +16,8 @@ class ManageController extends Controller
     const REQUEST_SUCCESS = 1;
     const REQUEST_FAIL = -1;
 
+    const SETTINGS_PER_PAGE = 10;
+
     public function init()
     {
         Yii::app()->getClientScript()->registerScriptFile($this->module->assets . '/js/admin.js');
@@ -50,6 +52,11 @@ class ManageController extends Controller
                 ),
 				'roles'=>array('superAdmin'),
 			),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions'=>array('settings', 'getSiteSettingInfo', 'deleteSiteSetting'
+                ),
+                'roles'=>array('admin'),
+            ),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
@@ -511,6 +518,100 @@ class ManageController extends Controller
             }
             else{
                 $results['message'] = Yii::t('UserModule.permission', 'Auth item <b>item_name</b> does not exist.', array('item_name'=>$authItemName));
+            }
+        }
+
+        echo CJSON::encode($results);
+    }
+
+    public function actionSettings()
+    {
+        $model = new SiteSettings;
+
+        if(isset($_POST['ajax']) && $_POST['ajax'] === 'site-settings-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if (isset($_POST['SiteSettings']))
+        {
+            $model->attributes = $_POST['SiteSettings'];
+
+            if ($model->id && $model->validate(array('id')))
+            {
+                $model->isNewRecord = false;
+            }
+
+            if ($model->save())
+            {
+                $model->unsetAttributes();
+            }
+        }
+
+        if (isset($_GET['ajax']) && $_GET['ajax'] === 'site-settings' && isset($_GET['SiteSettings']))
+        {
+            $model->attributes = $_GET['SiteSettings'];
+        }
+
+        $this->render('settings', array(
+            'model'=>$model,
+        ));
+    }
+
+    public function actionGetSiteSettingInfo()
+    {
+        $results = array();
+        $results['status'] = self::REQUEST_FAIL;
+        $results['message'] = Yii::t('UserModule.permission', 'We could not process your request. Please try again later.');
+
+        if (isset($_POST['SiteSettings']))
+        {
+            $model = SiteSettings::model()->findByAttributes(array(
+                'name'=>$_POST['SiteSettings']['name'],
+                'module'=>$_POST['SiteSettings']['module'],
+            ));
+
+            if ($model)
+            {
+                $results['settingInfo']['id'] = $model->id;
+                $results['settingInfo']['name'] = $model->name;
+                $results['settingInfo']['module'] = $model->module;
+                $results['settingInfo']['data_type'] = $model->data_type;
+                $results['settingInfo']['default_value'] = $model->default_value;
+                $results['settingInfo']['auth_item'] = $model->auth_item;
+                $results['settingInfo']['en_label'] = $model->en_label;
+                $results['settingInfo']['en_hint'] = $model->en_hint;
+                $results['settingInfo']['on_login'] = $model->on_login;
+                $results['status'] = self::REQUEST_SUCCESS;
+            }
+        }
+
+        echo CJSON::encode($results);
+    }
+
+    public function actionDeleteSiteSetting()
+    {
+        $results = array();
+        $results['status'] = self::REQUEST_FAIL;
+        $results['message'] = Yii::t('UserModule.permission', 'We could not process your request. Please try again later.');
+
+        if (isset($_POST['SiteSettings']))
+        {
+            $model = SiteSettings::model()->findByAttributes(array(
+                'name'=>$_POST['SiteSettings']['name'],
+                'module'=>$_POST['SiteSettings']['module'],
+            ));
+
+            if ($model)
+            {
+                if ($model->delete())
+                {
+                    $results['status'] = self::REQUEST_SUCCESS;
+                }
+                else{
+                    $results['message'] = print_r($model->getErrors(), true);
+                }
             }
         }
 

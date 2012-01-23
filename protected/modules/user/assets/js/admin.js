@@ -1,12 +1,11 @@
 function enablePermissionManagement()
 {
-    var permissionName = $('.name,.description'),
+    var permissionName = $('.name,.description,.bizrule'),
         removePermission = $('.link-button.remove'),
         expandRole = $('.link-button.expand');
 
     removePermission.click(function()
     {
-
         $(this).parent().parent().remove();
         return false;
     });
@@ -353,4 +352,102 @@ function updatePermissions(input)
             }
         });
     }
+}
+
+function editSettings($this)
+{
+    var form = $('#settings').clone(),
+        cells = $this.parent().siblings(),
+        spinner = $('#spinner').clone(),
+        name = cells.eq(0).text(),
+        module = cells.eq(1).text(),
+        msgBox = $('#msgBox');
+
+    showMessage(name, spinner, UIMessages['save'], addSiteSettings, UIMessages['cancel']);
+
+    $.ajax({
+        'type':'POST',
+        'url': '/user/manage/getSiteSettingInfo',
+        'cache': false,
+        'dataType':'json',
+        'data': 'SiteSettings[name]=' + name + '&SiteSettings[module]=' + module,
+        'beforeSend': function()
+        {
+            spinner.show();
+        },
+        'success': function(data, textStatus, jqXHR)
+        {
+            if (data.status == '1')
+            {
+                form.find('#SiteSettings_id').val(data.settingInfo.id);
+                form.find('#SiteSettings_name').val(data.settingInfo.name);
+                form.find('#SiteSettings_module').val(data.settingInfo.module);
+                form.find('#SiteSettings_data_type').val(data.settingInfo.data_type);
+                form.find('#SiteSettings_default_value').val(data.settingInfo.default_value);
+                form.find('#SiteSettings_auth_item').val(data.settingInfo.auth_item);
+                form.find('#SiteSettings_en_label').val(data.settingInfo.en_label);
+                form.find('#SiteSettings_en_hint').val(data.settingInfo.en_hint);
+                form.find('#SiteSettings_on_login').val(data.settingInfo.on_login);
+
+                if (data.settingInfo.on_login == 1)
+                {
+                    form.find('#SiteSettings_on_login').attr('checked', 'checked');
+                }
+
+                msgBox.find('.msg').append(form);
+                form.show();
+                form.find('#SiteSettings_name').focus();
+                msgBox.trigger('centralize');
+            }
+            else{
+                msgBox.find('.msg').append(data.message);
+            }
+        },
+        'complete': function()
+        {
+            spinner.remove();
+        }
+    });
+}
+
+function addSiteSettings()
+{
+    var msgBox = $('#msgBox'),
+        submitButton = msgBox.find('.buttons .ok'),
+        form = msgBox.find('#site-settings-form');
+
+    submitButton.hide();
+
+    form.submit();
+    return false;
+}
+
+function deleteSiteSettings($this)
+{
+    showMessage(UIMessages["confirm"], UIMessages["confirmMessage"], UIMessages["yes"], function(){ doDeleteSiteSettings($this) }, UIMessages["cancel"]);
+}
+
+function doDeleteSiteSettings($this)
+{
+    var cells = $this.parent().siblings(),
+        name = cells.eq(1).text(),
+        module = cells.eq(2).text();
+
+    $.ajax({
+        'type':'POST',
+        'url': '/user/manage/deleteSiteSetting',
+        'cache': false,
+        'dataType':'json',
+        'data': 'SiteSettings[name]=' + name + '&SiteSettings[module]=' + module,
+        'success': function(data, textStatus, jqXHR)
+        {
+            if (data.status == '1')
+            {
+                cells.eq(0).parent().remove();
+            }
+            else{
+                showMessage(UIMessages['confirm'], data.message, UIMessages['close']);
+            }
+        }
+    });
 }
