@@ -8,10 +8,10 @@
 .gender > span{border:1px solid #c6c6c6}
 .gender i{border:1px solid #d9d9d9}
 /* cursor */
-button,.button,#login-button,.sprite.msg{cursor:pointer}
+button,.button,#login-button,.sprite.msg,.button-column a{cursor:pointer}
 /* display */
 .button,#login label,#progress-bar .bar,#progress-bar span,#progress-bar i,#profile i,#profile .gender label,.gender .options,.gender span,.th,.td,#profile .row .settings label,.button-blue,.button-blue a{display:inline-block}
-#profile form .row label,#profile .row .errorBox,#profile .gender label.gender_text{display:none}
+#profile form .row label,#profile .row .errorBox,#profile .gender label.gender_text,#settings{display:none}
 /* position */
 #login .row label,#profile form .row label,#profile .row i,#profile .arrow,#profile .arrow-border,#profile .row .errorBox,#profile .gender label.gender_text{position:absolute}
 #profile .gender i,#profile .gender .options,#profile .gender label{position:relative}
@@ -27,12 +27,12 @@ button,.button,#login-button,.sprite.msg{cursor:pointer}
 /* clear */
 /* width */
 #profile .arrow,#profile .arrow-border{width:0}
-#login{width:322px}
-#login input[type="text"]{width:250px}
 #login input[type="password"]{width:200px}
+#login select,#login input[type="text"]{width:250px}
+#settings{width:324px}
+#login{width:322px}
 #profile{width:450px}
 #profile input[type="text"],#profile input[type="password"]{width:100%}
-select{width:415px}
 #user-register-form input[type="submit"]{width:415px}
 #profile .th{width:165px}
 div.width25 input{width:172px}
@@ -61,15 +61,17 @@ div.width25 input{width:172px}
 #progress-bar,#progress-bar .bar,#progress-bar i{height:40px}
 #profile .email i,#profile .password i,#profile .name i,#profile .last-name i,#profile .password-old i{height:24px}
 /* line-height */
-button,.button{line-height:18px}
+#settings .new-form input[type="text"]{line-height:13px}
 #login input[type="text"],#login input[type="password"]{line-height:16px}
+button,.button{line-height:18px}
 /* margin */
-#login,#profile{margin:0 auto}
+#login,#profile,#settings{margin:0 auto}
 #login input[type="checkbox"],#login-button,#profile .row input[type="text"],#progress-bar i,#login input[type="text"],#login input[type="password"],button,.button,#profile .row input[type="checkbox"],.button-blue a{margin:0}
 #profile .gender > span{margin-right:6px}
 .mRight10{margin-right:10px}
 #profile .gender #User_gender_0{margin:0 0 0 5px}
 #profile .gender #User_gender_1{margin:0 0 0 20px}
+#login select{margin:5px 5px 5px 65px}
 #login .row label{margin:8px 0px 6px 10px}
 .checkbox label{margin-left:3px}
 .sprite.msg{margin-left:3px}
@@ -82,6 +84,7 @@ button,.button{line-height:18px}
 #profile .row,#progress-bar{margin-bottom:10px}
 #profile .email i,#profile .name i,#profile .last-name i{margin:8px 0 0 7px}
 #profile .password i,#profile .password-old i{margin:10px 0 0 13px}
+#settings .block-form input[type="checkbox"]{margin-left:80px}
 /* padding */
 .check,#login-button,#profile .gender input[type="radio"],#profile .row input[type="checkbox"]{padding:0}
 #login input[type="text"],#login input[type="password"]{padding:6px 5px 6px 65px}
@@ -95,6 +98,7 @@ button,select,.button{padding:3px 10px}
 button.inline,.button.inline{padding:0 10px}
 #progress-bar .bar span{padding:13px 0}
 #progress-bar .active span{padding:12px 0}
+#settings .block-form input[type="text"],#settings .block-form textarea{padding-left:80px;max-width:237px}
 #reset-password-form input[type="password"]{padding-left:90px}
 /* font-size */
 button,.button,label,#login-button,#profile .row .errorMessage,#login .extra,.link-button,.row .td,.button-blue a{font-size:11px}
@@ -135,6 +139,7 @@ button:focus,.button:focus{background:#48dc7c}
 button.inline,button.cancel,.button.inline,.button.cancel{background:#CFCFCF}
 #login input[type="text"]:focus,#login input[type="password"]:focus,#profile .row input[type="text"]:focus,#profile .row input[type="password"]:focus,#profile form .row label{background:#FAFFBD}
 #login-button,.button-blue a{background:#C9E0ED}
+#settings .new-form{background:#CDECD6;padding:10px}
 #progress-bar .bar{background:#eee}
 #progress-bar .active,#progress-bar .completed{background:#d8ebf8}
 div.form div.error input,div.form div.error textarea,div.form div.error select,div.form input.error,div.form textarea.error,div.form select.error,#profile .row .errorBox{background:#FEE !important}
@@ -160,7 +165,8 @@ div.form div.success input,div.form div.success textarea,div.form div.success se
 button,.button{border:1px solid transparent}
 #login .row,#profile .row input[type="text"],#profile .row input[type="password"],#profile form .row label,.button-blue{border:1px solid #C9E0ED}
 #login input[type="password"],#login #restore-password-form input[type="text"]{border-right:1px solid #C9E0ED}
-#login .row.last{border-top:none}
+#login .row{border-bottom:none}
+#login .row.last{border-bottom:1px solid #C9E0ED}
 #login-button,.button-blue a{border:1px solid #FFF}
 #login-button:focus,.button-blue a:focus,.button-blue a:hover{border:1px solid #4D9AC6}
 #profile .arrow-border{
@@ -180,10 +186,10 @@ border-width: 6px
 div.form div.error input,div.form div.error textarea,div.form div.error select,div.form input.error,div.form textarea.error,div.form select.error,#profile .row .errorBox{border-color:#C00}
 /* border-radius */
 button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px}
-#login .row,#profile .row input[type="text"],#profile .row input[type="password"],#login #restore-password-form .row,.button-blue{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}
+#profile .row input[type="text"],#profile .row input[type="password"],#login #restore-password-form .row,.button-blue{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}
 #msgBox{border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px}
-#login .row.first{border-bottom-left-radius:0;-moz-border-bottom-left-radius:0;-webkit-border-bottom-left-radius:0;border-bottom-right-radius:0;-moz-border-bottom-right-radius:0;-webkit-border-bottom-right-radius:0}
-#login .row.last{border-top-left-radius:0;-moz-border-top-left-radius:0;-webkit-border-top-left-radius:0;border-top-right-radius:0;-moz-border-top-right-radius:0;-webkit-border-top-right-radius:0}
+#login .row.first{border-top-left-radius:3px;-moz-border-top-left-radius:3px;-webkit-border-top-left-radius:3px;border-top-right-radius:3px;-moz-border-top-right-radius:03px;-webkit-border-top-right-radius:3px}
+#login .row.last{border-bottom-left-radius:3px;-moz-border-bottom-left-radius:3px;-webkit-border-bottom-left-radius:3px;border-bottom-right-radius:3px;-moz-border-bottom-right-radius:3px;-webkit-border-bottom-right-radius:3px}
 #login-button{border-bottom-right-radius:3px;-moz-border-bottom-right-radius:3px;-webkit-border-bottom-right-radius:3px}
 #progress-bar .bar.first{border-top-left-radius:5px;-moz-border-top-left-radius:5px;-webkit-border-top-left-radius:5px;border-bottom-left-radius:5px;-moz-border-bottom-left-radius:5px;-webkit-border-bottom-left-radius:5px}
 #progress-bar .bar.last{border-top-right-radius:5px;-moz-border-top-right-radius:5px;-webkit-border-top-right-radius:5px;border-bottom-right-radius:5px;-moz-border-bottom-right-radius:5px;-webkit-border-bottom-right-radius:5px}
