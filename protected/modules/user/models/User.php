@@ -82,7 +82,8 @@ class User extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'userPasswordRestore'=>array(self::HAS_MANY, 'UserPasswordRestore', 'user_id'),
-            'settings'=>array(self::HAS_ONE, 'UserSettings', 'user_id')
+            'settings'=>array(self::HAS_MANY, 'UserSettings', 'user_id'),
+            'permissions'=>array(self::MANY_MANY, 'PermissionItem', 'AuthAssignment(userid, itemname)')
 		);
 	}
 
@@ -360,5 +361,13 @@ class User extends CActiveRecord
 
         $this->scenario = $scenario;
         return $hasFullInfo;
+    }
+    public function getName()
+    {
+        return $this->first_name . ' ' . mb_substr($this->last_name, 0, 1, 'UTF-8') . '.';
+    }
+    public function getGravatar($size = 32)
+    {
+        return 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $this->email ) ) ) . '.png?s=' . $size;
     }
 }
