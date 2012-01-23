@@ -1,7 +1,9 @@
+var UIMessages = new Array();
+
 function isNumber(n){
 	return !isNaN(parseFloat(n)) && isFinite(n);
 }
-function showMessage(title, message, okButtonText, okCallback, alternativeButton, altButtonText, altCallback)
+function showMessage(title, message, okButtonText, okCallback, altButtonText, altCallback)
 {
 	$('#floodPanel').show();
 	var msgBox = $('#msgBox');
@@ -11,14 +13,23 @@ function showMessage(title, message, okButtonText, okCallback, alternativeButton
     	.css("left", ( $(window).width() - msgBox.width() ) / 2 + "px");
 
 	var buttons = $('<div class="buttons"></div>');
-	msgBox.append(buttons).show();
 
-    msgBox.animate({top: ( $(window).height() - msgBox.height() ) / 2 - msgBox.outerHeight() / 2});
+    msgBox.append(buttons).show()
+        .animate({top: ( $(window).height() - msgBox.outerHeight() ) / 2});
 
 	okButtonEvent = function(){
-						msgBox.empty().hide();
-						$('#floodPanel').hide();
-						if (okCallback) okCallback();
+						if (okCallback)
+                        {
+                            if (okCallback() !== false)
+                            {
+                                msgBox.empty().hide();
+                                $('#floodPanel').hide();
+                            }
+                        }
+                        else{
+                            msgBox.empty().hide();
+                            $('#floodPanel').hide();
+                        }
 					};
 
 	$('<span class="button blue ok" tabindex="0"><a>' + okButtonText + '</a></span>')
@@ -31,8 +42,8 @@ function showMessage(title, message, okButtonText, okCallback, alternativeButton
 			}
 		});
 
-	if (alternativeButton){
-		cancelButton = $('<span class="button alt">' + altButtonText + '</span>');
+	if (altButtonText){
+		cancelButton = $('<span class="button grey alt"><a>' + altButtonText + '</a></span>');
 		cancelButton.click(function(){
 			msgBox.empty().hide();
 			$('#floodPanel').hide();
@@ -41,6 +52,9 @@ function showMessage(title, message, okButtonText, okCallback, alternativeButton
 		buttons.append(cancelButton);
 	}
 
+    msgBox.on('centralize', function(){
+        msgBox.animate({top: ( $(window).height() - msgBox.height() ) / 2});
+    });
 }
 function activateMainMenu(){
 	var subMenus = $('#mainmenu li ul');
