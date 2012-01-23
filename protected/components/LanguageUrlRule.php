@@ -23,7 +23,7 @@ class LanguageUrlRule extends CBaseUrlRule
     public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
     {
 		// matches site/ky/ru/phrase
-        if (preg_match('%^site/(\w+)(/(\w+)(/(.+)(/)?)?)?$%', $pathInfo, $matches))
+        if (preg_match('%^site/(\w+)(/(\w+)(/(.+)((/)?(\?.+)?)?)?)?$%', $pathInfo, $matches))
         {
 			$connection = Yii::app()->db;
 			$command = $connection->createCommand('SELECT id FROM tbl_languages WHERE abbreviation = :abbreviation');
