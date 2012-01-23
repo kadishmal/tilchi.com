@@ -11,6 +11,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.controllers.*',
 		'application.modules.content.*',
 		'application.modules.content.models.*',
         'application.modules.user.*',
