@@ -32,6 +32,9 @@ return array(
     'Use SHIFT key to input Kyrgyz letters'=>'Использовать клавишу SHIFT для ввода кыргызских букв',
     'For ease of use, you can press SHIFT+о to input Kyrgyz letter \'ө\', or SHIFT+н or SHIFT+у to input Kyrgyz letters \'ң\' or \'ү\', respectively.'
     =>'Для удобства Вы можете вводить букву \'ө\', нажав на кнопки SHIFT+о, или SHIFT+н, SHIFT+у, чтобы ввести буквы \'ң\' или \'ү\'.',
+    'Use my Gravatar image'=>'Использовать мой Gravatar',
+    'Use my Gravatar image as my avatar. See www.gravatar.com for more info.'
+    =>'Использовать мой Gravatar в качестве моего аватара. Подробности на сайте www.ru.gravatar.com.',
 	// Edit
 	'Edit'=>'Редактировать',
 	'Change'=>'Изменить',
@@ -61,5 +64,13 @@ return array(
 	'The confirmation password does not match with your new password. You need to enter your new password twice.'=>'Подтверждающий пароль не соответствует новому паролю. Вам необходимо ввести Ваш новый пароль дважды.',
 	'To change your password, your new password should be different from the old one.'=>'Чтобы сменить свой пароль, необходимо ввести новый пароль отличный от старого.',
 	'Change my password'=>'Сменить мой пароль',
+    // Relative date
+    'last year|{n} years ago' => 'год назад|{n} года назад|{n} лет назад|{n} года назад',
+    'last month|{n} months ago' => 'месяц назад|{n} месяца назад|{n} месяцев назад|{n} месяца назад',
+    'last week|{n} weeks ago' => 'неделю назад|{n} недели назад|{n} недель назад|{n} недели назад',
+    'yesterday|{n} days ago' => 'вчера|{n} дня назад|{n} дней назад|{n} дня назад',
+    'an hour ago|{n} hours ago' => 'час назад|{n} часа назад|{n} часов назад|{n} часа назад',
+    'one minute ago|{n} minutes ago' => 'минуту назад|{n} минуты назад|{n} минут назад|{n} минуты назад',
+    'one second ago|{n} seconds ago' => 'секунду назад|{n} секунды назад|{n} секунд назад|{n} секунды назад'
 );
 ?>
