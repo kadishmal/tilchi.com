@@ -10,6 +10,9 @@ class SiteController extends Controller
 	const STATUS_NEW_PHRASE_FAIL = 4;
 	const TRANSLATIONS_PER_PAGE = 25;
 
+    const EXCHANGE_PHRASE_VIEWS = 'tilchi.exchange.phrase.views';
+    const QUEUE_PHRASE_VIEWS = 'tilchi.queue.phrase.views';
+
 	public function init()
 	{
 		Yii::import('application.modules.user.models.*');
@@ -175,10 +178,24 @@ class SiteController extends Controller
                             }
                         }
                         else{
-                            //						$results['status'] = Yii::t('tilchi', 'Sorry, but the phrase <b>_phrase</b> has not been found. If you are sure this phrase exists, request its translation below, and our community members will make sure it is translated.', array(
-                            //							'_phrase'=>$searchPhrase
-                            //						));
                             $results['status'] = Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase));
+
+                            // create a history object to be sent to RabbitMQ
+                            $historyObj = array(
+                                'phrase'=>$searchPhrase,
+                                'searchDate'=>time(),
+                                'fromLangId'=>$fromLang->id,
+                                'toLangId'=>$toLang->id
+                            );
+
+                            // if a user has decided to store the search history, means he is logged in.
+                            // Then add his id to the history object.
+                            if (Yii::app()->user->getState('save_search_history'))
+                            {
+                                $historyObj['user_id'] = Yii::app()->user->id;
+                            }
+
+                            $this->saveSearchHistory($historyObj);
                         }
                     }
                 }
@@ -217,13 +234,14 @@ class SiteController extends Controller
 	{
 		if (isset($_GET['fromLang']) && isset($_GET['toLang']))
 		{
-			$searchPhrase = $_GET['phrase'];
-
 			$lang = Language::model()->findByPk($_GET['fromLang']);
+            $toLang = Language::model()->findByPk($_GET['toLang']);
 
-			if ($lang)
+			if ($lang && $toLang)
 			{
-				$idx = 'idx_phrases';
+                $searchPhrase = $_GET['phrase'];
+
+                $idx = 'idx_phrases';
 				// Russiang and Kyrgyz languages have their own customized indexes
 				if ($lang->abbreviation == 'ru' || $lang->abbreviation == 'ky'
                     || $lang->abbreviation == 'en' || $lang->abbreviation == 'tr')
@@ -231,7 +249,7 @@ class SiteController extends Controller
 					$idx .= '_' . $lang->abbreviation;
 				}
 
-				$search = Yii::App()->search;
+				$search = Yii::app()->search;
 
 				$search->select('id')->
 					from($idx)->
@@ -244,27 +262,46 @@ class SiteController extends Controller
 				$sysLang = Yii::app()->language;
 				$results = array();
 				$results['count'] = $searchResults->getTotal();
+                // create a history object to be sent to RabbitMQ
+                $historyObj = array(
+                    'phrase'=>$searchPhrase,
+                    'searchDate'=>time(),
+                    'fromLangId'=>$lang->id,
+                    'toLangId'=>$toLang->id
+                );
 
 				if ($results['count'] > 0)
 				{
 					$results['translations'] = array();
 
-					$phrase = Phrase::model()->with('translations', 'translations.translationPhrase', 'translations.translationLanguage')
+					$phrase = Phrase::model()->with('translations', 'translations.translationPhrase', 'translations.user')
                                 ->find('t.id = :id AND translations.translation_language_id = :language_id', array(
                                     ':id'=>implode(',', $searchResults->getIdList()),
-                                    ':language_id'=>$_GET['toLang']
+                                    ':language_id'=>$toLang->id
                                 ));
 
 					if ($phrase)
 					{
+                        $results['requestAuthor'] = array(
+                            'requestedBy'=>Yii::t('tilchi', 'requested', $phrase->user->gender),
+                            'name'=>$phrase->user->getName(),
+                            'date'=>UserModule::getFormattedRelativeDate($phrase->date),
+                            'gravatar'=>$phrase->user->getGravatar(Yii::app()->user->getState('avatar_size')),
+                        );
+
 						foreach ($phrase->translations as $translation)
 						{
 							$results['translations'][] = array(
 								'phrase'=>($translation->translationPhrase ? $translation->translationPhrase->phrase : ''),
-								'language'=>$translation->translationLanguage->$sysLang,
-                                'explanation'=>$translation->explanation ? $translation->explanation : ''
+								'explanation'=>$translation->explanation ? $translation->explanation : '',
+                                'translatedBy'=>Yii::t('tilchi', 'translated by', $translation->user->gender),
+                                'date'=>UserModule::getFormattedRelativeDate($translation->date),
+                                'author'=>$translation->user->getName(),
+                                'gravatar'=>$translation->user->getGravatar(Yii::app()->user->getState('avatar_size')),
 							);
 						}
+                        // add a phrase id to the history object
+                        $historyObj['phrase_id'] = $phrase->id;
 					}
 
 					$results['translationsCount'] = count($results['translations']);
@@ -277,22 +314,11 @@ class SiteController extends Controller
 							'noTranslation'=>Yii::t('tilchi', 'The word <b>_phrase</b> exists in our database, but no translation has been found for it. If you know the translation, help us improve Tilchi.com by adding your translation. You will be recorded as a contributor.', array('_phrase'=>$searchPhrase))
 						);
 					}
-
-                    if (!Yii::app()->user->isGuest && Yii::app()->user->getState('save_search_history'))
+                    // if a user has decided to store the search history, means he is logged in.
+                    // Then add his id to the history object.
+                    if (Yii::app()->user->getState('save_search_history'))
                     {
-                        $searchHistory = new PhraseSearchHistory;
-                        $searchHistory->user_id = Yii::app()->user->id;
-
-                        if ($phrase)
-                        {
-                            $searchHistory->phrase_id = $phrase->id;
-                        }
-
-                        $searchHistory->phrase = $searchPhrase;
-                        $searchHistory->language_id = $lang->id;
-                        $searchHistory->search_date = time();
-
-                        $searchHistory->save();
+                        $historyObj['user_id'] = Yii::app()->user->id;
                     }
 				}
                 else{
@@ -300,6 +326,8 @@ class SiteController extends Controller
                         'noPhrase'=>Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase))
                     );
                 }
+
+                $this->saveSearchHistory($historyObj);
 
 				if (isset($_GET['ajax']) && $_GET['ajax'] == 'ajax')
 				{
@@ -475,4 +503,18 @@ class SiteController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
+
+    private function saveSearchHistory(&$historyObj)
+    {
+        // send RabbitMQ a message that a phrase was viewed.
+        $amqp = Yii::app()->amqp;
+        $amqp->declareExchange(self::EXCHANGE_PHRASE_VIEWS, AMQP_EX_TYPE_DIRECT, AMQP_DURABLE);
+
+        $ex = $amqp->exchange(self::EXCHANGE_PHRASE_VIEWS);
+        $amqp->declareQueue(self::QUEUE_PHRASE_VIEWS, AMQP_DURABLE);
+        $queue = $amqp->queue(self::QUEUE_PHRASE_VIEWS);
+        $queue->bind(self::EXCHANGE_PHRASE_VIEWS, self::QUEUE_PHRASE_VIEWS);
+
+        $ex->publish(serialize($historyObj), self::QUEUE_PHRASE_VIEWS, AMQP_MANDATORY);
+    }
 }
