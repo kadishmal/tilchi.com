@@ -25,7 +25,7 @@
     )); ?>
         <?php echo $form->errorSummary($model); ?>
 
-        <div class="row"><?php
+        <div class="row last"><?php
             echo CHtml::label('Email', 'User_email') . $form->textField($model, 'email') .
                     CHtml::submitButton(Yii::t('UserModule.login', 'Continue'), array('id'=>'login-button'));
         ?></div>
