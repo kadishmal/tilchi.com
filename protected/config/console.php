@@ -32,6 +32,14 @@ return array(
             ),
  			'logging' => false,
  		),
+        'search' => array(
+            'class' => 'application.components.DGSphinxSearch',
+            'server' => '127.0.0.1',
+            'port' => 9312,
+            'maxQueryTime' => 3000,
+            'enableProfiling'=>false,
+            'enableResultTrace'=>false
+        ),
         'amqp' => array(
             'class' => 'application.components.AMQP.CAMQP'
         ),
