@@ -165,3 +165,15 @@ button.primary:hover,.button.primary:hover,.button.big:hover{border-color:#1e679
 /* border-radius */
 .button.big{border-radius:0}
 button,.button{border-radius:15px;-moz-border-radius:15px;-webkit-border-radius:15px}
+/* tilchi form */
+.grid-view input[type="text"]{padding:0}
+.block-form .row{border:1px solid #C9E0ED;border-bottom:none;width:322px;margin:0 auto}
+.block-form .row.first{border-top-left-radius:3px;-moz-border-top-left-radius:3px;-webkit-border-top-left-radius:3px;border-top-right-radius:3px;-moz-border-top-right-radius:03px;-webkit-border-top-right-radius:3px}
+.block-form .row.last{border-bottom:1px solid #C9E0ED;border-bottom-left-radius:3px;-moz-border-bottom-left-radius:3px;-webkit-border-bottom-left-radius:3px;border-bottom-right-radius:3px;-moz-border-bottom-right-radius:3px;-webkit-border-bottom-right-radius:3px}
+.block-form .row label{position:absolute;margin:8px 0px 6px 10px;text-transform:uppercase}
+.block-form input[type="text"],.block-form input[type="password"],.block-form textarea{line-height:16px;padding:6px 5px 6px 65px;width:250px;border:none;margin:0}
+.block-form textarea{width:252px;max-width:252px}
+.block-form input[type="text"]:focus,.block-form input[type="password"]:focus,.block-form textarea:focus{background:#FAFFBD}
+.block-form select{margin:5px 5px 5px 65px;width:250px}
+.block-form input[type="checkbox"]{margin:8px 0 8px 65px}
+.block-form input[type="checkbox"]:focus{outline:3px solid #C9E0ED}

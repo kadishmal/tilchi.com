@@ -223,8 +223,8 @@ div.search-form
 /* cursor */
 #mainmenu *,.block-button,.switch{cursor:pointer}
 /* display */
-#msgBox,#floodPanel,#spinner,#mainmenu ul ul,#search-container,#tilchi .options,#translationResults,#add-text,#add-phrase,.language,.input-table .last a{display:none}
-#mainmenu li *,#mainmenu a,#tilchi .tilchi-body,.sprite,.phrase span,#translations,span{display:inline-block}
+#msgBox,#floodPanel,#spinner,#mainmenu ul ul,#search-container,#tilchi .options,#translationResults,#add-text,#add-phrase,.language,.input-table .last a,.hidden{display:none}
+#mainmenu li *,#mainmenu a,#tilchi .tilchi-body,.sprite,.phrase span,#translations,span,.inline{display:inline-block}
 #mainmenu .submenu,#mainmenu .submenu li,#mainmenu .submenu a,#tilchi #results .item,.block-button,#add-text,.view .language{display:block}
 /* position */
 #mainmenu .menuHover,#tilchi-search .button{position:relative}
@@ -369,3 +369,16 @@ span.button.red a:focus,span.button.red a:hover,span.button.red input:focus,span
 span.button.grey{border:1px solid #ebebeb;background:#ebebeb}
 span.button.grey a,span.button.grey a:hover,span.button.grey input,span.button.grey input:hover{color:#858383;background:#ebebeb}
 span.button.grey a:focus,span.button.grey a:hover,span.button.grey input:focus,span.button.grey input:hover{border-color:#c6c2c2}
+/* links block */
+#translation-body .meta .links{width:428px}
+#translation-body .meta .links a{padding:0px 3px 2px 3px;color:#888;text-decoration:none}
+#translation-body .meta .links a:hover{color:#FFF;background-color:#777777}
+#msgBox .msg .share-link{width:439px;border:1px solid #BBB;font-size:12px;padding:3px}
+#translation-body .explanation{margin:0 0 10px 0}
+#tilchi .signature{padding-left:5px;padding-top:2px;vertical-align:top;width:175px;height:58px}
+#tilchi .signature.owner{background-color:#C9E0ED;color:#276086}
+#tilchi .signature img{width:32px;height:32px;-moz-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.5);-webkit-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.5);box-shadow:2px 2px 4px rgba(0, 0, 0, 0.5);filter: filter: progid:DXImageTransform.Microsoft.Shadow(direction=135,strength=3, color=#808080)}
+#tilchi .signature .inline{vertical-align:top;margin-left:5px}
+#tilchi .signature .user-info{margin-top:3px}
+#tilchi .tilchi-body{margin-right:10px}
+#tilchi .sidebar{width:239px;display:inline-block;vertical-align:top}
