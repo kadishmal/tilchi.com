@@ -29,22 +29,22 @@
                      . CHtml::tag('span', array('style'=>'margin:0 10px', 'class'=>'sprite switch'), '')
                      . CHtml::dropDownList('toLang', $toLang, $langs);
 			 ?></h2></div><div id="tilchi-search">
-                <?php
-                    $form = $this->beginWidget('CActiveForm', array(
-                        'id'=>'tilchi-search-form',
-                        'action'=>'/site/search',
-						'focus'=>'#Tilchi_phrase'
-                    ));
+                 <?php
+                     $form = $this->beginWidget('CActiveForm', array(
+                         'id'=>'tilchi-search-form',
+                         'action'=>'/site/search',
+				  	 	 'focus'=>'#Tilchi_phrase'
+                     ));
 
-                    echo CHtml::hiddenField('Tilchi[fromLang]', $fromLang) .
-						CHtml::hiddenField('Tilchi[toLang]', $toLang) .
-						CHtml::textField('Tilchi[phrase]', '', array('class'=>'textField', 'autocomplete'=>'off')) .
-						CHtml::tag('span', array('class'=>'button blue'), CHtml::submitButton(Yii::t('site', 'Search')));
+                     echo CHtml::hiddenField('Tilchi[fromLang]', $fromLang) .
+				  		 CHtml::hiddenField('Tilchi[toLang]', $toLang) .
+						 CHtml::textField('Tilchi[phrase]', '', array('class'=>'textField', 'autocomplete'=>'off')) .
+						 CHtml::tag('span', array('class'=>'button blue'), CHtml::submitButton(Yii::t('site', 'Search')));
 
-                    $this->endWidget();
-                ?><div id="results"></div>
+                     $this->endWidget();
+                 ?><div id="results"></div>
              </div><?php
-                 if (Yii::app()->user->getState('ajax_search'))
+                 if (Yii::app()->user->getState('enable_ajax_search'))
                  {
                      echo CHtml::tag('div', array('id'=>'search-container', 'class'=>'body'), false, false)
                          . CHtml::tag('div', array('id'=>'translation'), '');
@@ -111,9 +111,9 @@
 
                      Yii::app()->clientScript->registerScript('tilchi-search', "activateTilchiSearch('tilchi-search-form');");
                  }
-             else{
-                 Yii::app()->clientScript->registerScript('tilchi-search', "enableLanguageSwitch();");
-             }
+                 else{
+                     Yii::app()->clientScript->registerScript('tilchi-search', "enableLanguageSwitch();");
+                 }
              ?>
         </div>
     </div>
