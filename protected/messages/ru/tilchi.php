@@ -19,6 +19,12 @@ return array(
 	'Choose a language'=>'Выберите язык',
 	'Choose a language to translate to'=>'Выберите язык для перевода',
 	'Translations'=>'Переводы',
-	'Latest translations'=>'Недавние переводы'
+	'Latest translations'=>'Недавние переводы',
+    'link'=>'ссылка',
+    'translated by'=>'n==0#перевел|n==1#перевела',
+    'requested'=>'n==0#запросил|n==1#запросила',
+    'the translation was first requested _date'=>'первый запрос на перевод был отправлен _date',
+    'Share a link to this translation'=>'Поделиться ссылкой на этот перевод',
+    'Close'=>'Закрыть'
 );
 ?>
