@@ -102,7 +102,8 @@ return array(
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
 			'enableProfiling' =>false,
-            'enableParamLogging'=>false
+            'enableParamLogging'=>false,
+            'schemaCachingDuration'=>3600
 		),
         'authManager'=>array(
             'class'=>'CDbAuthManager',
@@ -122,6 +123,9 @@ return array(
 				),
 			),
 		),
+        'cache' => array(
+            'class' => 'system.caching.CApcCache',
+        ),
 	),
 
 	// application-level parameters that can be accessed
