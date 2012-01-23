@@ -1,4 +1,4 @@
-function enableProfileEdit()
+function enableSettingsEdit()
 {
     var userSettings = $('.settings :checkbox');
 
