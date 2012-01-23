@@ -19,7 +19,6 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function __construct($email,$password)
 	{
-        // TODO: Should I validate the email address here?
 		$this->email = $email;
 		$this->password = $password;
 	}
@@ -50,16 +49,7 @@ class UserIdentity extends CUserIdentity
 			if ($crypt == $testcrypt)
             {
 				$this->_id = $user->id;
-
-                // get the user's settings and preferences and store them in cookies
-                if ($user->settings)
-                {
-                    $this->setState('ajax_search', $user->settings->ajax_search);
-                    $this->setState('save_search_history', $user->settings->save_search_history);
-                    $this->setState('enable_shift_for_letters', $user->settings->enable_shift_for_letters);
-                }
-
-                $this->errorCode=self::ERROR_NONE;
+                $this->errorCode = self::ERROR_NONE;
 			} else {
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
 			}

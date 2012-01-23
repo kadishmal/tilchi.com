@@ -74,8 +74,42 @@ class LoginForm extends CFormModel
 
 		if($this->_identity->errorCode === UserIdentity::ERROR_NONE)
 		{
+            $webUser = Yii::app()->user;
+
 			$duration = $this->rememberMe ? 3600*24*30 : 0; // 30 days
-			Yii::app()->user->login($this->_identity, $duration);
+            $webUser->login($this->_identity, $duration);
+
+            // get a list of settings to load at login time this user has permission to alter
+            $userSettingsList = SiteSettings::model()->findAll(
+                'on_login = :on_login',
+                array(':on_login'=>SiteSettings::YES)
+            );
+
+            if (count($userSettingsList))
+            {
+                $userAccessibleSettings = array();
+                // check if this user has access to each of these settings
+                foreach($userSettingsList as $setting)
+                {
+                    if(Yii::app()->user->checkAccess($setting->auth_item))
+                    {
+                        $webUser->setState($setting->name, $setting->default_value);
+                        $userAccessibleSettings[$setting->id] = $setting;
+                    }
+                }
+
+                $criteria = new CDbCriteria;
+                $criteria->compare('user_id', $webUser->id);
+                $criteria->addInCondition('setting_id', array_keys($userAccessibleSettings));
+
+                $userExistingSettings = UserSettings::model()->findAll($criteria);
+
+                foreach ($userExistingSettings as $userSetting)
+                {
+                    $webUser->setState($userAccessibleSettings[$userSetting->setting_id]->name, $userSetting->value);
+                }
+            }
+
 			return true;
 		}
 		else
