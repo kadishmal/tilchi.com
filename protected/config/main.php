@@ -107,7 +107,7 @@ return array(
         'authManager'=>array(
             'class'=>'CDbAuthManager',
             'connectionID'=>'db',
-            'defaultRoles'=>array('member', 'guest'),
+            'defaultRoles'=>array('member', 'guest', 'anyone'),
         ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
