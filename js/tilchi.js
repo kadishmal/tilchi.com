@@ -36,6 +36,13 @@ function enableLanguageSwitch()
         $('#fromLang').val($('#toLang').val()).change();
         $('#toLang').val(t).change();
     });
+
+    $('.meta .links a').click(function()
+    {
+        showMessage(UIMessages['shareTitle'], '<input type="text" value="' + $(this).attr('href') + '" class="share-link" />', UIMessages['close']);
+        $('#msgBox .msg .share-link').focus().select();
+        return false;
+    });
 }
 
 function listenToLetters()
@@ -218,7 +225,7 @@ function retrieveTranslation(item)
 		'url': encodeURI(item.attr('href')),
 		'cache': true,
 		'dataType': 'json',
-		'data': 'ajax=ajax&toLang=' + $('#Tilchi_toLang').val(),
+		'data': 'ajax=ajax',
 		'success': function(data, textStatus, jqXHR)
 		{
 			translationsBox.append('<h3>' + item.html() + '</h3>');
