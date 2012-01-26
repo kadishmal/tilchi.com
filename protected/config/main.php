@@ -64,10 +64,10 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
-				// A custom rule to handle '/ky/phrase' like URLs.
+				// A custom rule to handle '/ru/ky/phrase' like URLs.
 				array(
 					'class' => 'application.components.LanguageUrlRule',
-					'connectionID' => 'db',
+					'defaultParams'=>array('ajax'=>false),
 				),
                 // User URLs
 				array('user/profile', 'pattern'=>'user'),

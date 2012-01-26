@@ -7,6 +7,16 @@
 class LanguageUrlRule extends CBaseUrlRule
 {
     public $connectionID = 'db';
+    /**
+     * @var array the default GET parameters (name=>value) that this rule provides.
+     * When this rule is used to parse the incoming request, the values declared in this property
+     * will be injected into $_GET.
+     */
+    public $defaultParams=array();
+    /**
+     * @var array list of parameters (name=>regular expression)
+     */
+    public $params=array();
 
     public function createUrl($manager,$route,$params,$ampersand)
     {
@@ -64,7 +74,13 @@ class LanguageUrlRule extends CBaseUrlRule
                         if (isset($matches[5]))
                         {
                             $_GET['phrase'] = $matches[5];
-                            $_GET['ajax'] = Yii::app()->request->getQuery('ajax');
+
+                            foreach($this->defaultParams as $name=>$value)
+                            {
+                                if(!isset($_GET[$name]))
+                                    $_REQUEST[$name]=$_GET[$name]=$value;
+                            }
+
                             $uri = '/site/view';
                         }
                     }

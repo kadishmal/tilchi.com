@@ -230,7 +230,7 @@ class SiteController extends Controller
             }
         }
     }
-	public function actionView()
+	public function actionView($ajax)
 	{
 		if (isset($_GET['fromLang']) && isset($_GET['toLang']))
 		{
@@ -329,7 +329,7 @@ class SiteController extends Controller
 
                 $this->saveSearchHistory($historyObj);
 
-				if (isset($_GET['ajax']) && $_GET['ajax'] == 'ajax')
+				if ($ajax == 'ajax')
 				{
 					echo CJSON::encode($results);
 				}
