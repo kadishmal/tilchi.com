@@ -48,12 +48,13 @@ class ManageController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index', 'permissions', 'getRoleData',
                                 'getAuthItemUsers', 'assignUser', 'revokeUser',
-                                'getDescendants', 'addChild', 'removeChild'
+                                'getDescendants', 'addChild', 'removeChild',
+                                'clearAPC',
                 ),
 				'roles'=>array('superAdmin'),
 			),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('settings', 'getSiteSettingInfo', 'deleteSiteSetting'
+                'actions'=>array('settings', 'getSiteSettingInfo', 'deleteSiteSetting',
                 ),
                 'roles'=>array('admin'),
             ),
@@ -616,5 +617,13 @@ class ManageController extends Controller
         }
 
         echo CJSON::encode($results);
+    }
+
+    public function actionClearAPC()
+    {
+        apc_clear_cache();
+        apc_clear_cache('user');
+        apc_clear_cache('opcode');
+        echo json_encode(array('success' => true));
     }
 }
