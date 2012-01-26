@@ -12,10 +12,24 @@ class LanguageUrlRule extends CBaseUrlRule
     {
         if ($route === '/site/view')
         {
-            if (isset($params['language'], $params['phrase']))
-                return $params['language'] . '/' . $params['phrase'];
-            else if (isset($params['language']))
-                return $params['language'];
+            $url = '';
+
+            if (isset($params['fromLang']))
+            {
+                $url .= $params['fromLang'];
+
+                if (isset($params['toLang']))
+                {
+                    $url .= '/' . $params['toLang'];
+
+                    if (isset($params['phrase']))
+                    {
+                        $url .= '/' . $params['phrase'];
+                    }
+                }
+            }
+
+            return $url;
         }
         return false;  // this rule does not apply
     }
@@ -23,7 +37,7 @@ class LanguageUrlRule extends CBaseUrlRule
     public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
     {
 		// matches site/ky/ru/phrase
-        if (preg_match('%^site/(\w+)(/(\w+)(/(.+)((/)?(\?.+)?)?)?)?$%', $pathInfo, $matches))
+        if (preg_match('%^site/(\w+)(/(\w+)(/(.+)(/)?)?)?$%', $pathInfo, $matches))
         {
 			$connection = Yii::app()->db;
 			$command = $connection->createCommand('SELECT id FROM tbl_languages WHERE abbreviation = :abbreviation');
@@ -50,6 +64,7 @@ class LanguageUrlRule extends CBaseUrlRule
                         if (isset($matches[5]))
                         {
                             $_GET['phrase'] = $matches[5];
+                            $_GET['ajax'] = Yii::app()->request->getQuery('ajax');
                             $uri = '/site/view';
                         }
                     }
