@@ -65,7 +65,7 @@ $form=$this->beginWidget('CActiveForm', array(
 			</div>
 
 			<div class="row"><?php echo CHtml::label(Yii::t('ContentModule.blog', 'Status') . ':', 'Post_status') .
-				CHtml::tag('span', array('id'=>'post-status'), Yii::t('ContentModule.blog', $model->getStatusTitle())) .
+				CHtml::tag('span', array('id'=>'post-status', 'class'=>'black bold'), Yii::t('ContentModule.blog', $model->getStatusTitle())) .
 				CHtml::link(Yii::t('ContentModule.blog', 'Edit'), '#', array('class'=>'edit-status')); ?>
 				<div id="statusdiv">
 					<?php echo $form->dropDownList($model, 'status', $model->getStatusList()); ?>
@@ -75,7 +75,7 @@ $form=$this->beginWidget('CActiveForm', array(
 			</div>
 
 			<div class="row publish-date row-last"><i></i><?php echo CHtml::label(Yii::t('ContentModule.blog', $model->isNewRecord ? 'Publish' : 'Published on'), 'Post_publish_date') .
-				CHtml::tag('span', array('id'=>'timestamp'), $model->isNewRecord ?
+				CHtml::tag('span', array('id'=>'timestamp', 'class'=>'black bold'), $model->isNewRecord ?
 					Yii::t('ContentModule.blog', 'immediately') :
 					$model->jj . ' ' . Yii::app()->dateFormatter->format('MMM', $model->publish_date) . ' ' . $model->aa . ' ' . Yii::t('ContentModule.blog', '@') . ' ' . $model->hh . ':' . $model->mn
 				) .
@@ -100,12 +100,20 @@ $form=$this->beginWidget('CActiveForm', array(
 			</div>
 		</div>
 		<div class="postbox" id="tag-box">
-			<h6><?php echo Yii::t('ContentModule.blog', 'Post Tags'); ?></h6>
-			<div class="row">
-				<?php
-					echo $form->textArea($model, 'tags', array('placeholder'=>'Separate tags by commas.'));
-				?>
-			</div>
+			<h6><?php
+                echo Yii::t('ContentModule.blog', 'Post Tags');
+            ?></h6><?php
+                echo $form->hiddenField($model, 'tags');
+            ?><div id="tag-editor"><?php
+                if (count(($tags = $model->tagsAsArray())))
+                {
+                    echo '<span class="tag">'
+                        . implode('<span class="sprite delete-tag"></span></span><span class="tag">', $tags)
+                        . '<span class="sprite delete-tag"></span></span>';
+                }
+
+                echo CHtml::textField('', '', array('data-url'=>'/blog/getDistinctTags', 'placeholder'=>Yii::t('ContentModule.blog', 'List of tags will appear upon typing.')));
+            ?></div><div id="tag-results"></div>
 		</div>
 	</div>
 

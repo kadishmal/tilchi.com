@@ -14,7 +14,7 @@ return array(
     'Preview Changes' => 'Просмотреть изменения',
     'Publish' => 'Опубликовать',
     'Post Tags' => 'Метки',
-    'Separate tags by commas.' => 'Разделяйте метки запятыми.',
+    'List of tags will appear upon typing.' => 'Список меток появятся при вводе.',
     'immediately' => 'немедленно',
     'Edit' => 'Редактировать',
     'OK' => 'ОК',

@@ -98,6 +98,243 @@ function activateEditPost()
 
 		return false;
 	});
+
+    // Tags
+    enableTagEditor();
+}
+
+function enableTagEditor()
+{
+    var tagEditor = $('#tag-editor input');
+
+    if (tagEditor.length)
+    {
+        var tagResults = $('#tag-results'), selectedPhrase,
+            hiddenEl = tagEditor.parentsUntil('div.form').find('input#Post_tags'),
+            minWidth = parseInt(tagEditor.css('min-width').replace('px', '')),
+            maxWidth = parseInt(tagEditor.css('max-width').replace('px', '')),
+            parentLeft = tagEditor.parent().offset().left, v;
+
+        tagEditor.width(0);
+        v = maxWidth - (tagEditor.offset().left - parentLeft) + 1;
+
+        if (v < minWidth)
+        {
+            v = maxWidth;
+        }
+
+        tagEditor.width(v).keydown(function(event)
+        {
+            switch(event.keyCode)
+            {
+                case 40:    // DOWN key
+                    event.preventDefault();
+
+                    if (tagResults.length)
+                    {
+                        selectedPhrase = tagResults.children('.active');
+
+                        if (selectedPhrase.length)
+                        {
+                            selectedPhrase.removeClass('active');
+                            selectedPhrase = selectedPhrase.next();
+
+                            if (selectedPhrase.length == 0)
+                            {
+                                selectedPhrase = tagResults.children(':first');
+                            }
+                        }
+                        else{
+                            selectedPhrase = tagResults.children(':first');
+                        }
+
+                        selectedPhrase.addClass('active');
+                        tagEditor.val(selectedPhrase.text());
+                    }
+                    break;
+                case 38:    // UP key
+                    event.preventDefault();
+
+                    if (tagResults.length)
+                    {
+                        selectedPhrase = tagResults.children('.active');
+
+                        if (selectedPhrase.length)
+                        {
+                            selectedPhrase.removeClass('active');
+                            selectedPhrase = selectedPhrase.prev();
+
+                            if (selectedPhrase.length == 0)
+                            {
+                                selectedPhrase = tagResults.children(':last');
+                            }
+                        }
+                        else{
+                            selectedPhrase = tagResults.children(':last');
+                        }
+
+                        selectedPhrase.addClass('active');
+                        tagEditor.val(selectedPhrase.text());
+                    }
+                    break;
+                case 8:     // Backspace key
+                    var siblings = tagEditor.siblings();
+
+                    if (tagEditor.val() == '' && siblings.length)
+                    {
+                        event.preventDefault();
+
+                        var lastTagText = siblings.last().text(),
+                            pos = lastTagText.indexOf(' (new)');
+
+                        if (pos > 0)
+                        {
+                            lastTagText = lastTagText.substring(0, pos);
+                        }
+
+                        siblings.last().children('.delete-tag').click();
+
+                        tagEditor.val(lastTagText)
+                            .focus().val(tagEditor.val());
+                    }
+                    break;
+                case 13:    // Enter key
+                    event.preventDefault();
+
+                    if (tagEditor.val() != '')
+                    {
+                        selectedPhrase = tagResults.children('.active');
+
+                        if (selectedPhrase && selectedPhrase.length)
+                        {
+                            selectedPhrase.click();
+                        }
+                        else{
+                            selectedPhrase = $('<div>' + tagEditor.val() + '</div>');
+
+                            var tagText = tagEditor.val(),
+                                tag = $('<span class="tag">' + tagText + ' (new)</span>'),
+                                tagDelete = $('<span class="sprite delete-tag" title="remove this tag"></span>');
+
+                            tag.append(tagDelete).insertBefore(tagEditor);
+                            tagResults.empty().hide();
+
+                            if (hiddenEl.val() != '')
+                            {
+                                hiddenEl.val(hiddenEl.val() + ',');
+                            }
+
+                            hiddenEl.val(hiddenEl.val() + tagText);
+
+                            tagEditor.val('').width(tagEditor.width() - tag.outerWidth(true));
+                        }
+                    }
+            }
+        })
+        .keyup(function(event)
+        {
+            switch(event.keyCode)
+            {
+                case 40: case 38: case 13: event.preventDefault(); break;
+                default:
+                    var tagTextLower = tagEditor.val().toLowerCase();
+
+                    if (tagTextLower != '')
+                    {
+                        tagResults.empty().hide();
+
+                        $.ajax({
+                            'type':'GET',
+                            'url': tagEditor.data('url'),
+                            'cache': true,
+                            'dataType':'json',
+                            'data': 'tag=' + tagTextLower,
+                            'success': function(data, textStatus, jqXHR)
+                            {
+                                $(data).each(function(index, t)
+                                {
+                                    if (hiddenEl.val().indexOf(t.name.toLowerCase()) < 0)
+                                    {
+                                        tagResults.append('<div' + (t.name.toLowerCase() == tagTextLower ? ' class="active"' : '') + '>' + t.name + '</div>');
+                                    }
+                                });
+
+                                if (tagResults.children().length)
+                                {
+                                    tagResults.show();
+                                }
+
+                                tagResults.children().click(function()
+                                {
+                                    var tagText = $(this).text(),
+                                        tag = $('<span class="tag">' + tagText + '</span>'),
+                                        tagDelete = $('<span class="sprite delete-tag" title="remove this tag"></span>'), v;
+
+                                    tag.append(tagDelete).insertBefore(tagEditor);
+                                    tagResults.empty().hide();
+
+                                    if (hiddenEl.val() != '')
+                                    {
+                                        hiddenEl.val(hiddenEl.val() + ',');
+                                    }
+
+                                    hiddenEl.val(hiddenEl.val() + tagText);
+
+                                    tagEditor.val('').width(0);
+                                    v = maxWidth - (tagEditor.offset().left - parentLeft) + 1;
+
+                                    if (v < minWidth)
+                                    {
+                                        v = maxWidth;
+                                    }
+
+                                    tagEditor.width(v);
+                                });
+                            }
+                        });
+                    }
+                    else{
+                        tagResults.empty().hide();
+                    }
+            }
+        })
+        .blur(function(){
+            tagResults.empty().hide();
+        });
+
+        $('span.delete-tag').live('click', function()
+        {
+            var tag = $(this).parent(),
+                tagText = tag.text(),
+                pos = tagText.indexOf(' (new)');
+
+            if (pos > 0)
+            {
+                tagText = tagText.substring(0, pos);
+            }
+
+            if (hiddenEl.val().indexOf(tagText) > 0)
+            {
+                tagText = ',?\s*' + tagText;
+            }
+            else{
+                tagText = tagText + ',?\s*';
+            }
+
+            hiddenEl.val(hiddenEl.val().replace(new RegExp(tagText, "g"), ''));
+            tag.remove();
+
+            tagEditor.width(0);
+            v = maxWidth - (tagEditor.offset().left - parentLeft) + 1;
+
+            if (v < minWidth)
+            {
+                v = maxWidth;
+            }
+
+            tagEditor.width(v).focus();
+        });
+    }
 }
 
 function activateCommentForm()
@@ -116,7 +353,7 @@ function activateCommentForm()
     });
 
     commentForm.find('input[type="submit"]').click(function(){
-        if (jQuery.trim(tinymce.EditorManager.get('Comment_content').getContent()).length == 0)
+        if ($.trim(tinymce.EditorManager.get('Comment_content').getContent()).length == 0)
         {
             commentForm.find('.mceToolbar').effect("highlight", {}, 3000);
             return false;
@@ -166,7 +403,7 @@ function activateCommentForm()
             });
 
             replyForm.find('input[type="submit"]').click(function(){
-                if (jQuery.trim(tinymce.EditorManager.get(commentId + '-content').getContent()).length == 0)
+                if ($.trim(tinymce.EditorManager.get(commentId + '-content').getContent()).length == 0)
                 {
                     replyForm.find('.mceToolbar').effect("highlight", {}, 3000);
                     return false;
@@ -212,7 +449,7 @@ function activateSearchForm(formName)
         spinner.show();
         container.show();
 
-        jQuery.ajax({
+        $.ajax({
             'type':'POST',
             'url': form.attr('action'),
             'cache': true,
@@ -228,7 +465,7 @@ function activateSearchForm(formName)
                 }
                 else
                 {
-                    jQuery.each(data.posts, function(index, post){
+                    $.each(data.posts, function(index, post){
                         var item = $('<div class="item ' + post.type + '"></div>'),
                             icon = $('<div class="icon"></div>'),
                             answer = $('<span class="answer" title="' + post.votesTitle + '"></span>'),
@@ -266,7 +503,7 @@ function enableVoting()
         var voteBtn = $(this),
             postId = voteBtn.attr('id');
 
-        jQuery.ajax({
+        $.ajax({
             'type':'POST',
             'url': '/vote/up',
             'cache': false,

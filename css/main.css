@@ -294,9 +294,10 @@ div.search-form
 /* font-style */
 .language{font-style:italic}
 /* font-weight */
-#msgBox .title,#mainmenu *,.phrase .from-phrase{font-weight:bold}
+.bold,#msgBox .title,#mainmenu *,.phrase .from-phrase{font-weight:bold}
 #tilchi .block-button{font-weight:normal}
 /* color */
+.black{color:#000}
 #tilchi .block-button{color:#06C}
 .block-button:hover{color:#09F}
 #mainmenu ul li a:hover,#mainmenu ul li.active a,#mainmenu .menuHover,#mainmenu .submenu a{color:#4C99C5}

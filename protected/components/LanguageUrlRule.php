@@ -53,7 +53,6 @@ class LanguageUrlRule extends CBaseUrlRule
 			$command = $connection->createCommand('SELECT id FROM tbl_languages WHERE abbreviation = :abbreviation');
 			$command->bindParam(':abbreviation', $matches[1]);
 			$results = $command->queryRow();
-            $uri = '';
 
 			if ($results)
 			{

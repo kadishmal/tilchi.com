@@ -135,7 +135,7 @@ class Post extends CActiveRecord
                 $this->hh . ':' . $this->mn
         );
 
-		$this->tags = implode(', ', array_unique($this->tagsAsArray()));
+		$this->tags = implode(',', array_unique($this->tagsAsArray()));
 
 		return true;
 	}

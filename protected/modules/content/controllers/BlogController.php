@@ -32,9 +32,13 @@ class BlogController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow admin user to perform administrative actions
-				'actions'=>array('new', 'edit', 'comments', 'delete', 'posts'),
-				'users'=>array(Yii::app()->params['adminEmail']),
+				'actions'=>array('new', 'edit', 'delete', 'getDistinctTags'),
+				'roles'=>array('blogContributor'),
 			),
+            array('allow', // allow admin user to perform administrative actions
+                'actions'=>array('comments', 'posts'),
+                'roles'=>array('blogEditor'),
+            ),
 			array('deny',  // deny all other actions to all users
 				'users'=>array('*'),
 			),
@@ -348,4 +352,17 @@ class BlogController extends Controller
 			'12'=>Yii::app()->dateFormatter->format('MMM', strtotime('Dec'))
 		);
 	}
+
+    public function actionGetDistinctTags()
+    {
+        if (isset($_GET['tag']))
+        {
+            echo CJSON::encode(
+                Yii::app()->db
+                    ->createCommand('SELECT DISTINCT name, frequency FROM tbl_tags WHERE name LIKE :name')
+                    ->bindValue(':name', $_GET['tag'] . '%', PDO::PARAM_STR)
+                    ->queryAll()
+            );
+        }
+    }
 }
