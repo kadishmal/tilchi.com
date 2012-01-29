@@ -49,6 +49,9 @@ class UserIdentity extends CUserIdentity
 			if ($crypt == $testcrypt)
             {
                 Yii::app()->user->id = $this->_id = $user->id;
+                $this->setState('gender', $user->gender);
+                $this->setState('short_name', $user->getName());
+                $this->setState('gravatar', $user->getGravatar());
 
                 // get a list of settings to load at login time this user has permission to alter
                 $userSettingsList = SiteSettings::model()->findAll(
