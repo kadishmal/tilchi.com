@@ -163,15 +163,18 @@
         <div class="frame status">
             <div class="body">
                 <?php
-                    echo CHtml::tag('div', array('class'=>'signature owner'),
-                        CHtml::tag('div', array('title'=>Yii::t('tilchi', 'the translation was first requested _date', array('_date'=>$results['requestAuthor']['date']))), $results['requestAuthor']['requestedBy'] . ' ' . CHtml::tag('b', array(), $results['requestAuthor']['date']))
-                        . CHtml::tag('div', array('class'=>'user-info'),
-                            CHtml::image($results['requestAuthor']['gravatar'], $results['requestAuthor']['name'])
-                            . CHtml::tag('div', array('class'=>'inline'),
-                                $results['requestAuthor']['name']
+                    if (isset($results['requestAuthor']))
+                    {
+                        echo CHtml::tag('div', array('class'=>'signature owner'),
+                            CHtml::tag('div', array('title'=>Yii::t('tilchi', 'the translation was first requested _date', array('_date'=>$results['requestAuthor']['date']))), $results['requestAuthor']['requestedBy'] . ' ' . CHtml::tag('b', array(), $results['requestAuthor']['date']))
+                                . CHtml::tag('div', array('class'=>'user-info'),
+                                CHtml::image($results['requestAuthor']['gravatar'], $results['requestAuthor']['name'])
+                                    . CHtml::tag('div', array('class'=>'inline'),
+                                    $results['requestAuthor']['name']
+                                )
                             )
-                        )
-                    );
+                        );
+                    }
                 ?>
             </div>
         </div>

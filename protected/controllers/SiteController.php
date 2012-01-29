@@ -322,12 +322,15 @@ class SiteController extends Controller
                         'noPhrase'=>Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase))
                     );
 
-                    $results['requestAuthor'] = array(
-                        'requestedBy'=>Yii::t('tilchi', 'requested', Yii::app()->user->getState('gender')),
-                        'name'=>Yii::app()->user->getState('short_name'),
-                        'date'=>UserModule::getFormattedRelativeDate(time()),
-                        'gravatar'=>Yii::app()->user->getState('gravatar'),
-                    );
+                    if (!Yii::app()->user->isGuest)
+                    {
+                        $results['requestAuthor'] = array(
+                            'requestedBy'=>Yii::t('tilchi', 'requested', Yii::app()->user->getState('gender')),
+                            'name'=>Yii::app()->user->getState('short_name'),
+                            'date'=>UserModule::getFormattedRelativeDate(time()),
+                            'gravatar'=>Yii::app()->user->getState('gravatar'),
+                        );
+                    }
                 }
 
                 $this->saveSearchHistory($historyObj);
