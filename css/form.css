@@ -129,7 +129,7 @@ button,.button,.link-button{cursor:pointer}
 .button,button{display:inline-block}
 .h3,#Tilchi_translation{display:block}
 /* width */
-#Tilchi_explanation_parent{width:100%}
+.mceEditor{width:100%}
 #tilchi #Tilchi_translation{width:595px}
 /* line-height */
 button,.button{line-height:14px}
