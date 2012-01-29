@@ -307,7 +307,7 @@ class SiteController extends Controller
 						$isPhrase = mb_strpos($searchPhrase, ' ');
 
 						$results['messages'] = array(
-							'noTranslation'=>Yii::t('tilchi', 'The word <b>_phrase</b> exists in our database, but no translation has been found for it. If you know the translation, help us improve Tilchi.com by adding your translation. You will be recorded as a contributor.', array('_phrase'=>$searchPhrase))
+							'noTranslation'=>Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase))
 						);
 					}
                     // if a user has decided to store the search history, means he is logged in.
