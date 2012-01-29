@@ -78,11 +78,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$translations = PhraseTranslation::model()->with('user', 'phrase', 'phrase.language')->findAll(array(
-			'order'=>'t.date DESC',
-			'limit'=>30
-		));
-		$this->render('index', array('translations'=>$translations));
+		$this->render('index');
 	}
 
 	/**
@@ -134,8 +130,8 @@ class SiteController extends Controller
                     $fromLang = $_POST['Tilchi']['fromLang'];
                     $toLang = $_POST['Tilchi']['toLang'];
 
-                    $fromLang = Language::model()->find('id = :id', array(':id'=>$fromLang));
-                    $toLang = Language::model()->find('id = :id', array(':id'=>$toLang));
+                    $fromLang = Language::model()->cache(2592000)->find('id = :id', array(':id'=>$fromLang));
+                    $toLang = Language::model()->cache(2592000)->find('id = :id', array(':id'=>$toLang));
 
                     if ($fromLang && $toLang)
                     {
@@ -214,8 +210,8 @@ class SiteController extends Controller
                 $fromLang = $_POST['Tilchi']['fromLang'];
                 $toLang = $_POST['Tilchi']['toLang'];
 
-                $fromLang = Language::model()->find('id = :id', array(':id'=>$fromLang));
-                $toLang = Language::model()->find('id = :id', array(':id'=>$toLang));
+                $fromLang = Language::model()->cache(2592000)->find('id = :id', array(':id'=>$fromLang));
+                $toLang = Language::model()->cache(2592000)->find('id = :id', array(':id'=>$toLang));
                 $searchPhrase = $_POST['Tilchi']['phrase'];
 
                 if ($fromLang && $toLang)
@@ -232,10 +228,10 @@ class SiteController extends Controller
     }
 	public function actionView($ajax)
 	{
-		if (isset($_GET['fromLang']) && isset($_GET['toLang']))
+        if (isset($_GET['fromLang']) && isset($_GET['toLang']))
 		{
-			$lang = Language::model()->findByPk($_GET['fromLang']);
-            $toLang = Language::model()->findByPk($_GET['toLang']);
+			$lang = Language::model()->cache(2592000)->findByPk($_GET['fromLang']);
+            $toLang = Language::model()->cache(2592000)->findByPk($_GET['toLang']);
 
 			if ($lang && $toLang)
 			{

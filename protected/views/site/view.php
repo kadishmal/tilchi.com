@@ -20,7 +20,7 @@
 
                  $lang = Yii::app()->language;
 
-                 $langs = CHtml::listData(Language::model()->findAll(array(
+                 $langs = CHtml::listData(Language::model()->cache(2592000)->findAll(array(
                      'select'=>'id, ' . $lang
                  )), 'id', $lang);
 

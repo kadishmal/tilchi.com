@@ -49,9 +49,11 @@ class LanguageUrlRule extends CBaseUrlRule
 		// matches site/ky/ru/phrase
         if (preg_match('%^site/(\w+)(/(\w+)(/(.+)(/)?)?)?$%', $pathInfo, $matches))
         {
-			$connection = Yii::app()->db;
-			$command = $connection->createCommand('SELECT id FROM tbl_languages WHERE abbreviation = :abbreviation');
-			$command->bindParam(':abbreviation', $matches[1]);
+            // 60*60*24*30 = 2,592,000
+			$command = Yii::app()->db->cache(2592000, null, 2)
+                        ->createCommand('SELECT id FROM tbl_languages WHERE abbreviation = :abbreviation')
+			            ->bindParam(':abbreviation', $matches[1]);
+
 			$results = $command->queryRow();
 
 			if ($results)
@@ -62,8 +64,7 @@ class LanguageUrlRule extends CBaseUrlRule
 
                 if (isset($matches[3]))
                 {
-                    $command->bindParam(':abbreviation', $matches[3]);
-                    $results = $command->queryRow();
+                    $results = $command->bindParam(':abbreviation', $matches[3])->queryRow();
 
                     if ($results)
                     {
