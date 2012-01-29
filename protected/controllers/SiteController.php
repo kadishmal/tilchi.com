@@ -37,7 +37,7 @@ class SiteController extends Controller
 	{
 		return array(
             array('allow',
-                'actions'=>array('search', 'view', 'index', 'translations'),
+                'actions'=>array('search', 'view', 'index'),
                 'users'=>array('*')
             ),
             array('allow',  // allow all users to perform view actions
@@ -320,6 +320,13 @@ class SiteController extends Controller
                 else{
                     $results['messages'] = array(
                         'noPhrase'=>Yii::t('tilchi', 'The phrase <b>_phrase</b> has not been found, but we have already added it to our to-translate list.', array('_phrase'=>$searchPhrase))
+                    );
+
+                    $results['requestAuthor'] = array(
+                        'requestedBy'=>Yii::t('tilchi', 'requested', Yii::app()->user->getState('gender')),
+                        'name'=>Yii::app()->user->getState('short_name'),
+                        'date'=>UserModule::getFormattedRelativeDate(time()),
+                        'gravatar'=>Yii::app()->user->getState('gravatar'),
                     );
                 }
 
