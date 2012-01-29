@@ -48,7 +48,39 @@ class UserIdentity extends CUserIdentity
 
 			if ($crypt == $testcrypt)
             {
-				$this->_id = $user->id;
+                Yii::app()->user->id = $this->_id = $user->id;
+
+                // get a list of settings to load at login time this user has permission to alter
+                $userSettingsList = SiteSettings::model()->findAll(
+                    'on_login = :on_login',
+                    array(':on_login'=>SiteSettings::YES)
+                );
+
+                if (count($userSettingsList))
+                {
+                    $userAccessibleSettings = array();
+                    // check if this user has access to each of these settings
+                    foreach($userSettingsList as $setting)
+                    {
+                        if(Yii::app()->user->checkAccess($setting->auth_item))
+                        {
+                            $this->setState($setting->name, $setting->default_value);
+                            $userAccessibleSettings[$setting->id] = $setting;
+                        }
+                    }
+
+                    $criteria = new CDbCriteria;
+                    $criteria->compare('user_id', $this->_id);
+                    $criteria->addInCondition('setting_id', array_keys($userAccessibleSettings));
+
+                    $userExistingSettings = UserSettings::model()->findAll($criteria);
+
+                    foreach ($userExistingSettings as $userSetting)
+                    {
+                        $this->setState($userAccessibleSettings[$userSetting->setting_id]->name, $userSetting->value);
+                    }
+                }
+
                 $this->errorCode = self::ERROR_NONE;
 			} else {
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
