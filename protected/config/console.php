@@ -52,7 +52,11 @@ return array(
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
 			'enableProfiling' =>false,
-            'enableParamLogging'=>false
+            'enableParamLogging'=>false,
+            'schemaCachingDuration'=>3600,
 		),
+        'cache' => array(
+            'class' => 'system.caching.CApcCache',
+        ),
 	),
 );

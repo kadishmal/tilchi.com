@@ -48,7 +48,7 @@ class AddUserSearchHistoryCommand extends CConsoleCommand
                     // the phrase may have already been inserted to the database. Check it.
                     if (!$phrase->save())
                     {
-                        $fromLang = Language::model()->findByPk($fromLangId);
+                        $fromLang = Language::model()->cache(2592000)->findByPk($fromLangId);
                         $idx = 'idx_phrases';
                         // use customized indexes for certain languages
                         if ($fromLang->abbreviation == 'ru' || $fromLang->abbreviation == 'ky'
