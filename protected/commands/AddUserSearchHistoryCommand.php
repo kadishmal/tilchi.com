@@ -82,6 +82,7 @@ class AddUserSearchHistoryCommand extends CConsoleCommand
                     $searchHistory->user_id = $user->id;
                     $searchHistory->phrase_id = $phrase->id;
                     $searchHistory->language_id = $toLangId;
+                    $searchHistory->search_date = $historyObj['searchDate'];
 
                     if ($searchHistory->save())
                     {
