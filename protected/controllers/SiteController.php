@@ -37,7 +37,7 @@ class SiteController extends Controller
 	{
 		return array(
             array('allow',
-                'actions'=>array('search', 'view', 'index'),
+                'actions'=>array('search', 'view', 'index', 'error'),
                 'users'=>array('*')
             ),
             array('allow',  // allow all users to perform view actions
