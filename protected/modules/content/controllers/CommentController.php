@@ -4,6 +4,9 @@ class CommentController extends Controller
 {
     const SAVE_SUCCESS = 1;
     const SAVE_FAIL = 2;
+
+    const EXCHANGE_COMMENTS_NEW = 'tilchi.exchange.comments.new';
+    const QUEUE_COMMENTS_NEW = 'tilchi.queue.comments.new';
 	/**
 	 * @return array action filters
 	 */
@@ -65,13 +68,26 @@ class CommentController extends Controller
 
                 if($model->save(false))
                 {
+                    // queue this comment to RabbitMQ so that the latter sends email
+                    // to other commenters and post author
+                    $amqp = Yii::app()->amqp;
+                    $amqp->declareExchange(self::EXCHANGE_COMMENTS_NEW, AMQP_EX_TYPE_DIRECT, AMQP_DURABLE);
+
+                    $ex = $amqp->exchange(self::EXCHANGE_COMMENTS_NEW);
+                    $amqp->declareQueue(self::QUEUE_COMMENTS_NEW, AMQP_DURABLE);
+                    $queue = $amqp->queue(self::QUEUE_COMMENTS_NEW);
+                    $queue->bind(self::EXCHANGE_COMMENTS_NEW, self::QUEUE_COMMENTS_NEW);
+
+                    $ex->publish($model->id, self::QUEUE_COMMENTS_NEW, AMQP_MANDATORY);
+
                     $returnUrl = Yii::app()->request->urlReferrer;
-                    $returnUrl = ($returnUrl == null ? '/' . $globalType . '/' . $model->post->slug : $returnUrl);
 
                     $pos = strpos($returnUrl, '#');
 
                     if ($pos > -1)
+                    {
                         $returnUrl = substr($returnUrl, 0, $pos);
+                    }
 
                     if (substr($returnUrl, -1) == '/')
                     {
@@ -87,6 +103,7 @@ class CommentController extends Controller
         $returnUrl = Yii::app()->request->urlReferrer;
         $this->redirect($returnUrl == null ? '/blog' : $returnUrl);
 	}
+
     private function getOrder($postId, $parentId)
 	{
         // if no comments, it will receive -1, then +1 will make it 0
