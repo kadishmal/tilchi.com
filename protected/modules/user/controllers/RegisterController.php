@@ -100,14 +100,14 @@ class RegisterController extends Controller
                 if($model->save())
                 {
                     $amqp = Yii::app()->amqp;
-                    $amqp->declareExchange(RegisterController::EXCHANGE_REGISTERED_USERS, AMQP_EX_TYPE_DIRECT, AMQP_DURABLE);
+                    $amqp->declareExchange(self::EXCHANGE_REGISTERED_USERS, AMQP_EX_TYPE_DIRECT, AMQP_DURABLE);
 
-                    $ex = $amqp->exchange(RegisterController::EXCHANGE_REGISTERED_USERS);
-                    $amqp->declareQueue(RegisterController::QUEUE_REGISTERED_USERS, AMQP_DURABLE);
-                    $queue = $amqp->queue(RegisterController::QUEUE_REGISTERED_USERS);
-                    $queue->bind(RegisterController::EXCHANGE_REGISTERED_USERS, RegisterController::QUEUE_REGISTERED_USERS);
+                    $ex = $amqp->exchange(self::EXCHANGE_REGISTERED_USERS);
+                    $amqp->declareQueue(self::QUEUE_REGISTERED_USERS, AMQP_DURABLE);
+                    $queue = $amqp->queue(self::QUEUE_REGISTERED_USERS);
+                    $queue->bind(self::EXCHANGE_REGISTERED_USERS, self::QUEUE_REGISTERED_USERS);
 
-                    $ex->publish($model->id, RegisterController::QUEUE_REGISTERED_USERS, AMQP_MANDATORY);
+                    $ex->publish($model->id, self::QUEUE_REGISTERED_USERS, AMQP_MANDATORY);
 
                     $this->redirect('/user');
                 }
