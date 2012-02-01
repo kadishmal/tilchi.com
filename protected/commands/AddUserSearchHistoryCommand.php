@@ -35,7 +35,6 @@ class AddUserSearchHistoryCommand extends CConsoleCommand
                 if (isset($historyObj['phrase_id']))
                 {
                     $phrase_id = $historyObj['phrase_id'];
-                    $phrase = Phrase::model()->findByPk($phrase_id);
                 }
                 // otherwise, add this phrase to the database
                 else{
@@ -46,8 +45,11 @@ class AddUserSearchHistoryCommand extends CConsoleCommand
                     $phrase->date = $historyObj['searchDate'];
 
                     // the phrase may have already been inserted to the database. Check it.
-                    if (!$phrase->save())
+                    if ($phrase->save())
                     {
+                        $phrase_id = $phrase->id;
+                    }
+                    else{
                         $fromLang = Language::model()->cache(2592000)->findByPk($fromLangId);
                         $idx = 'idx_phrases';
                         // use customized indexes for certain languages
@@ -70,17 +72,32 @@ class AddUserSearchHistoryCommand extends CConsoleCommand
 
                         if ($searchResults->getTotal() > 0)
                         {
-                            $phrase = Phrase::model()->findByPk($searchResults->getIdList());
+                            $phrase_id = reset($searchResults->getIdList());
+                        }
+                        elseif ($phrase->hasErrors('phrase')){
+                            $existingPhrases = Phrase::model()->findAllByAttributes(array(
+                                'phrase'=>$phrase->phrase,
+                                'language_id'=>$phrase->language_id
+                            ));
+
+                            foreach($existingPhrases as $ph)
+                            {
+                                if ($ph->phrase == $phrase->phrase)
+                                {
+                                    $phrase_id = $ph->id;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
 
-                if ($phrase)
+                if (isset($phrase_id) && $phrase_id > 0)
                 {
                     // no add the search history
                     $searchHistory = new PhraseSearchHistory;
                     $searchHistory->user_id = $user->id;
-                    $searchHistory->phrase_id = $phrase->id;
+                    $searchHistory->phrase_id = $phrase_id;
                     $searchHistory->language_id = $toLangId;
                     $searchHistory->search_date = $historyObj['searchDate'];
 
