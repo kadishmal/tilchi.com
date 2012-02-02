@@ -34,7 +34,7 @@ return array(
     // Comments mode
     'Pending moderation...'=>'Ожидает подтверждения...',
     'Your comment is pending moderation. At this moment it is visible only to you and administrators.'=>'Ваш комментарий ожидает подтвеждение модератора. Пока Ваш комментарий будет виден только Вам и администраторам.',
-    'There is a new comment on the <b>blog_title</b> post.'=>'Новый комментарий был опубликован в блоге <b>blog_title</b>.',
+    'There is a new comment on the <b>_title</b> post.'=>'Новый комментарий был опубликован в блоге <b>_title</b>.',
     'See the comment' =>'Пройти к комментарию',
     // Relative date
     'last year|{n} years ago' => 'год назад|{n} года назад|{n} лет назад|{n} года назад',

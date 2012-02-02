@@ -16,6 +16,16 @@ return array(
     'Publish'=>'Опубликовать',
     'In order to leave a comment you need to be <a href="_url">logged in</a>. If you are not our member yet, <a href="/user/register">join us</a> and share your thoughts with other member of our community!' =>'Чтобы оставить комментарий, Вам необходимо <a href="_url">войти</a> в систему. Если Вы еще не являетесь нашим пользователем, <a href="/user/register">присоединяйтесь к нам</a> и делитесь своим мнением с другими участниками нашего клуба!',
     '{n} comment|{n} comments' => '{n} комментарий|{n} комментария|{n} комментариев|{n} комментария',
-    'first_name commented on "post_title"'=>'first_name прокомментировал "post_title"'
+    'first_name commented on your_type: "post_title"'=>'n==0#first_name прокомментировал your_type: "post_title"|n==1#first_name прокомментировала your_type: "post_title"',
+    'your question'=>'Ваш вопрос',
+    'your idea'=>'Вашу идею',
+    'your issue'=>'Ваше сообщение об ошибке',
+    'your blog'=>'Ваш блог',
+    'question'=>'вопрос',
+    'idea'=>'идею',
+    'issue'=>'ошибку',
+    'blog'=>'блог',
+    'user_name wrote: "_message"'=>'n==0#user_name написал: "message"|n==1#user_name написала: "message"',
+    'first_name also commented on _type: "post_title"'=>'n==0#first_name тоже прокомментировал _type: "post_title"|n==1#first_name тоже прокомментировала _type: "post_title"',
 );
 ?>
