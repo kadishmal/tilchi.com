@@ -53,7 +53,6 @@ class Comment extends CActiveRecord
 			array('post_id', 'numerical', 'min'=>1),
             array('post_id', 'exist', 'attributeName'=>'id', 'className'=>'Post'),
             array('parent_id', 'exist', 'attributeName'=>'id'),
-			//array('email', 'email'),
 			array('content', 'safe'),
 		);
 	}
@@ -65,8 +64,8 @@ class Comment extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'post' => array(self::BELONGS_TO, 'Post', 'post_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'post'=>array(self::BELONGS_TO, 'Post', 'post_id'),
+			'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 	/**
