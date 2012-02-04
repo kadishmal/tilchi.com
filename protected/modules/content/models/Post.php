@@ -89,7 +89,7 @@ class Post extends CActiveRecord
 		return array(
 			'author' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'postTags' => array(self::HAS_MANY, 'PostTag', 'post_id'),
-			'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'condition'=>'comments.status = ' . Comment::STATUS_APPROVED . ' OR comments.user_id = ' . (Yii::app()->user->isGuest ? 0 : Yii::app()->user->id), 'order' => 'comments.order ASC'),
+			'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'condition'=>'comments.status = ' . Comment::STATUS_APPROVED . (isset(Yii::app()->user) && !Yii::app()->user->isGuest ? ' OR comments.user_id = ' . Yii::app()->user->id : ''), 'order' => 'comments.order ASC'),
 			'commentsCount' => array(self::STAT, 'Comment', 'post_id', 'condition'=>'status = ' . Comment::STATUS_APPROVED),
             'votesCount' => array(self::STAT, 'Vote', 'post_id'),
 		);
