@@ -13,6 +13,7 @@ return array(
 		'application.components.*',
 		'application.controllers.*',
 		'application.modules.content.*',
+		'application.modules.content.controllers.*',
 		'application.modules.content.models.*',
         'application.modules.user.*',
         'application.modules.user.controllers.*',
