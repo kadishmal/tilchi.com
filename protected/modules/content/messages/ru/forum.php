@@ -50,6 +50,8 @@ return array(
     'To change the category, choose one from the list below.'=>'Чтобы изменить категорию, выберите один из нижеследующих категорий.',
 	// Edit
 	// Search
-	'Your request could not be processed. Please try again later.'=>'Ваш запрос не может быть обработан. Пожалуйста, повторите позднее.'
+	'Your request could not be processed. Please try again later.'=>'Ваш запрос не может быть обработан. Пожалуйста, повторите позднее.',
+    // comment email
+    'Respectfully Yours,<br />Tilchi team.'=>'С уважением<br />Команда разработчиков Tilchi.',
 );
 ?>
