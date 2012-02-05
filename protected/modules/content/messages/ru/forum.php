@@ -32,7 +32,7 @@ return array(
     'No more votes'=>'Больше нет голосов',
     'You have exhausted all your votes. You can either unvote active ideas or wait until one is accepted.'=>'Вы уже исчерпали все голоса. Вы можете либо убрать голос с активных идеи, либо подождать пока какая-нибудь идея будет одобрена.',
     'Hi,'=>'Здравствуйте!',
-    'There is a new comment on the <b>_title</b> post.'=>'Новый комментарий был опубликован на форуме <b>_title</b>.',
+    'There is a new comment on the "<b>_title</b>" post.'=>'Новый комментарий был опубликован на форуме "<b>_title</b>".',
     'See the comment thread'=>'Пройти к форуму',
     'Thanks'=>'Спасибо',
     'Tilchi.com Team'=>'Группа разработчиков Tilchi.com',
@@ -52,6 +52,6 @@ return array(
 	// Search
 	'Your request could not be processed. Please try again later.'=>'Ваш запрос не может быть обработан. Пожалуйста, повторите позднее.',
     // comment email
-    'Respectfully Yours,<br />Tilchi team.'=>'С уважением<br />Команда разработчиков Tilchi.',
+    'Respectfully Yours,<br />Tilchi team.'=>'С уважением,<br />Команда разработчиков Tilchi.',
 );
 ?>

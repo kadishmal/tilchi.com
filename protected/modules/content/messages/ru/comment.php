@@ -25,7 +25,7 @@ return array(
     'idea'=>'идею',
     'issue'=>'ошибку',
     'blog'=>'блог',
-    'user_name wrote: "_message"'=>'n==0#user_name написал: "message"|n==1#user_name написала: "message"',
+    'user_name wrote:'=>'n==0#user_name написал:|n==1#user_name написала:',
     'first_name also commented on _type: "post_title"'=>'n==0#first_name тоже прокомментировал _type: "post_title"|n==1#first_name тоже прокомментировала _type: "post_title"',
 );
 ?>

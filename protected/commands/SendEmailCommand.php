@@ -45,114 +45,125 @@ class SendEmailCommand extends CConsoleCommand
 
     public function actionComments()
     {
-        $model_name = 'Comment';
+        $amqp = Yii::app()->amqp;
 
-        $db = Yii::app()->db;
-
-        $command = $db->createCommand('SELECT * FROM tbl_cron_job_settings WHERE model_name = \'' . $model_name . '\'');
-        $cronSettings = $command->queryRow();
-
-        $lastId = ($cronSettings ? $cronSettings['last_id'] : 0);
-
-		// retrieve all post title, slug, type, and author information
-        $command->text = '
-            SELECT DISTINCT(post_id), p.title, p.slug, p.type, u.id as u_id, u.email, u.first_name, u.subscr_post_comments
-            FROM tbl_comments c
-            LEFT JOIN tbl_posts p ON c.post_id = p.id
-            LEFT JOIN tbl_users u ON p.user_id = u.id
-            WHERE c.id > ' . $lastId;
-
-        $posts = $command->queryAll();
-
-		$distinctPosts = array();
-
-        foreach($posts as $post)
+        if ($amqp->declareQueue(CommentController::QUEUE_COMMENTS_NEW, AMQP_DURABLE) > 0)
         {
-			$p = array();
+            $queue = $amqp->queue(CommentController::QUEUE_COMMENTS_NEW);
+            $queue->bind(CommentController::EXCHANGE_COMMENTS_NEW, CommentController::QUEUE_COMMENTS_NEW);
 
-            $p['title'] = $post['title'];
-			$p['slug'] = $post['slug'];
-            $p['type'] = $post['type'];
-            $p['global_type'] = Post::getGlobalTypeTitle($post['type']);
-			$p['u_id'] = $post['u_id'];
-			$p['email'] = $post['email'];
-            $p['first_name'] = $post['first_name'];
-			$p['subscr_post_comments'] = $post['subscr_post_comments'];
-
-			$distinctPosts[$post['post_id']] = $p;
-        }
-		// If there are any post with comments
-        if (!empty($distinctPosts))
-        {
-			// get all new comments with their authors
-            $command->text = '
-                SELECT c.id, c.content, u.email, u.first_name, u.subscr_post_comments, c.post_id
-                FROM tbl_comments c
-                LEFT JOIN tbl_users u ON c.user_id = u.id
-                WHERE c.id > ' . $lastId .
-                ' ORDER BY c.id';
-
-            $comments = $command->queryAll();
-
-            foreach ($comments as $comment)
+            while ($queueMessage = $queue->get(AMQP_NOACK))
             {
-                $postId = $comment['post_id'];
-
-                $postAuthorEmail = $distinctPosts[$postId]['email'];
-				$isPostAuthorSubscribed = $distinctPosts[$postId]['subscr_post_comments'];
-				// if the post author is different from the comment author
-				// and if the post author is subscribed to receive comments
-				// send notify him as well
-                if ($comment['email'] != $postAuthorEmail && $isPostAuthorSubscribed)
+                // stop the loop if there are no more messages
+                if ($queueMessage['count'] < 0)
                 {
-                    $message->addBcc($postAuthorEmail, $distinctPosts[$postId]['first_name']);
+                    break;
                 }
 
-				// Select all users who have previously commented on this same
-				// post and are subscribed to receive notifications.
-				// Exclude the post author as
-				$command->text = '
-					SELECT u.email, u.first_name
-					FROM tbl_comments c
-					LEFT JOIN tbl_users u ON c.user_id = u.id
-					WHERE c.id < ' . $comment['id'] . ' AND post_id = ' . $postId . ' AND user_id <> ' . $distinctPosts[$postId]['u_id'] . ' AND u.subscr_post_comments = 1';
+                $comment = Comment::model()->with('post', 'user')->findByPk($queueMessage['msg']);
 
-				$postCommenters = $command->queryAll();
-				// These commenters are subscribed
-				foreach($postCommenters as $commenter)
+                if ($comment)
                 {
-					$message->addBcc($commenter['email'], $commenter['first_name']);
-				}
+                    $type = Post::getTypeTitle($comment->post->type);
 
-                $message = New YiiMailMessage;
-                $message->view = 'new' . ucfirst(Post::getTypeTitle($distinctPosts[$postId]['type'])) . 'Comment';
+                    $subscrPostCommentsDefault = SiteSettings::model()->cache(2592000)->find(array(
+                        'select'=>'id, default_value',
+                        'condition'=>'module = :module AND name = :name',
+                        'params'=>array(':module'=>'user.profile.notifications', ':name'=>'subscr_post_comments')
+                    ));
 
-                $message->subject = Yii::t('ContentModule.comment', 'first_name commented on "post_title"', array('first_name'=>$comment['first_name'], 'post_title'=>$distinctPosts[$postId]['title']));
+                    if ($comment->user_id != $comment->post->user_id)
+                    {
+                        $userSetting = UserSettings::model()->find(array(
+                            'select'=>'value',
+                            'condition'=>'user_id = :user_id AND setting_id = :setting_id',
+                            'params'=>array(':user_id'=>$comment->post->user_id, ':setting_id'=>$subscrPostCommentsDefault->id)
+                        ));
 
-                $message->setBody(array(
-                    'comment'=>$comment,
-                    'title'=>$distinctPosts[$postId]['title'],
-                    'link'=>'http://tilchi.info/' . $distinctPosts[$postId]['global_type'] . '/' . $distinctPosts[$postId]['slug'] . '#comment-' . $comment['id']
-                ), 'text/html');
+                        if (($userSetting && $userSetting->value == SiteSettings::YES)
+                            || (!$userSetting && $subscrPostCommentsDefault->default_value == SiteSettings::YES))
+                        {
+                            $message = New YiiMailMessage;
+                            $message->view = 'newComment';
+                            $message->setFrom('noreply@tilchi.com', 'Tilchi.com');
 
-                $message->setFrom($distinctPosts[$postId]['global_type'] . '@tilchi.com', 'Tilchi.com');
+                            $message->setBody(array(
+                                'comment'=>$comment,
+                                'type'=>$type,
+                                'link'=>'http://tilchi.com/' . Post::getGlobalTypeTitle($comment->post->type) . '/' . $comment->post->slug . '#comment-' . $comment->id
+                            ), 'text/html');
 
-                Yii::app()->mail->send($message);
-            }
+                            $message->setTo($comment->post->author->email, $comment->post->author->getName());
+                            $message->subject = Yii::t('ContentModule.comment', 'first_name commented on your_type: "post_title"',
+                                array(
+                                    $comment->user->gender,
+                                    'first_name'=>$comment->user->first_name,
+                                    'your_type'=>Yii::t('ContentModule.comment', 'your ' . $type),
+                                    'post_title'=>$comment->post->title,
+                                )
+                            );
 
-            $lastComment = end($comments);
+                            if (Yii::app()->mail->send($message))
+                            {
+                                $queue->ack($queueMessage['delivery_tag']);
+                            }
+                        }
+                    }
 
-            if ($cronSettings)
-			{
-                $command->update('tbl_cron_job_settings', array(
-                    'last_id'=>$lastComment['id']
-                ), 'model_name = \'' . $model_name . '\'');
-            }
-            else{
-                $command->insert('tbl_cron_job_settings', array(
-                    'model_name'=>$model_name,
-                    'last_id'=>$lastComment['id']
-                ));
+                    // used to quote column names
+                    $db = Yii::app()->db;
+
+                    // now get all users who have previously commented on the same post,
+                    // except the current commenter
+                    $prevComments = Comment::model()->with('user')->findAll(array(
+                        'select'=>'user_id',
+                        'with'=>'user',
+                        'condition'=>'post_id = :post_id AND '. $db->quoteColumnName('order') . ' < :order AND user_id <> :user_id AND user_id <> :author_id',
+                        'params'=>array(':post_id'=>$comment->post_id, ':order'=>$comment->order, ':user_id'=>$comment->user_id, ':author_id'=>$comment->post->user_id)
+                    ));
+
+                    if (count($prevComments))
+                    {
+                        $message = New YiiMailMessage;
+                        $message->view = 'newComment';
+                        $message->setFrom('noreply@tilchi.com', 'Tilchi.com');
+
+                        $message->setBody(array(
+                            'comment'=>$comment,
+                            'type'=>$type,
+                            'link'=>'http://tilchi.com/' . Post::getGlobalTypeTitle($comment->post->type) . '/' . $comment->post->slug . '#comment-' . $comment->id
+                        ), 'text/html');
+
+                        foreach($prevComments as $prevComment)
+                        {
+                            $userSetting = UserSettings::model()->find(array(
+                                'select'=>'value',
+                                'condition'=>'user_id = :user_id AND setting_id = :setting_id',
+                                'params'=>array(':user_id'=>$prevComment->user_id, ':setting_id'=>$subscrPostCommentsDefault->id)
+                            ));
+
+                            if (($userSetting && $userSetting->value == SiteSettings::YES)
+                                || (!$userSetting && $subscrPostCommentsDefault->default_value == SiteSettings::YES))
+                            {
+                                $message->addBcc($prevComment->user->email, $prevComment->user->getName());
+                            }
+                        }
+
+                        $message->subject = Yii::t('ContentModule.comment', 'first_name also commented on _type: "post_title"',
+                            array(
+                                $comment->user->gender,
+                                'first_name'=>$comment->user->first_name,
+                                '_type'=>Yii::t('ContentModule.comment', $type),
+                                'post_title'=>$comment->post->title,
+                            )
+                        );
+
+                        if (Yii::app()->mail->send($message))
+                        {
+                            $queue->ack($queueMessage['delivery_tag']);
+                        }
+                    }
+                }
             }
         }
     }
