@@ -9,6 +9,7 @@ class UserIdentity extends CUserIdentity
 {
 	const ERROR_EMAIL_INVALID = 3;
 
+	public $name;
 	public $email;
 
 	private $_id;
@@ -49,6 +50,7 @@ class UserIdentity extends CUserIdentity
 			if ($crypt == $testcrypt)
             {
                 Yii::app()->user->id = $this->_id = $user->id;
+                $this->name = $user->getName();
                 $this->setState('gender', $user->gender);
                 $this->setState('short_name', $user->getName());
                 $this->setState('gravatar', $user->getGravatar());
@@ -110,6 +112,6 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function getName()
 	{
-		return $this->email;
+		return $this->name;
 	}
 }
