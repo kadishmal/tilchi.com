@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 <div id="blog">
 
 <?php
-	if (Yii::app()->params['adminEmail'] == Yii::app()->user->name){
+	if (Yii::app()->user->checkAccess('blogEditor')){
 		echo
 			CHtml::tag('div', array('id'=>'post-controls'),
 				CHtml::link(Yii::t('ContentModule.blog', 'Edit this post'), '/blog/edit/' . $model->id, array('id'=>'post-edit-link'))

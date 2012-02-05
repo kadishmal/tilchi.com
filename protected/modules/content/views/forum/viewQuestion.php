@@ -37,7 +37,7 @@
 
                         echo '</span></span>';
 
-						if (Yii::app()->user->id == $model->user_id || Yii::app()->params['adminEmail'] == Yii::app()->user->name)
+						if (Yii::app()->user->id == $model->user_id || Yii::app()->user->checkAccess('admin'))
 						{
 							echo CHtml::tag('div', array('id'=>'post-actions'),
 								CHtml::link('<i class="edit"></i>', '/forum/edit/' . $model->id, array('title'=>Yii::t('ContentModule.blog', 'Edit')))
@@ -76,11 +76,11 @@
             <div class="frame status">
                 <div class="title"><h3><?php
                     echo Yii::t('ContentModule.forum', 'The question status') .
-                    (Yii::app()->user->name == Yii::app()->params['adminEmail'] ? '<span class="msg" title="' . Yii::t('ContentModule.forum', 'To change the status, choose one from the list below.') . '"><i></i></span>' : '')
+                    (Yii::app()->user->checkAccess('admin') ? '<span class="msg" title="' . Yii::t('ContentModule.forum', 'To change the status, choose one from the list below.') . '"><i></i></span>' : '')
                 ?></h3></div>
                 <div class="body">
                     <?php
-                        if (Yii::app()->user->name == Yii::app()->params['adminEmail'])
+                        if (Yii::app()->user->checkAccess('admin'))
                         {
                             echo CHtml::link(Yii::t('ContentModule.forum', 'n==1#New|n==2||n==3#New', Post::TYPE_QUESTION), '/forum/setStatusNew/' . $model->id, array('class'=>'new' . ($model->response_type == Post::RESPONSE_NEW ? ' active' : ''))) .
                                 CHtml::link(Yii::t('ContentModule.forum', 'Under Review'), '/forum/setStatusUnderReview/' . $model->id, array('class'=>'under-review' . ($model->response_type == Post::RESPONSE_UNDER_REVIEW ? ' active' : ''))) .
@@ -97,7 +97,7 @@
                 </div>
             </div>
             <?php
-                if (Yii::app()->user->name == Yii::app()->params['adminEmail']){
+                if (Yii::app()->user->checkAccess('admin')){
                     echo '<div class="frame type">
                             <div class="title"><h3>' . Yii::t('ContentModule.forum', 'Category') .
                                 '<span class="msg" title="' . Yii::t('ContentModule.forum', 'To change the category, choose one from the list below.') . '"><i></i></span></h3>

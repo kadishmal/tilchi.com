@@ -55,7 +55,7 @@ class CommentController extends Controller
                 $model->user_id = Yii::app()->user->id;
                 $model->date = time();
 
-                if (Yii::app()->params['adminEmail']==Yii::app()->user->name ||
+                if (Yii::app()->user->checkAccess('admin') ||
                         Comment::model()->my()->countByAttributes(array('status'=>Comment::STATUS_APPROVED)) > ContentModule::USER_PENDING_COMMENT_COUNT)
                 {
                         $model->status = Comment::STATUS_APPROVED;
@@ -225,7 +225,7 @@ class CommentController extends Controller
     {
         $model = $this->loadModelById($id);
 
-        if ($model->user_id == Yii::app()->user->id || Yii::app()->params['adminEmail']==Yii::app()->user->name)
+        if ($model->user_id == Yii::app()->user->id || Yii::app()->user->checkAccess('admin'))
         {
             // If this comment has any chlid comments, set the current comment's
             // parent_id as parent of those subcomments
