@@ -65,6 +65,7 @@ class SendEmailCommand extends CConsoleCommand
                 if ($comment)
                 {
                     $type = Post::getTypeTitle($comment->post->type);
+                    $globalType = Post::getGlobalTypeTitle($comment->post->type);
 
                     $subscrPostCommentsDefault = SiteSettings::model()->cache(2592000)->find(array(
                         'select'=>'id, default_value',
@@ -89,8 +90,8 @@ class SendEmailCommand extends CConsoleCommand
 
                             $message->setBody(array(
                                 'comment'=>$comment,
-                                'type'=>$type,
-                                'link'=>'http://tilchi.com/' . Post::getGlobalTypeTitle($comment->post->type) . '/' . $comment->post->slug . '#comment-' . $comment->id
+                                'type'=>$globalType,
+                                'link'=>'http://tilchi.com/' . $globalType . '/' . $comment->post->slug . '#comment-' . $comment->id
                             ), 'text/html');
 
                             $message->setTo($comment->post->author->email, $comment->post->author->getName());
@@ -130,7 +131,7 @@ class SendEmailCommand extends CConsoleCommand
 
                         $message->setBody(array(
                             'comment'=>$comment,
-                            'type'=>$type,
+                            'type'=>$globalType,
                             'link'=>'http://tilchi.com/' . Post::getGlobalTypeTitle($comment->post->type) . '/' . $comment->post->slug . '#comment-' . $comment->id
                         ), 'text/html');
 
