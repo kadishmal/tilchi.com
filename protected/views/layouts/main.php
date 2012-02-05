@@ -51,19 +51,26 @@
 			'items'=>array(
 				array('label'=>Yii::t('tilchi','Dictionary'), 'url'=>'/site'),
                 array('label'=>Yii::t('blog', 'Blog'), 'url'=>'/blog/', 'itemOptions'=>array('class'=>'parent'), 'items'=>array(
-					array('label'=>Yii::t('blog', 'New Post'), 'url'=>'/blog/new', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
-					array('label'=>Yii::t('blog', 'Comments'), 'url'=>'/blog/comments', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
-					array('label'=>Yii::t('blog', 'Posts'), 'url'=>'/blog/posts', 'visible'=>Yii::app()->params['adminEmail']==Yii::app()->user->name),
+					array('label'=>Yii::t('blog', 'New Post'), 'url'=>'/blog/new', 'visible'=>Yii::app()->user->checkAccess('blogContributor')),
+					array('label'=>Yii::t('blog', 'Comments'), 'url'=>'/blog/comments', 'visible'=>Yii::app()->user->checkAccess('blogEditor')),
+					array('label'=>Yii::t('blog', 'Posts'), 'url'=>'/blog/posts', 'visible'=>Yii::app()->user->checkAccess('blogEditor')),
 				)),
                 array('label'=>Yii::t('forum','Forum'), 'url'=>'/forum', 'itemOptions'=>array('class'=>'parent'), 'items'=>array(
 					array('label'=>Yii::t('forum', 'Ask a question'), 'url'=>'/forum/new/question'),
 					array('label'=>Yii::t('forum', 'Submit an idea'), 'url'=>'/forum/new/idea'),
 					array('label'=>Yii::t('forum', 'Report an issue'), 'url'=>'/forum/new/issue'),
 				)),
+                array('label'=>Yii::t('site', 'Manage'), 'itemOptions'=>array('class'=>'parent'), 'visible'=>Yii::app()->user->checkAccess('admin'), 'items'=>array(
+                    array('label'=>Yii::t('user', 'User management'), 'url'=>'/user/manage'),
+                )),
                 array('label'=>Yii::t('site','Register'), 'url'=>'/user/register', 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>Yii::t('site','Login'), 'url'=>'/user/signin', 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'right')),
 				array('label'=>Yii::t('site', 'Account'), 'visible'=>!Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'right parent'), 'items'=>array(
-					array('label'=>Yii::app()->user->name, 'url'=>'/user', 'visible'=>!Yii::app()->user->isGuest),
+					array(
+                        'label'=>Yii::app()->user->name,
+                        'url'=>'/user', 'visible'=>!Yii::app()->user->isGuest,
+                        'linkOptions'=>array('class'=>'user-menu-item', 'style'=>'background:url(' . Yii::app()->user->getState('gravatar') . ') no-repeat')
+                    ),
 					array('label'=>Yii::t('site', 'Logout'), 'url'=>'/user/logout', 'visible'=>!Yii::app()->user->isGuest)
 				))
 			),
