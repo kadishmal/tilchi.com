@@ -1,14 +1,29 @@
 <?php
 /**
- * Copyright (c) 2009 MetaYii
- * @license LGPL 3.0
- * @version 1.1
+ * @copyright Copyright (c) 2009-2011 Rodolfo Gonzalez <metayii.framework@gmail.com>
+ *
+ * @version 2.0
+ * @license LGPL 2.1
+ *
+ * {@link http://www.gnu.org/licenses/lgpl-2.1.txt}
  */
 
 /**
  * ETinyMce is an input widget based on TinyMCE and the jQuery TinyMCE plugin.
  *
- * @author metayii
+ * Example:
+ *
+ * <code>
+ * <?php $this->widget('application.extensions.tinymce.ETinyMce',
+ * array('name'=>'html')); ?>
+ * </code>
+ *
+ * This extension includes TinyMCE 3.4.3.2 Jquery, Compressor 2.0.4 PHP and the
+ * full language sets. This is included under the LGPL 2.1 license:
+ *
+ * @license http://tinymce.moxiecode.com/js/tinymce/jscripts/tiny_mce/license.txt
+ *
+ * @author Rodolfo Gonzalez <metayii.framework@gmail.com>
  */
 class ETinyMce extends CInputWidget
 {
@@ -72,8 +87,8 @@ class ETinyMce extends CInputWidget
    private $height = '400px';
 
    /**
-    * This option enables you to specify make editor instances in readonly mode.
-    * When they are in readonly mode nothing can be changed and the contents is
+    * This option enables you to specify make editor instances in readonly mode. 
+    * When they are in readonly mode nothing can be changed and the contents is 
     * just presented to the user.
     *
     * @var boolean
@@ -224,16 +239,14 @@ class ETinyMce extends CInputWidget
     * @var array
     */
    private $validLanguages = array(
-                                'ar', 'az', 'be', 'bg', 'bn', 'br', 'bs', 'ca',
-                                'ch', 'cs', 'cy', 'da', 'de', 'dv', 'el', 'en',
-                                'es', 'et', 'fa', 'fi', 'fr', 'gl', 'gu', 'he',
-                                'hi', 'hr', 'hu', 'ia', 'id', 'ii', 'is', 'it',
-                                'ja', 'ko', 'lt', 'lv', 'mk', 'ml', 'mn', 'ms',
-                                'nb', 'nl', 'nn', 'no', 'pl', 'pt', 'ro', 'ru',
-                                'sc', 'se', 'si', 'sk', 'sl', 'sq', 'sr', 'sv',
-                                'ta', 'te', 'th', 'tr', 'tt', 'tw', 'uk', 'vi',
-                                'zh'
-                             );
+       'ar', 'bg', 'bs', 'cn', 'da', 'el', 'es', 'fa', 'gl', 'hi', 'hy', 'is',
+       'ka', 'ko', 'lv', 'mn', 'nb', 'no', 'pt', 'sc', 'sk', 'sr', 'te', 'tr',
+       'uk', 'zh-cn', 'zu', 'az', 'bn', 'ca', 'cs', 'de', 'en', 'et', 'fi',
+       'gu', 'hr', 'ia', 'it', 'kl', 'lb', 'mk', 'ms', 'nl', 'pl', 'ro', 'se',
+       'sl', 'sv', 'th', 'tt', 'ur', 'zh', 'be', 'br', 'ch', 'cy', 'dv', 'eo',
+       'eu', 'fr', 'he', 'hu', 'id', 'ja', 'km', 'lt', 'ml', 'my', 'nn', 'ps',
+       'ru', 'si', 'sq', 'ta', 'tn', 'tw', 'vi', 'zh-tw',
+   );
 
    /**
     * Valid predefined editor templates
@@ -259,7 +272,7 @@ class ETinyMce extends CInputWidget
    /**
     * Setter
     *
-    * @param array $value
+    * @param array $value 
     */
    public function setOptions($value)
    {
@@ -387,7 +400,7 @@ class ETinyMce extends CInputWidget
    /**
     * Setter
     *
-    * @param bolean $value
+    * @param bolean $value 
     */
    public function setUseCompression($value)
    {
@@ -684,7 +697,7 @@ class ETinyMce extends CInputWidget
       if (!empty($this->fontSizes)) {
          $options['theme_advanced_font_sizes'] = implode(',', $this->fontSizes);
       }
-
+      
       $options['theme'] = 'advanced';
       $options['theme_advanced_toolbar_location'] = 'top';
       $options['theme_advanced_toolbar_align'] = 'left';
@@ -748,7 +761,7 @@ class ETinyMce extends CInputWidget
 
       $options['language'] = $this->language;
       $options['readonly'] = $this->readOnly;
-
+     
       // avoid URL headaches
       $options['relative_urls'] = false;
       $options['remove_script_host'] = false;
@@ -766,7 +779,7 @@ class ETinyMce extends CInputWidget
       if ($this->contentCSS !== '') {
          $options['content_css'] = $this->contentCSS;
       }
-
+      
       if ($this->editorTemplate !== '') {
          switch ($this->editorTemplate) {
             case 'simple':
@@ -779,7 +792,7 @@ class ETinyMce extends CInputWidget
          $options = array_merge($options, $template);
       }
 
-      if (!empty($this->plugins) && is_array($this->plugins)) {
+      if (!empty($this->plugins) && is_array($this->plugins)) {      
          $options['plugins'] = implode(',', $this->plugins);
       }
 
@@ -787,16 +800,20 @@ class ETinyMce extends CInputWidget
       if (is_array($this->options)) {
          $options = array_merge($options, $this->options);
       }
-
+      
       return CJavaScript::encode($options);
    }
+
+   //***************************************************************************
+   // Run Lola Run
+   //***************************************************************************
 
 	/**
 	 * Executes the widget.
 	 * This method registers all needed client scripts and renders
 	 * the text field.
 	 */
-	public function init()
+	public function run()
 	{
 		list($name, $id) = $this->resolveNameID();
 
@@ -809,15 +826,12 @@ class ETinyMce extends CInputWidget
       $baseDir = dirname(__FILE__);
       $assets = Yii::app()->getAssetManager()->publish($baseDir.DIRECTORY_SEPARATOR.'assets');
 
-      // Esen Sagynov: solution for "Undefined variable: tinymce"
-      if(!isset($tinymce))
-        $tinymce = null;
-
-      $tinyOptions = $this->makeOptions($tinymce);
+      $tinyOptions = $this->makeOptions($baseDir);
+      
       $jsUseCookies = ($this->useCookies) ? 'true' : 'false';
       $jsMode = strval($this->mode);
-      $jsToggleLabels = CJavaScript::encode($this->switchLabels);
-
+      $jsToggleLabels = CJavaScript::encode($this->switchLabels);  
+		
 		$cs = Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 
@@ -845,10 +859,10 @@ EOP;
       }
       if (!array_key_exists('rows', $this->htmlOptions)) {
          $this->htmlOptions['rows'] = self::ROWS;
-      }
-
+      }			
+    
       $js =<<<EOP
-jQuery("#{$id}").tinyMCE({$tinyOptions}, '{$jsMode}', {$jsUseCookies});
+jQuery("#{$id}").tinymce({$tinyOptions}, '{$jsMode}', {$jsUseCookies});
 EOP;
       $cs->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_LOAD);
 
@@ -872,7 +886,7 @@ EOP;
       else {
          $html = $textarea;
       }
-
+           
       echo $html;
 	}
 }
